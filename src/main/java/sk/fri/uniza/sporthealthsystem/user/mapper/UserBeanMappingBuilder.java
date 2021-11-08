@@ -13,7 +13,6 @@ public class UserBeanMappingBuilder extends BeanMappingBuilder {
         mapping(User.class, UserDto.class, oneWay())
                 .fields("id", "id")
                 .fields("create", "create")
-                .fields("edit", "edit")
                 .fields("firstName", "firstName")
                 .fields("lastName", "lastName")
                 .fields("title", "title")
@@ -26,7 +25,6 @@ public class UserBeanMappingBuilder extends BeanMappingBuilder {
                 .fields("lastName", "lastName")
                 .fields("title", "title")
                 .fields("create", "create")
-                .fields("edit", "edit")
                 .fields("email", "email")
                 .fields("password", "password")
                 .fields("username", "username");

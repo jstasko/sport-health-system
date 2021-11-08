@@ -4,11 +4,13 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import sk.fri.uniza.sporthealthsystem.module.healthCard.HealthCardBeanMappingBuilder;
 import sk.fri.uniza.sporthealthsystem.user.mapper.UserBeanMappingBuilder;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class SportHealthSystemApplication {
 
 	public static void main(String[] args) {

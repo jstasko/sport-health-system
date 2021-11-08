@@ -1,12 +1,22 @@
 package sk.fri.uniza.sporthealthsystem.module.healthCard.entity;
 
-import org.joda.time.DateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class HealthCard {
-    private String birth_number;
-    private Long idSickens;
-    private Long HealthRecord;
+    private Long id;
+    private String birthDay;
+    private Long idSickness;
     private String kontraindikacie;
-    private DateTime create;
+    private Date create;
 
 }

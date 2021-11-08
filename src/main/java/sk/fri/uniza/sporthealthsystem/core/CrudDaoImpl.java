@@ -10,12 +10,10 @@ import java.util.Optional;
 public abstract class CrudDaoImpl<T, U extends BaseDocumentDto, R extends CrudRepository<U, Long>> implements CrudDao<T> {
 
     protected R repository;
-    protected DozerBeanMapper mapper;
 
-    public CrudDaoImpl(R repository, DozerBeanMapper mapper) {
+    public CrudDaoImpl(R repository) {
 
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     @Override
