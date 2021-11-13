@@ -25,12 +25,19 @@ drop table m_osoba;
 drop table m_pouzivatel;
 drop table m_specializacia;
 drop table m_hrac;
+
 -----------------
 ---types
-drop type t_m_osoby;
-drop type t_m_osoba;
+drop type m_krv_osoby;
+drop type m_krv;
+drop type m_vlastnosti_osoby;
+drop type m_vlastnosti;
 
+-----------------
+----directory
+drop directory images_dir;
 
+/*
 begin 
  dbms_output.put_line('----------------------VYPIS--------------------------');
  for i in (select 'drop table ' || lower(table_name)  || ';' as prikaz from tabs where lower(table_name) like 'm_%')
@@ -39,4 +46,5 @@ begin
  end loop;
 end;
 /
+*/
 
