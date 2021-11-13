@@ -1,12 +1,16 @@
 package sk.fri.uniza.sporthealthsystem.user.repository;
 
 import org.dozer.DozerBeanMapper;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.user.entity.User;
 import sk.fri.uniza.sporthealthsystem.user.dto.UserDto;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Component
 public class UserDaoImpl implements UserDao {
@@ -23,6 +27,7 @@ public class UserDaoImpl implements UserDao {
     public User save(User user) {
         logger.info("user is being saved");
         UserDto userDto = this.mapper.map(user, UserDto.class);
+        userDto.setCreate(new Date());
         UserDto newUserDto = this.userRepository.save(userDto);
         if (newUserDto.getId() != null) {
             logger.info("user was saved");

@@ -24,7 +24,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             "/swagger-ui/index.html",
             "/v2/api-docs",
             "/webjars/**",
-            "/api/email/send"
     };
 
     public WebSecurity(UserServiceImpl service, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -58,7 +57,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source
+                .registerCorsConfiguration("/**", new CorsConfiguration()
+                .applyPermitDefaultValues());
         return source;
     }
 }

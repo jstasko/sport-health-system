@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.joda.time.DateTime;
 import sk.fri.uniza.sporthealthsystem.security.user.AuthenticationUser;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,7 +18,6 @@ public class User extends AuthenticationUser {
     private String title;
     private String firstName;
     private String lastName;
-    private DateTime create;
-    private DateTime edit;
+    private Date create;
 }
 

@@ -8,7 +8,7 @@ import sk.fri.uniza.sporthealthsystem.module.healthCard.entity.HealthCard;
 import sk.fri.uniza.sporthealthsystem.module.healthCard.service.HealthCardService;
 
 @RestController
-@RequestMapping("/health-card")
+@RequestMapping("/api/health-card")
 public class HealthCardController extends CrudController<HealthCard, HealthCardService> {
     @Autowired
     public HealthCardController(HealthCardService healthCardService) {

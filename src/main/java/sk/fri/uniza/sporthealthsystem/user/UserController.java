@@ -10,7 +10,7 @@ import sk.fri.uniza.sporthealthsystem.user.entity.User;
 import sk.fri.uniza.sporthealthsystem.user.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/users")
 @Api( tags = "User")
 public class UserController  {
 
