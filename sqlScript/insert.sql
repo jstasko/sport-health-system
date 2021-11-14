@@ -240,25 +240,16 @@ insert into m_institut values (529311,'Nemocnica sv. Michala', 'Nemocnica pre pa
 
 ---------------------------------------------------Liecba-------------------------------------------------------------------
 insert into m_liecba values (1,1,1,'Opakovana', 10.55, 1);
----------------------------------------------------Choroba-------------------------------------------------------------------
-insert into m_choroba values ('Zhubnı nádor blišie neurèenej sliznice úst Zhubnı nádor vnútorného líca','C06.0','Zhubnı nádor sliznice líca');
-insert into m_choroba values ('Infekcia zapríèinená Salmonella typhi Tyfoidná horúèka','A01.0','Brušnı tıfus');
-insert into m_choroba values ('Infekèná enetritída zapríèinená salmonelou','A02.0','Salmonelová enteritída');
-insert into m_choroba values ('Klasická potravinová otrava zapríèinená Clostridium botulinum','A05.1','Botulizmus');
 
 --------------------------------------------------HRAC---------------------------------------------------------------------
 insert into m_hrac values ('aaaa825986dc8b723831d448', 'Denis', 'ADAM');
-
-
-
-
 --------------------------------------------------Operacia---------------------------------------------------------------------
 insert into m_operacia values (1, 'Operacia kolena', 'Odrezanie jablcka');
 
 --------------------------------------------------Pouzivatel---------------------------------------------------------------------
 
 DECLARE
-  v_source_blob BFILE := BFILENAME('IMAGES_DIR', 'choc.jpg');
+  v_source_blob BFILE := BFILENAME('M_IMAGES_DIR', 'choc.jpg');
     v_size_blob integer;
       v_blob BLOB := EMPTY_BLOB();
 BEGIN
@@ -275,4 +266,231 @@ BEGIN
 END;
 /
 
+--------------------------------------------------Osoba---------------------------------------------------------------------
+insert into m_osoba values (null, null, '9704082355');
+insert into m_osoba values (null, null, '9704082366');
+insert into m_osoba values (null, null, '9704082377');
+insert into m_osoba values (null, null, '9704082388');
+insert into m_osoba values (null, null, '9704082399');
+insert into m_osoba values (null, null, '9704082410');
+insert into m_osoba values (null, null, '9704082421');
+insert into m_osoba values (null, null, '9704082432');
+insert into m_osoba values (null, null, '9704082443');
+insert into m_osoba values (null, null, '9704082454');
+insert into m_osoba values (null, null, '9704082465');
+insert into m_osoba values (null, null, '9704082476');
+insert into m_osoba values (null, null, '9704082487');
+insert into m_osoba values (null, null, '9704082498');
+insert into m_osoba values (null, null, '9704082509');
+insert into m_osoba values (null, null, '9704082520');
+insert into m_osoba values (null, null, '9704082531');
+insert into m_osoba values (null, null, '9704082542');
+insert into m_osoba values (null, null, '9704082553');
+insert into m_osoba values (null, null, '9704082564');
+insert into m_osoba values (null, null, '9704082575');
+insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256124');
+
+--------------------------------------------------Poistovna---------------------------------------------------------------------
+insert into m_poistovna values (null, 'ALLIANZ - Slovenská poisovòa a. s.',50274235);
+insert into m_poistovna values (null, 'AXA poisovòa a.s. poboèka poisovne z iného èlenského štátu',40556518);
+insert into m_poistovna values (null, 'ÈSOB Poisovòa a.s.',50256209);
+insert into m_poistovna values (null, 'GENERALI Poisovòa a. s.',55842570);
+insert into m_poistovna values (null, 'GENERALI Poisovòa a. s. odštepnı závod Genertel.',749897);
+insert into m_poistovna values (null, 'GROUPAMA poisovòa a. s. poboèka poisovne z iného èlenského štátu',39509328);
+insert into m_poistovna values (null, 'GENERALI Poisovòa a. s. odštepnı závod Európska cestovná poisovòa',34718090);
+insert into m_poistovna values (null, 'KOMUNÁLNA poisovòa a.s. Vienna Insurance Group',39323152);
+insert into m_poistovna values (null, 'KOOPERATIVA poisovòa a.s. Vienna Insurance Group',40114038);
+insert into m_poistovna values (null, 'NOVIS Poisovòa a.s.',34818144);
+insert into m_poistovna values (null, 'UNIQA poisovòa a.s.',34462129);
+insert into m_poistovna values (null, 'UNION poisovòa a. s.',49792960);
+insert into m_poistovna values (null, 'WüSTENROT poisovòa a.s.',34880173);
+
+-----------------------------------------------------m_specializacia-------------------------------------------------------------------
+insert into m_specializacia values (1,' vnútorné lekárstvo', null);
+insert into m_specializacia values (2,' infektológia', null);
+insert into m_specializacia values (3,' pneumológia a ftizeológia', null);
+insert into m_specializacia values (4,' neurológia', null);
+insert into m_specializacia values (5,' psychiatria', null);
+insert into m_specializacia values (6,' pracovné lekárstvo', null);
+insert into m_specializacia values (7,' pediatria', null);
+insert into m_specializacia values (8,' všeobecná starostlivos o deti a dorast', null);
+insert into m_specializacia values (9,' gynekológia a pôrodníctvo', null);
+insert into m_specializacia values (10,' chirurgia', null);
+insert into m_specializacia values (11,' ortopédia', null);
+insert into m_specializacia values (12,' urológia', null);
+insert into m_specializacia values (13,' úrazová chirurgia', null);
+insert into m_specializacia values (14,' otorinolaryngológia', null);
+insert into m_specializacia values (15,' oftalmológia', null);
+insert into m_specializacia values (17,' pediatrická gynekológia', null);
+insert into m_specializacia values (18,' dermatovenerológia', null);
+insert into m_specializacia values (19,' klinická onkológia', null);
+insert into m_specializacia values (20,' všeobecné lekárstvo', null);
+insert into m_specializacia values (22,' dorastové lekárstvo', null);
+insert into m_specializacia values (23,' rádiológia', null);
+insert into m_specializacia values (24,' klinická biochémia', null);
+insert into m_specializacia values (25,' anestéziológia a intenzívna medicína', null);
+insert into m_specializacia values (26,' telovıchovné lekárstvo', null);
+insert into m_specializacia values (27,' fyziatria balneológia a lieèebná rehabilitácia', null);
+insert into m_specializacia values (28,' súdne lekárstvo', null);
+insert into m_specializacia values (29,' patologická anatómia', null);
+insert into m_specializacia values (31,' hematológia a transfuziológia', null);
+insert into m_specializacia values (32,' urgentná medicína', null);
+insert into m_specializacia values (34,' klinická mikrobiológia', null);
+insert into m_specializacia values (37,' neurochirurgia', null);
+insert into m_specializacia values (38,' plastická chirurgia', null);
+insert into m_specializacia values (39,' ortopedická protetika', null);
+insert into m_specializacia values (40,' klinická imunológia a alergológia', null);
+insert into m_specializacia values (43,' radiaèná onkológia', null);
+insert into m_specializacia values (44,' foniatria', null);
+insert into m_specializacia values (45,' reumatológia', null);
+insert into m_specializacia values (46,' algeziológia', null);
+insert into m_specializacia values (47,' nukleárna medicína', null);
+insert into m_specializacia values (48,' gastroenterológia', null);
+insert into m_specializacia values (49,' kardiológia', null);
+insert into m_specializacia values (50,' diabetológia poruchy látkovej premeny a vıivy', null);
+insert into m_specializacia values (51,' neonatológia', null);
+insert into m_specializacia values (52,' hygiena detí a mládee', null);
+insert into m_specializacia values (56,' angiológia', null);
+insert into m_specializacia values (57,' hygiena ivotného prostredia', null);
+insert into m_specializacia values (58,' hygiena vıivy', null);
+insert into m_specializacia values (59,' epidemiológia', null);
+insert into m_specializacia values (60,' geriatria', null);
+insert into m_specializacia values (61,' medicínska informatika a bioštatistika', null);
+insert into m_specializacia values (62,' lekárska genetika', null);
+insert into m_specializacia values (63,' nefrológia', null);
+insert into m_specializacia values (64,' endokrinológia', null);
+insert into m_specializacia values (65,' klinická farmakológia', null);
+insert into m_specializacia values (66,' zdravotnícka informatika', null);
+insert into m_specializacia values (67,' gynekologická sexuológia', null);
+insert into m_specializacia values (68,' cievna chirurgia', null);
+insert into m_specializacia values (69,' kardiochirurgia', null);
+insert into m_specializacia values (70,' maxilofaciálna chirurgia', null);
+insert into m_specializacia values (73,' medicína drogovıch závislostí', null);
+insert into m_specializacia values (74,' gerontopsychiatria', null);
+insert into m_specializacia values (76,' letecké lekárstvo', null);
+insert into m_specializacia values (88,' lekár bez špecializácie', null);
+insert into m_specializacia values (99,' lekár predpisujúci lieky pre seba a osoby blízke', null);
+insert into m_specializacia values (100,' posudkové lekárstvo', null);
+insert into m_specializacia values (102,' ochrana zdravia pred ionizujúcim iarením', null);
+insert into m_specializacia values (104,' pediatrická neurológia', null);
+insert into m_specializacia values (105,' detská psychiatria', null);
+insert into m_specializacia values (106,' hrudníková chirurgia', null);
+insert into m_specializacia values (107,' detská chirurgia', null);
+insert into m_specializacia values (108,' pediatrická ortopédia', null);
+insert into m_specializacia values (109,' pediatrická urológia', null);
+insert into m_specializacia values (114,' pediatrická otorinolaryngológia', null);
+insert into m_specializacia values (130,' materno', null);
+insert into m_specializacia values (131,' vıchova k zdraviu', null);
+insert into m_specializacia values (140,' pediatrická imunológia a alergiológia', null);
+insert into m_specializacia values (145,' pediatrická reumatológia', null);
+insert into m_specializacia values (153,' pediatrická endokrinológia', null);
+insert into m_specializacia values (154,' pediatrická gastroenterológia hepatológia a vıiva', null);
+insert into m_specializacia values (155,' pediatrická kardiológia', null);
+insert into m_specializacia values (156,' pediatrická pneumológia a ftizeológia', null);
+insert into m_specializacia values (163,' pediatrická nefrológia', null);
+insert into m_specializacia values (216,' hepatológia', null);
+insert into m_specializacia values (222,' gastroenterologická chirurgia', null);
+insert into m_specializacia values (223,' neuropsychiatria', null);
+insert into m_specializacia values (225,' laboratórna medicína', null);
+insert into m_specializacia values (226,' tropická medicína', null);
+insert into m_specializacia values (227,' verejné zdravotníctvo', null);
+insert into m_specializacia values (229,' onkológia v gynekológii', null);
+insert into m_specializacia values (231,' psychosomatická a behaviorálna medicína', null);
+insert into m_specializacia values (247,' ultrazvuk v gynekológii a pôrodníctve', null);
+insert into m_specializacia values (258,' špeciálne laboratórne a diagnostické metódy v hematológii a transfúziológii', null);
+insert into m_specializacia values (271,' mamológia', null);
+insert into m_specializacia values (289,' reprodukèná medicína', null);
+insert into m_specializacia values (299,' akupunktúra', null);
+insert into m_specializacia values (302,' andrológia', null);
+insert into m_specializacia values (306,' klinické pracovné lekárstvo a klinická toxikológia', null);
+insert into m_specializacia values (312,' gynekologická urológia', null);
+insert into m_specializacia values (319,' onkológia v chirurgii', null);
+insert into m_specializacia values (322,' onkológia v urológii', null);
+insert into m_specializacia values (323,' pediatrická anestéziológia', null);
+insert into m_specializacia values (329,' pediatrická hematológia a onkológia', null);
+insert into m_specializacia values (331,' pediatrická infektológia', null);
+insert into m_specializacia values (332,' pediatrická intenzívna medicína', null);
+insert into m_specializacia values (334,' paliatívna medicína', null);
+insert into m_specializacia values (336,' pediatrická oftalmológia', null);
+insert into m_specializacia values (340,' sexuológia', null);
+insert into m_specializacia values (341,' pediatrická urgentná medicína', null);
+insert into m_specializacia values (353,' zdravotnícka ekológia', null);
+insert into m_specializacia values (356,' revízne lekárstvo', null);
+insert into m_specializacia values (366,' preventívne pracovné lekárstvo a toxikológia', null);
+insert into m_specializacia values (367,' psychiatrická sexuológia', null);
+insert into m_specializacia values (377,' sluby zdravia pri práci', null);
+insert into m_specializacia values (801,' študijnı odbor všeobecné lekárstvo', null);
+insert into m_specializacia values (860,' študijnı odbor detské lekárstvo', null);
+
+-----------------------------------------------------m_krvna_skupina-------------------------------------------------------------------
+insert into m_krvna_skupina values('9707256124', new m_krv('AB', 'rh+'), 1);
+
+-----------------------------------------------------m_vlastnosti-------------------------------------------------------------------
+insert into m_vlastnosti_hraca values('9707256124', new m_vlastnosti(75.8, 183), 1);
+
+-----------------------------------------------------m_doktor-------------------------------------------------------------
+insert into m_doktor values ('9704082355','A64932040','Lucia','Astalošová');
+insert into m_doktor values ('9704082366','A37481001','Emil','Augustín');
+insert into m_doktor values ('9704082377','A78485049','Michal','Augustín');
+insert into m_doktor values ('9704082388','A57758009','Pavol','Babinec');
+insert into m_doktor values ('9704082399','A35887023','Eva','Babišová');
+insert into m_doktor values ('9704082410','A70620247','Pavol','Babjak');
+insert into m_doktor values ('9704082421','A84940020','Peter','Babjak');
+insert into m_doktor values ('9704082432','A41128154','Eva','Baèinská');
+insert into m_doktor values ('9704082443','A52758001','Jana','Baèinská');
+insert into m_doktor values ('9704082454','B59063016','Karin','Badíková');
+insert into m_doktor values ('9704082465','B91009016','Štefan','Baïura');
+insert into m_doktor values ('9704082476','A90906020','Štefan','Bajcar');
+insert into m_doktor values ('9704082487','A18487801','Viera','Baláová');
+insert into m_doktor values ('9704082498','A45400801','Zuzana','Baláová');
+insert into m_doktor values ('9704082509','A96312801','Ivana','Balhárková');
+insert into m_doktor values ('9704082520','B78798016','Miroslav','Ballay');
+insert into m_doktor values ('9704082531','A35092001','Peter','Ballay');
+
+
+-----------------------------------------------------m_specializacia_lekara-------------------------------------------------------------
+insert into m_specializacia_lekara values ('A64932040',4,1);
+insert into m_specializacia_lekara values ('A37481001',5,2);
+insert into m_specializacia_lekara values ('A78485049',6,3);
+insert into m_specializacia_lekara values ('A57758009',7,4);
+insert into m_specializacia_lekara values ('A35887023',8,5);
+insert into m_specializacia_lekara values ('A70620247',9,6);
+insert into m_specializacia_lekara values ('A84940020',10,7);
+insert into m_specializacia_lekara values ('A41128154',11,8);
+insert into m_specializacia_lekara values ('A52758001',12,9);
+insert into m_specializacia_lekara values ('B59063016',13,10);
+insert into m_specializacia_lekara values ('B91009016',14,11);
+insert into m_specializacia_lekara values ('A90906020',15,12);
+insert into m_specializacia_lekara values ('A18487801',17,13);
+insert into m_specializacia_lekara values ('A45400801',18,14);
+insert into m_specializacia_lekara values ('A96312801',19,15);
+insert into m_specializacia_lekara values ('B78798016',20,16);
+insert into m_specializacia_lekara values ('A35092001',22,17);
+
+
+-----------------------------------------------------m_zdravotny_zaznam-------------------------------------------------------------
+insert into m_zdravotny_zaznam values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null,1);
+insert into m_zdravotny_zaznam values ('A37481001','9704082553',1,CURRENT_TIMESTAMP,null,2);
+insert into m_zdravotny_zaznam values ('A78485049','9704082564',1,CURRENT_TIMESTAMP,null,3);
+insert into m_zdravotny_zaznam values ('A57758009','9704082575',1,CURRENT_TIMESTAMP,null,4);
+insert into m_zdravotny_zaznam values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null,5);
+insert into m_zdravotny_zaznam values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null,6);
+insert into m_zdravotny_zaznam values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null,7);
+
+-----------------------------------------------------m_zdravotna_karta-------------------------------------------------------------
+insert into m_zdravotna_karta values ('9704082542', m_t_choroba(new m_rec_choroba('Zhubnı nádor blišie neurèenej sliznice úst.Zhubnı nádor vnútorného líca','Zhubnı nádor sliznice líca','C06.0')),1,null,CURRENT_TIMESTAMP,1);
+insert into m_zdravotna_karta values ('9704082553', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušnı tıfus','A01.0')),2,null,CURRENT_TIMESTAMP,2);
+insert into m_zdravotna_karta values ('9704082564', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou. ','Salmonelová enteritída','A02.0')),3,null,CURRENT_TIMESTAMP,3);
+insert into m_zdravotna_karta values ('9704082575', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum','Botulizmus','A05.1')),4,null,CURRENT_TIMESTAMP,4);
+insert into m_zdravotna_karta values ('9704082542', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušnı tıfus','A01.0')),5,null,CURRENT_TIMESTAMP,5);
+insert into m_zdravotna_karta values ('9704082542', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou.','Salmonelová enteritída','A02.0')),6,null,CURRENT_TIMESTAMP,6);
+insert into m_zdravotna_karta values ('9704082542', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum.','Botulizmus','A05.1')),7,null,CURRENT_TIMESTAMP,7);
+
+
+-----------------------------------------------------m_adresa_hraca--------------------------------------------------------------------------------------------------------
+insert into m_adresa_hraca values ('529311','9704082542',1);
+insert into m_adresa_hraca values ('529320','9704082553',2);
+insert into m_adresa_hraca values ('529338','9704082564',3);
+insert into m_adresa_hraca values ('529346','9704082564',4);
+insert into m_adresa_hraca values ('529354','9704082564',5);
 

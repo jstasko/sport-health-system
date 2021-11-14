@@ -19,25 +19,26 @@ drop table m_adresa;
 drop table m_okres;
 drop table m_kraj;
 drop table m_krajina;
-drop table m_choroba;
 drop table m_doktor;
 drop table m_osoba;
 drop table m_pouzivatel;
 drop table m_specializacia;
 drop table m_hrac;
 
+
 -----------------
 ---types
-drop type m_krv_osoby;
 drop type m_krv;
-drop type m_vlastnosti_osoby;
 drop type m_vlastnosti;
+drop type m_t_choroba;
+drop type m_rec_choroba;
+
 
 -----------------
 ----directory
-drop directory images_dir;
+drop directory m_images_dir;
 
-/*
+set SERVEROUTPUT ON;
 begin 
  dbms_output.put_line('----------------------VYPIS--------------------------');
  for i in (select 'drop table ' || lower(table_name)  || ';' as prikaz from tabs where lower(table_name) like 'm_%')
@@ -46,5 +47,5 @@ begin
  end loop;
 end;
 /
-*/
+
 

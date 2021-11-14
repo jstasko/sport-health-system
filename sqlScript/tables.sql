@@ -29,9 +29,9 @@ CONSTRAINT cons_okres_kraj_fk FOREIGN KEY (id_kraja) REFERENCES m_kraj (id_kraja
 create table m_adresa
 (
  n_mesta       varchar2(45) NOT NULL ,
- --ulica         varchar(45) NOT NULL ,
+ --ulica         varchar(45) NOT NULL , TODO DAL SOM PREC
  cislo_domu    varchar2(45) NULL ,
- --popisne_cislo varchar(45) NULL , same as cislo_domu
+ --popisne_cislo varchar(45) NULL , TODO ROVNAKE AKO cislo_domu
  id_okresu     int NOT NULL ,
  PSC           char(10) NOT NULL ,
 
@@ -99,16 +99,6 @@ CONSTRAINT cons_liecba_lekaren_l FOREIGN KEY (id_lekaren) REFERENCES m_lekaren (
 );
 
 
-create table m_choroba
-(
- popis      varchar2(500) NOT NULL ,
- id_choroba char(10) NOT NULL ,
- nazov      varchar2(100) NOT NULL ,
-
-PRIMARY KEY (id_choroba)
-);
-
-
 create table m_hrac
 (
  ExterneID  char(40) NOT NULL ,
@@ -127,6 +117,7 @@ create table m_operacia
 PRIMARY KEY (id_operacia)
 );
 
+
 create table m_pouzivatel
 (
  id_pouzivatela           int NOT NULL ,
@@ -142,8 +133,7 @@ PRIMARY KEY (id_pouzivatela)
 
 create table m_osoba
 (
- ExterneID      char(11) NOT NULL ,
- diabetes       int NOT NULL ,
+ ExterneID      char(40) NULL ,
  id_pouzivatela int NULL ,
  rod_cislo      char(11) NOT NULL ,
 
@@ -154,9 +144,8 @@ CONSTRAINT cons_osoba_pouzivatel_fk FOREIGN KEY (id_pouzivatela) REFERENCES m_po
 
 create table m_poistovna
 (
- rod_cislo       char(11) NOT NULL ,
- nazov_poistovne varchar2(45) NOT NULL ,
- kod_poistovne   varchar2(45) NOT NULL ,
+ rod_cislo       char(11) NULL , --TODO podla mna moze byt null
+ nazov_poistovne varchar2(100) NOT NULL ,
  id_poistovna    int NOT NULL ,
 
 PRIMARY KEY (id_poistovna),
@@ -166,8 +155,8 @@ CONSTRAINT cons_poistovna_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (r
 create table m_specializacia
 (
  id_specializacia int NOT NULL ,
- nazov            varchar2(45) NOT NULL ,
- popis            varchar2(200) NOT NULL ,
+ nazov            varchar2(100) NOT NULL ,
+ popis            varchar2(200) NULL ,
 
 PRIMARY KEY (id_specializacia)
 );
@@ -180,18 +169,15 @@ create or replace type m_krv as object
 )
 /
 
-create or replace type m_krv_osoby is table of m_krv;
-/
-
 create table m_krvna_skupina(
   rod_cislo        char(11) NOT NULL ,
-  m_krv            m_krv_osoby,
+  auto             m_krv,
   id_krvna_skupina int NOT NULL ,
   PRIMARY KEY (id_krvna_skupina),
   CONSTRAINT cons_ks_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
 )
-nested table m_krv store as m_krv_cloveka_nest_tab;
 /
+
 
 create or replace type m_vlastnosti as object 
 (
@@ -200,27 +186,24 @@ create or replace type m_vlastnosti as object
 )
 /
 
-create or replace type m_vlastnosti_osoby is table of m_vlastnosti;
-/
-
 create table m_vlastnosti_hraca
 (
  rod_cislo          char(11) NOT NULL ,
- m_vlastnost        m_vlastnosti_osoby,
+ auto               m_vlastnosti,
  id_vlastnostiHraca int NOT NULL ,
 
 PRIMARY KEY (id_vlastnostiHraca),
 CONSTRAINT cons_vh_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
 )
-nested table m_vlastnost store as m_vlastnost_nest_tab;
 /
 
 
 create table m_doktor
 (
  rod_cislo char(11) NOT NULL ,
- id_doktor int NOT NULL ,
-
+ id_doktor char(11) NOT NULL ,
+ meno      varchar2(45),
+ priezvisko varchar2(45),
 PRIMARY KEY (id_doktor),
 CONSTRAINT cons_doktor_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
 );
@@ -229,7 +212,7 @@ CONSTRAINT cons_doktor_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_
 
 create table m_specializacia_lekara
 (
- id_doktor               int NOT NULL ,
+ id_doktor               char(11) NOT NULL ,
  id_specializacia        int NOT NULL ,
  id_specializacia_lekara int NOT NULL ,
 
@@ -241,11 +224,11 @@ CONSTRAINT cons_sl_specializacia_fk FOREIGN KEY (id_specializacia) REFERENCES m_
 
 create table m_zdravotny_zaznam
 (
- id_doktor           int NOT NULL ,
+ id_doktor           char(11) NOT NULL ,
  rod_cislo           char(11) NOT NULL ,
  id_institut         int NOT NULL ,
  datum_prehliadky    timestamp NOT NULL ,
- stav                varchar2(100) NOT NULL ,
+ stav                varchar2(100) NULL ,
  id_zdravotny_zaznam int NOT NULL ,
 
 PRIMARY KEY (id_zdravotny_zaznam),
@@ -255,20 +238,33 @@ CONSTRAINT cons_zz_institut_fk FOREIGN KEY (id_institut) REFERENCES m_institut (
 );
 
 
+create or replace type m_rec_choroba as object 
+(
+  popis      varchar2(500),
+  nazov      varchar2(45),
+  kod        varchar2(6)
+)
+/
+
+create or replace type m_t_choroba is table of m_rec_choroba;
+/
+
 create table m_zdravotna_karta
 (
- rod_cislo           char(11) NOT NULL ,
- id_choroba          char(10) NOT NULL ,
- id_zdravotny_zaznam int NOT NULL ,
- kontraindikacie     varchar2(200) NOT NULL ,
- datum_zalozenia     timestamp NOT NULL ,
- id_zdravotna_kara   int NOT NULL ,
+ rod_cislo                  char(11) not NULL ,
+ m_t_choroby_informacie     m_t_choroba,
+ id_zdravotny_zaznam        int not NULL ,
+ kontraindikacie            varchar2(200) NULL ,
+ datum_zalozenia            timestamp not NULL ,
+ id_zdravotna_kara          int not NULL ,
 
 PRIMARY KEY (id_zdravotna_kara),
 CONSTRAINT cons_zk_zz_fk FOREIGN KEY (id_zdravotny_zaznam) REFERENCES m_zdravotny_zaznam (id_zdravotny_zaznam),
-CONSTRAINT cons_zk_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo),
-CONSTRAINT cons_zk_choroba_fk FOREIGN KEY (id_choroba) REFERENCES m_choroba (id_choroba)
-);
+CONSTRAINT cons_zk_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
+)
+nested table m_t_choroby_informacie store as informacie_nest_tab;
+/
+
 
 create table m_adresa_hraca
 (
@@ -284,7 +280,7 @@ CONSTRAINT cons_ah_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cisl
 create table m_osetrujuci_doktor
 (
  id_institut          int NOT NULL ,
- id_doktor            int NOT NULL ,
+ id_doktor            char(11) NOT NULL ,
  id_osetrujuci_doktor int NOT NULL ,
 
 PRIMARY KEY (id_osetrujuci_doktor),
@@ -319,5 +315,6 @@ CONSTRAINT cons_pl_liecba_fk FOREIGN KEY (id_liecba) REFERENCES m_liecba (id_lie
 CONSTRAINT cons_pl_zk_fk FOREIGN KEY (id_zdravotna_kara) REFERENCES m_zdravotna_karta (id_zdravotna_kara)
 );
 
---http://www.dba-oracle.com/t_oracle_create_directory.htm
-create directory images_dir as 'c:/Images/';
+--http://www.dba-oracle.com/t_oracle_create_directory.htm TODO KOMUNIKACIA
+create directory m_images_dir as 'c:/Images/';
+
