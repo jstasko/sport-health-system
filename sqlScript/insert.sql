@@ -494,3 +494,46 @@ insert into m_adresa_hraca values ('529338','9704082564',3);
 insert into m_adresa_hraca values ('529346','9704082564',4);
 insert into m_adresa_hraca values ('529354','9704082564',5);
 
+-----------------------------------------------------m_osetrujuci_doktor--------------------------------------------------------------------------------------------------------
+/*set SERVEROUTPUT ON;
+create or replace procedure generuj_data_m_od
+ as
+  type t_record is record 
+  (
+   id_institut          int,
+   id_doktor            char(11),
+   id_osetrujuci_doktor int
+  );
+  m_od t_record;
+  m_velkost_institut integer;
+  m_velkost_doktor integer;
+  m_velkost integer;
+ begin
+  m_velkost_institut := -1;
+  m_velkost_doktor := -1;
+  select count(*) into m_velkost_institut from m_institut;
+  select count(*) into m_velkost_doktor from m_doktor;
+  m_velkost := min(m_velkost_institut, m_velkost_doktor);
+ end;
+/
+*/
+
+insert into m_osetrujuci_doktor values (1,'A64932040',1);
+insert into m_osetrujuci_doktor values (1,'A37481001',2);
+insert into m_osetrujuci_doktor values (1,'A78485049',3);
+insert into m_osetrujuci_doktor values (1,'A57758009',4);
+insert into m_osetrujuci_doktor values (1,'A35887023',5);
+
+-----------------------------------------------------m_operacie_pacienta--------------------------------------------------------------------------------------------------------
+
+insert into m_operacie_pacienta values ('9704082542',1,1,null,1);
+insert into m_operacie_pacienta values ('9704082553',1,2,null,2);
+insert into m_operacie_pacienta values ('9704082564',1,1,null,3);
+insert into m_operacie_pacienta values ('9704082564',1,1,null,4);
+insert into m_operacie_pacienta values ('9704082564',1,2,null,5);
+
+-----------------------------------------------------m_predpisana_liecba--------------------------------------------------------------------------------------------------------
+
+insert into m_predpisana_liecba values (1,1,1);
+insert into m_predpisana_liecba values (3,3,1);
+

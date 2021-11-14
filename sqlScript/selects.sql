@@ -19,3 +19,7 @@ select * from m_vlastnosti_hraca;
 select * from m_doktor;
 select * from m_specializacia_lekara;
 select * from m_zdravotny_zaznam;
+select * from m_zdravotna_karta;
+select * from m_adresa_hraca;
+select * from m_osetrujuci_doktor; 
+select * from m_operacie_pacienta;

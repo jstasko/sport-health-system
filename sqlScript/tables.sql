@@ -295,7 +295,7 @@ create table m_operacie_pacienta
  rod_cislo            char(11) NOT NULL ,
  id_operacia          int NOT NULL ,
  id_osetrujuci_doktor int NOT NULL ,
- popis                varchar2(200) NOT NULL ,
+ popis                varchar2(200) NULL ,
  id_operacie_pacienta int NOT NULL ,
 
 PRIMARY KEY (id_operacie_pacienta),
