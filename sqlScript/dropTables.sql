@@ -1,4 +1,5 @@
 ----tables
+
 drop table m_adresa_hraca;
 drop table m_krvna_skupina;
 drop table m_operacie_pacienta;
@@ -26,6 +27,7 @@ drop table m_specializacia;
 drop table m_hrac;
 
 
+
 -----------------
 ---types
 drop type m_krv;
@@ -36,15 +38,51 @@ drop type m_rec_choroba;
 
 -----------------
 ----directory
-drop directory m_images_dir;
+--TODO NEMAME PRAVA NA TOTO 
+/*drop directory m_images_dir;
+drop directory m_images_stasko_pdbs_dir;*/
+
+set SERVEROUTPUT ON;
+
+begin 
+ dbms_output.put_line('----------------------TRIGGERS--------------------------');
+ for i in (select 'drop trigger ' || trigger_name as prikaz from all_triggers  where table_owner = 'STASKO_PDBS' and lower(trigger_name) like 'm_%')
+ loop
+  dbms_output.put_line(i.prikaz);
+  execute immediate i.prikaz;
+ end loop;
+end;
+/
+
+begin 
+ dbms_output.put_line('----------------------SEQUENCES--------------------------');
+ for i in (select 'drop sequence ' || SEQUENCE_NAME as prikaz from USER_SEQUENCES  where lower(SEQUENCE_NAME) like 'm_%')
+ loop
+  dbms_output.put_line(i.prikaz);
+  execute immediate i.prikaz;
+ end loop;
+end;
+/
 
 set SERVEROUTPUT ON;
 begin 
  dbms_output.put_line('----------------------VYPIS--------------------------');
+ dbms_output.put_line('TABLES');
  for i in (select 'drop table ' || lower(table_name)  || ';' as prikaz from tabs where lower(table_name) like 'm_%')
  loop
   dbms_output.put_line(i.prikaz);
  end loop;
+  dbms_output.put_line('TRIGGERS');
+ for i in (select 'drop trigger ' || trigger_name as prikaz from all_triggers  where table_owner = 'STASKO_PDBS' and lower(trigger_name) like 'm_%')
+ loop
+  dbms_output.put_line(i.prikaz);
+ end loop;
+  dbms_output.put_line('SEQUENCES');
+ for i in (select 'drop sequence ' || SEQUENCE_NAME as prikaz from USER_SEQUENCES  where lower(SEQUENCE_NAME) like 'm_%')
+ loop
+  dbms_output.put_line(i.prikaz);
+ end loop;
+ dbms_output.put_line('-----------------------------------------------------');
 end;
 /
 
