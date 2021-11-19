@@ -23,3 +23,4 @@ select * from m_zdravotna_karta;
 select * from m_adresa_hraca;
 select * from m_osetrujuci_doktor; 
 select * from m_operacie_pacienta;
+select * from m_predpisana_liecba;
