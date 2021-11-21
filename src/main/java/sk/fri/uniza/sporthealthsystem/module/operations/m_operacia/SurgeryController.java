@@ -9,7 +9,7 @@ import sk.fri.uniza.sporthealthsystem.module.operations.m_operacia.service.Surge
 
 @RestController
 @RequestMapping("/api/operations/surgeries")
-public class SurgeryController extends CrudController<Surgery, String, SurgeryService> {
+public class SurgeryController extends CrudController<Surgery, Integer, SurgeryService> {
 
     @Autowired
     public SurgeryController(SurgeryService surgeryService) {

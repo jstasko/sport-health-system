@@ -30,6 +30,6 @@ public class DrugMakerDto {
     @Column(name = "nazov")
     private String nazov;
 
-    @OneToMany(mappedBy = "id_vyrobca_liekov")
+    @OneToMany(mappedBy = "vyrobca_liekov")
     private Set<DrugDto> drugs;
 }

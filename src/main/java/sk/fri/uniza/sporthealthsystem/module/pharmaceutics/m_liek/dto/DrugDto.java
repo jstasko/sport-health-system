@@ -23,7 +23,7 @@ public class DrugDto {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "id_vyrobca_liekov", referencedColumnName = "ID")
     private DrugMakerDto vyrobca_liekov;
 
