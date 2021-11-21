@@ -2,7 +2,7 @@ package sk.fri.uniza.sporthealthsystem.core;
 
 import java.util.List;
 
-public abstract class CrudServiceImpl<T, D extends CrudDao<T>> implements CrudService<T> {
+public abstract class CrudServiceImpl<T, U, D extends CrudDao<T, U>> implements CrudService<T, U> {
 
     protected D dao;
 
@@ -11,7 +11,12 @@ public abstract class CrudServiceImpl<T, D extends CrudDao<T>> implements CrudSe
     }
 
     @Override
-    public T findOne(Long id) {
+    public void deleteById(U id) {
+        dao.delete(id);
+    }
+
+    @Override
+    public T findOne(U id) {
         return dao.findOne(id);
     }
 

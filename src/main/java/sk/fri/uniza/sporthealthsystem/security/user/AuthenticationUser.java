@@ -10,7 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class AuthenticationUser {
-    private String username;
     private String email;
-    private String password;
+    private String heslo;
+    public String getUsername() {
+        return this.email;
+    }
 }
