@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_doktor.dto.DoctorDto;
 import sk.fri.uniza.sporthealthsystem.user.dto.UserDto;
 
 import javax.persistence.*;
@@ -35,6 +36,9 @@ public class DBFile {
 
     @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
     private UserDto user;
+
+    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
+    private DoctorDto doctor;
 
     public DBFile(String fileType, String fileName, byte[] data, long fileSize, Instant created) {
         this.fileType = fileType;

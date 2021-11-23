@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sk.fri.uniza.sporthealthsystem.module.buildings.m_poistovna.dto.AssuranceDto;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_doktor.dto.DoctorDto;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.dto.PlayerDto;
 import sk.fri.uniza.sporthealthsystem.user.dto.UserDto;
 
@@ -30,4 +31,7 @@ public class PersonDto {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "email", referencedColumnName = "EMAIL")
     private UserDto email;
+
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    private DoctorDto doctor;
 }
