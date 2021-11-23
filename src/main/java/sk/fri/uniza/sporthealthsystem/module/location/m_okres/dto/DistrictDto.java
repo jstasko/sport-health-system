@@ -21,7 +21,7 @@ public class DistrictDto {
 
     @Id
     @Column(name = "id")
-    private String id;
+    private Integer id;
 
     @Column(name = "n_okresu")
     private String n_okresu;

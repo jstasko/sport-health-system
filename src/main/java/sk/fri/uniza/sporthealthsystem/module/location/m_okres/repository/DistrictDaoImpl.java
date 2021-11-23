@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DistrictDaoImpl extends CrudDaoImpl<District, DistrictDto, String, DistrictRepository> implements DistrictDao {
+public class DistrictDaoImpl extends CrudDaoImpl<District, DistrictDto, Integer, DistrictRepository> implements DistrictDao {
 
     private final DozerBeanMapper mapper;
 
@@ -22,7 +22,7 @@ public class DistrictDaoImpl extends CrudDaoImpl<District, DistrictDto, String, 
     }
 
     @Override
-    public District findOne(String id) {
+    public District findOne(Integer id) {
         DistrictDto districtDto = this.findById(id);
         return this.mapper.map(districtDto, District.class);
     }

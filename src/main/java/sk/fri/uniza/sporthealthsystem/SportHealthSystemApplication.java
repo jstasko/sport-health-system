@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import sk.fri.uniza.sporthealthsystem.core.mapper.InstantConverter;
-import sk.fri.uniza.sporthealthsystem.module.buildings.apothecary.mapper.ApothecaryConverter;
-import sk.fri.uniza.sporthealthsystem.module.buildings.institution.mapper.InstitutionConverter;
+import sk.fri.uniza.sporthealthsystem.module.buildings.m_lekaren.mapper.ApothecaryConverter;
+import sk.fri.uniza.sporthealthsystem.module.buildings.m_institut.mapper.InstitutionConverter;
+import sk.fri.uniza.sporthealthsystem.module.buildings.m_poistovna.mapper.AssuranceConverter;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.mapper.DBFileConverter;
 import sk.fri.uniza.sporthealthsystem.module.location.m_adresa.mapper.AddressConverter;
 import sk.fri.uniza.sporthealthsystem.module.location.m_krajina.mapper.CountryConverter;
@@ -17,7 +18,8 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_kraj.mapper.RegionConver
 import sk.fri.uniza.sporthealthsystem.module.location.m_okres.mapper.DistrictConverter;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_liecba.mapper.TreatmentConverter;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_operacia.mapper.SurgeryConverter;
-import sk.fri.uniza.sporthealthsystem.module.persons.player.mapper.PlayerConverter;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.mapper.PlayerConverter;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_osoba.mapper.PersonConverter;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_liek.mapper.DrugConverter;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.mapper.DrugMakerConverter;
 import sk.fri.uniza.sporthealthsystem.user.mapper.UserBeanMappingBuilder;
@@ -53,6 +55,8 @@ public class SportHealthSystemApplication {
 		mapper.addMapping(new PlayerConverter());
 		mapper.addMapping(new SurgeryConverter());
 		mapper.addMapping(new TreatmentConverter());
+		mapper.addMapping(new PersonConverter());
+		mapper.addMapping(new AssuranceConverter());
 		return mapper;
 	}
 

@@ -6,7 +6,7 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_okres.entity.District;
 import sk.fri.uniza.sporthealthsystem.module.location.m_okres.repository.DistrictDao;
 
 @Service
-public class DistrictServiceImpl extends CrudServiceImpl<District, String, DistrictDao> implements DistrictService {
+public class DistrictServiceImpl extends CrudServiceImpl<District, Integer, DistrictDao> implements DistrictService {
 
     public DistrictServiceImpl(DistrictDao dao) {
         super(dao);

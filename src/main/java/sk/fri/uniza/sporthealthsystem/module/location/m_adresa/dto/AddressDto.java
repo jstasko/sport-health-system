@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sk.fri.uniza.sporthealthsystem.module.buildings.apothecary.dto.ApothecaryDto;
-import sk.fri.uniza.sporthealthsystem.module.buildings.institution.dto.InstitutionDto;
+import sk.fri.uniza.sporthealthsystem.module.buildings.m_lekaren.dto.ApothecaryDto;
+import sk.fri.uniza.sporthealthsystem.module.buildings.m_institut.dto.InstitutionDto;
 import sk.fri.uniza.sporthealthsystem.module.location.m_okres.dto.DistrictDto;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.dto.DrugMakerDto;
 
@@ -34,12 +34,12 @@ public class AddressDto {
     @JoinColumn(name = "id_okresu", referencedColumnName = "ID")
     private DistrictDto district;
 
-    @OneToMany(mappedBy = "psc")
-    private Set<DrugMakerDto> drugMakers;
+    @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
+    private DrugMakerDto drugMakers;
 
-    @OneToMany(mappedBy = "psc")
-    private Set<ApothecaryDto> apothecaries;
+    @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
+    private ApothecaryDto apothecaries;
 
-    @OneToMany(mappedBy = "psc")
-    private Set<InstitutionDto> institutions;
+    @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
+    private InstitutionDto institutions;
 }

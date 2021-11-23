@@ -9,7 +9,7 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_okres.service.DistrictSe
 
 @RestController
 @RequestMapping("/api/locations/districts")
-public class DistrictController extends CrudController<District, String, DistrictService> {
+public class DistrictController extends CrudController<District, Integer, DistrictService> {
 
     @Autowired
     public DistrictController(DistrictService districtService) {

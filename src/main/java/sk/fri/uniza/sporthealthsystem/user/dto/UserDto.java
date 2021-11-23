@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.dto.DBFile;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_osoba.dto.PersonDto;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -33,5 +34,8 @@ public class UserDto {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_image", referencedColumnName = "ID")
     private DBFile image;
+
+    @OneToOne(mappedBy = "email")
+    private PersonDto person;
 }
 

@@ -14,5 +14,5 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_kraj.entity.Region;
 public class DrugMaker {
     private Integer id;
     private Address psc;
-    private Region nazov;
+    private String nazov;
 }

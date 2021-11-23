@@ -12,7 +12,7 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_krajina.entity.Country;
 @Getter
 @Setter
 public class District {
-    private String id;
+    private Integer id;
     private String n_okresu;
     private Region region;
 }

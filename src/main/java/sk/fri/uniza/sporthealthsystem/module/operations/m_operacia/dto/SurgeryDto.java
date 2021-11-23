@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sk.fri.uniza.sporthealthsystem.module.buildings.apothecary.dto.ApothecaryDto;
-import sk.fri.uniza.sporthealthsystem.module.buildings.institution.dto.InstitutionDto;
-import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_liek.dto.DrugDto;
 
 import javax.persistence.*;
 

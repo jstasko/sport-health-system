@@ -23,7 +23,7 @@ public class DrugMakerDto {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "psc", referencedColumnName = "psc")
     private AddressDto psc;
 
