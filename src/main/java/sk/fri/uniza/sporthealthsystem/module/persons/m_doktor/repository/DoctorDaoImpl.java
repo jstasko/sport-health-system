@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DoctorDaoImpl extends CrudDaoImpl<Doctor, DoctorDto, Long, DoctorRepository> implements DoctorDao {
+public class DoctorDaoImpl extends CrudDaoImpl<Doctor, DoctorDto, String, DoctorRepository> implements DoctorDao {
 
     private final DozerBeanMapper mapper;
 
@@ -22,7 +22,7 @@ public class DoctorDaoImpl extends CrudDaoImpl<Doctor, DoctorDto, Long, DoctorRe
     }
 
     @Override
-    public Doctor findOne(Long id) {
+    public Doctor findOne(String id) {
         DoctorDto doctorDto = this.findById(id);
         return this.mapper.map(doctorDto, Doctor.class);
     }

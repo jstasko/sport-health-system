@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.fri.uniza.sporthealthsystem.module.operations.m_operacie_pacienta.dto.PacientOperationDto;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,4 +26,7 @@ public class SurgeryDto {
 
     @Column(name = "nazov")
     private String nazov;
+
+    @OneToMany(mappedBy = "surgery", cascade = CascadeType.ALL)
+    private Set<PacientOperationDto> pacientOperations;
 }

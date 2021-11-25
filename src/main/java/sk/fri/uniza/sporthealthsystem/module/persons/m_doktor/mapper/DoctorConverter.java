@@ -11,13 +11,17 @@ public class DoctorConverter extends BeanMappingBuilder {
     protected void configure() {
 
         mapping(Doctor.class, DoctorDto.class, oneWay())
-                .fields("rodCislo", "rodCislo")
-                .fields("externeId", "externeId")
-                .fields("email", "email");
+                .fields("person", "person")
+                .fields("image", "image")
+                .fields("meno", "meno")
+                .fields("priezvisko", "priezvisko")
+                .fields("id", "id");
 
         mapping(DoctorDto.class, Doctor.class, oneWay())
-                .fields("rodCislo", "rodCislo")
-                .fields("externeId", "externeId")
-                .fields("email", "email");
+                .fields("person", "person")
+                .fields("image", "image")
+                .fields("meno", "meno")
+                .fields("priezvisko", "priezvisko")
+                .fields("id", "id");
     }
 }

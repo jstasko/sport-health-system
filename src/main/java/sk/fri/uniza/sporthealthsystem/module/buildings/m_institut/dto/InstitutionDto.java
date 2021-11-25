@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotny_zaznam.dto.HealthRecordDto;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotny_zaznam.entity.HealthRecord;
 import sk.fri.uniza.sporthealthsystem.module.location.m_adresa.dto.AddressDto;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_liecba.dto.TreatmentDto;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_osetrujuci_doktor.dto.DoctorCareDto;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -34,4 +37,10 @@ public class InstitutionDto {
 
     @OneToMany(mappedBy = "institution")
     private Set<TreatmentDto> treatments;
+
+    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<HealthRecordDto> healthRecords;
+
+    @OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<DoctorCareDto> doctorCares;
 }

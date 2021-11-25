@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.fri.uniza.sporthealthsystem.module.attributes.m_specializacia_lekara.dto.DocSpecializationDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,4 +26,7 @@ public class SpecializationDto {
 
     @Column(name = "nazov")
     private String nazov;
+
+    @OneToMany(mappedBy = "specialization", fetch = FetchType.EAGER)
+    private Set<DocSpecializationDto> specializations;
 }

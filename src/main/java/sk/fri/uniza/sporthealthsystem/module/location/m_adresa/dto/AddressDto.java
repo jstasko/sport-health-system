@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sk.fri.uniza.sporthealthsystem.module.attributes.m_adresa_hraca.dto.PlayerAddressDto;
+import sk.fri.uniza.sporthealthsystem.module.attributes.m_adresa_hraca.entity.PlayerAddress;
 import sk.fri.uniza.sporthealthsystem.module.buildings.m_lekaren.dto.ApothecaryDto;
 import sk.fri.uniza.sporthealthsystem.module.buildings.m_institut.dto.InstitutionDto;
 import sk.fri.uniza.sporthealthsystem.module.location.m_okres.dto.DistrictDto;
@@ -37,9 +39,12 @@ public class AddressDto {
     @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
     private DrugMakerDto drugMakers;
 
-    @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
-    private ApothecaryDto apothecaries;
+    @OneToMany(mappedBy = "psc", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ApothecaryDto> apothecaries;
 
     @OneToOne(mappedBy = "psc", cascade = CascadeType.ALL)
     private InstitutionDto institutions;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private Set<PlayerAddressDto> playerAddresses;
 }

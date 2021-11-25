@@ -1,7 +1,5 @@
 package sk.fri.uniza.sporthealthsystem.user;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import sk.fri.uniza.sporthealthsystem.user.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@Api( tags = "User")
 public class UserController  {
 
     protected UserService service;
@@ -26,7 +23,6 @@ public class UserController  {
     }
 
     @GetMapping("/email/{email}")
-    @ApiOperation(value = "This method is used to get the client email.")
     @ResponseBody
     @Transactional(readOnly = true)
     public ResponseUser getUserByEmail(@PathVariable String email) {

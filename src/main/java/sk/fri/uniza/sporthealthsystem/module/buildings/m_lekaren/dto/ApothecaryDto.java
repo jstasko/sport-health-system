@@ -22,8 +22,8 @@ public class ApothecaryDto {
     @Column(name = "id")
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "psc", referencedColumnName = "psc")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PSC", referencedColumnName = "PSC")
     private AddressDto psc;
 
     @Column(name = "nazov")
