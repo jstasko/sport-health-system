@@ -1,6 +1,22 @@
+create or replace function get_gen_value(p_column char, p_table char)
+ return varchar
+ as
+ prikaz varchar2(10000);
+ pom varchar2(10000);
+ vysledok varchar2(150);
+ begin
+  vysledok := '';
+  select 'select ' || p_column  || ' from ( select ' || p_column || ' from ' || p_table || ' order by DBMS_RANDOM.RANDOM) where rownum = 1'  into prikaz from dual;  
+  execute immediate prikaz into vysledok;
+  return vysledok;
+ end;
+/
+
+
+
+
 ----------------------------------------------KRAJINA------------------------------------------
-insert into m_krajina values ('AF','Afghanistan');
-insert into m_krajina values ('SK','Slovakia');
+--KRAJINA SA INSERTUJE PRI TABLES.SQL
 
 ----------------------------------------------Kraj----------------------------------------------
 insert into m_kraj(n_kraja, id_krajiny) values ('Bratislavsk˝','SK');
@@ -25,7 +41,7 @@ insert into m_okres(n_okresu, id_kraja) values ('Senec',1);
 insert into m_okres(n_okresu, id_kraja) values ('Dunajsk· Streda',2);
 insert into m_okres(n_okresu, id_kraja) values ('Galanta',2);
 insert into m_okres(n_okresu, id_kraja) values ('Hlohovec',2);
-insert into m_okres(n_okresu, id_kraja) values ('Pieöùany',2);
+insert into m_okres(n_okresu, id_kraja) values ('Pieö?any',2);
 insert into m_okres(n_okresu, id_kraja) values ('Senica',2);
 insert into m_okres(n_okresu, id_kraja) values ('Skalica',2);
 insert into m_okres(n_okresu, id_kraja) values ('Trnava',2);
@@ -219,7 +235,7 @@ Insert into m_vyrobca_liekov values ('504629','RONCOR a.s.†',36323608);
 Insert into m_vyrobca_liekov values ('504637','SanaClis s.r.o.†',35804084);
 Insert into m_vyrobca_liekov values ('508195','Saneca Pharmaceuticals a. s.†',46833323);
 Insert into m_vyrobca_liekov values ('504769','UNIMED PHARMA spol. s r.o.†',31367216);
-Insert into m_vyrobca_liekov values ('504858','UNIPHARMA - 1. slovensk· lek·rnick· akciov· spoloËnosù†',31625657);
+Insert into m_vyrobca_liekov values ('504858','UNIPHARMA - 1. slovensk· lek·rnick· akciov· spoloËnos?†',31625657);
 Insert into m_vyrobca_liekov values ('504874','VULM s.r.o.†',50094602);
 ------------------------------------------------------Liek--------------------------------------------------------------------
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values (681725,'Milurit30 x 300 mg','metabolickÈ poruchy (dna)');
@@ -243,71 +259,110 @@ insert into m_lekaren(PSC, nazov)  values ('529320','Lek·reÚ na korze');
 insert into m_institut(PSC, nazov, popis) values ('529311','Nemocnica sv. Michala', 'Nemocnica pre pacientov s diabetom');
 
 ---------------------------------------------------Liecba-------------------------------------------------------------------
-insert into m_liecba(id_liek, id_lekaren, id_institut, stav, cena) values (1,1,1,'Opakovana', 10.55);
+
+create or replace procedure gen_data_liecba(pocet integer)
+ as
+ type t_stavy is varray(7) of varchar(20);
+ stavy t_stavy := t_stavy('systemova', 'opakovana', 'cielena', 'hormonalna', 'chirurgicka', 'radioterapia', 'imunoterapia');
+ prikaz varchar2(10000);
+ cena float;
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select trunc(dbms_random.value(0.01, 9999.99),2) into cena from dual ;
+    select 'insert into m_liecba (id_liek, id_lekaren, id_institut, stav, cena) values (' 
+      || to_number(get_gen_value('id', 'm_liek')) || ', ' 
+      || get_gen_value('id', 'm_lekaren') || ', '
+      || get_gen_value('id', 'm_institut') ||  ',''' 
+      || to_char(stavy(trunc(dbms_random.value(1, 7), 0))) || ''', ' 
+      || cena 
+      || ')'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
+ end;
+/
+
+execute gen_data_liecba(10000);
 
 --------------------------------------------------HRAC---------------------------------------------------------------------
-insert into m_hrac values ('aaaa825986dc8b723831d448', 'Denis', 'ADAM');
+insert into m_hrac values ('Denis', 'ADAM', 'aaaa825986dc8b723831d448');
 --------------------------------------------------Operacia---------------------------------------------------------------------
 insert into m_operacia(nazov, popis) values ('Operacia kolena', 'Odrezanie jablcka');
 
---------------------------------------------------Pouzivatel---------------------------------------------------------------------
 
-DECLARE
-  v_source_blob BFILE := BFILENAME('M_IMAGES_DIR', 'choc.jpg');
-    v_size_blob integer;
-      v_blob BLOB := EMPTY_BLOB();
-BEGIN
-    DBMS_LOB.OPEN(v_source_blob, DBMS_LOB.LOB_READONLY);
-       v_size_blob := DBMS_LOB.GETLENGTH(v_source_blob);
-    INSERT INTO m_pouzivatel values(1, 'a@gmail.com', 'a', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, EMPTY_BLOB(), '.jpg')
-                returning subor into v_blob;
-    DBMS_LOB.LOADFROMFILE(v_blob, v_source_blob, v_size_blob);
-      DBMS_LOB.CLOSE(v_source_blob);
-   UPDATE m_pouzivatel
-      SET subor=v_blob
-        WHERE id_pouzivatela=1;
-        commit;
-END;
+
+--------------------------------------------------Osoba---------------------------------------------------------------------\
+
+
+create or replace procedure add_data_osoby
+ as
+ type t_riadok is record (
+    rod_cislo KVET3.P_OSOBA_X.ROD_CISLO%type,
+    meno KVET3.P_OSOBA_X.MENO%type,
+    PRIEZVISKO KVET3.P_OSOBA_X.PRIEZVISKO%TYPE
+ );
+ prikaz varchar2(1000);
+ type t_pole is table of t_riadok;
+ pole t_pole;
+ begin
+   select rod_cislo, meno, PRIEZVISKO bulk collect into pole FROM KVET3.P_OSOBA_X;
+   for i in 1 .. pole.last 
+    loop 
+      select 'insert into m_osoba values (null, null, ''' 
+      || pole(i).rod_cislo || ''', ''' 
+      || pole(i).meno || ''','''
+      || pole(i).PRIEZVISKO 
+      || ''')' into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+    end loop;   
+ end;
 /
 
---------------------------------------------------Osoba---------------------------------------------------------------------
-insert into m_osoba values (null, null, '9704082355');
-insert into m_osoba values (null, null, '9704082366');
-insert into m_osoba values (null, null, '9704082377');
-insert into m_osoba values (null, null, '9704082388');
-insert into m_osoba values (null, null, '9704082399');
-insert into m_osoba values (null, null, '9704082410');
-insert into m_osoba values (null, null, '9704082421');
-insert into m_osoba values (null, null, '9704082432');
-insert into m_osoba values (null, null, '9704082443');
-insert into m_osoba values (null, null, '9704082454');
-insert into m_osoba values (null, null, '9704082465');
-insert into m_osoba values (null, null, '9704082476');
-insert into m_osoba values (null, null, '9704082487');
-insert into m_osoba values (null, null, '9704082498');
-insert into m_osoba values (null, null, '9704082509');
-insert into m_osoba values (null, null, '9704082520');
-insert into m_osoba values (null, null, '9704082531');
-insert into m_osoba values (null, null, '9704082542');
-insert into m_osoba values (null, null, '9704082553');
-insert into m_osoba values (null, null, '9704082564');
-insert into m_osoba values (null, null, '9704082575');
-insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256124');
+execute add_data_osoby;
+
+insert into m_osoba values (null, null, '9704082355', null, null);
+insert into m_osoba values (null, null, '9704082366', null, null);
+insert into m_osoba values (null, null, '9704082377', null, null);
+insert into m_osoba values (null, null, '9704082388', null, null);
+insert into m_osoba values (null, null, '9704082399', null, null);
+insert into m_osoba values (null, null, '9704082410', null, null);
+insert into m_osoba values (null, null, '9704082421', null, null);
+insert into m_osoba values (null, null, '9704082432', null, null);
+insert into m_osoba values (null, null, '9704082443', null, null);
+insert into m_osoba values (null, null, '9704082454', null, null);
+insert into m_osoba values (null, null, '9704082465', null, null);
+insert into m_osoba values (null, null, '9704082476', null, null);
+insert into m_osoba values (null, null, '9704082487', null, null);
+insert into m_osoba values (null, null, '9704082498', null, null);
+insert into m_osoba values (null, null, '9704082509', null, null);
+insert into m_osoba values (null, null, '9704082520', null, null);
+insert into m_osoba values (null, null, '9704082531', null, null);
+insert into m_osoba values (null, null, '9704082542', null, null);
+insert into m_osoba values (null, null, '9704082553', null, null);
+insert into m_osoba values (null, null, '9704082564', null, null);
+insert into m_osoba values (null, null, '9704082575', null, null);
+
+insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256124', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256125', null, null);
 
 --------------------------------------------------Poistovna---------------------------------------------------------------------
-insert into m_poistovna values (null, 'ALLIANZ - Slovensk· poisùovÚa a. s.',50274235);
-insert into m_poistovna values (null, 'AXA poisùovÚa a.s. poboËka poisùovne z inÈho ËlenskÈho öt·tu',40556518);
-insert into m_poistovna values (null, '»SOB PoisùovÚa a.s.',50256209);
-insert into m_poistovna values (null, 'GENERALI PoisùovÚa a. s.',55842570);
-insert into m_poistovna values (null, 'GENERALI PoisùovÚa a. s. odötepn˝ z·vod Genertel.',749897);
-insert into m_poistovna values (null, 'GROUPAMA poisùovÚa a. s. poboËka poisùovne z inÈho ËlenskÈho öt·tu',39509328);
-insert into m_poistovna values (null, 'GENERALI PoisùovÚa a. s. odötepn˝ z·vod EurÛpska cestovn· poisùovÚa',34718090);
-insert into m_poistovna values (null, 'KOMUN¡LNA poisùovÚa a.s. Vienna Insurance Group',39323152);
-insert into m_poistovna values (null, 'KOOPERATIVA poisùovÚa a.s. Vienna Insurance Group',40114038);
-insert into m_poistovna values (null, 'NOVIS PoisùovÚa a.s.',34818144);
-insert into m_poistovna values (null, 'UNIQA poisùovÚa a.s.',34462129);
-insert into m_poistovna values (null, 'UNION poisùovÚa a. s.',49792960);
-insert into m_poistovna values (null, 'W¸STENROT poisùovÚa a.s.',34880173);
+insert into m_poistovna values (null, 'ALLIANZ - Slovensk· pois?ovÚa a. s.',50274235);
+insert into m_poistovna values (null, 'AXA pois?ovÚa a.s. poboËka pois?ovne z inÈho ËlenskÈho öt·tu',40556518);
+insert into m_poistovna values (null, '»SOB Pois?ovÚa a.s.',50256209);
+insert into m_poistovna values (null, 'GENERALI Pois?ovÚa a. s.',55842570);
+insert into m_poistovna values (null, 'GENERALI Pois?ovÚa a. s. odötepn˝ z·vod Genertel.',749897);
+insert into m_poistovna values (null, 'GROUPAMA pois?ovÚa a. s. poboËka pois?ovne z inÈho ËlenskÈho öt·tu',39509328);
+insert into m_poistovna values (null, 'GENERALI Pois?ovÚa a. s. odötepn˝ z·vod EurÛpska cestovn· pois?ovÚa',34718090);
+insert into m_poistovna values (null, 'KOMUN¡LNA pois?ovÚa a.s. Vienna Insurance Group',39323152);
+insert into m_poistovna values (null, 'KOOPERATIVA pois?ovÚa a.s. Vienna Insurance Group',40114038);
+insert into m_poistovna values (null, 'NOVIS Pois?ovÚa a.s.',34818144);
+insert into m_poistovna values (null, 'UNIQA pois?ovÚa a.s.',34462129);
+insert into m_poistovna values (null, 'UNION pois?ovÚa a. s.',49792960);
+insert into m_poistovna values (null, 'W¸STENROT pois?ovÚa a.s.',34880173);
 
 -----------------------------------------------------m_specializacia-------------------------------------------------------------------
 insert into m_specializacia(nazov, popis) values ('vn˙tornÈ lek·rstvo', null);
@@ -317,7 +372,7 @@ insert into m_specializacia(nazov, popis) values ('neurolÛgia', null);
 insert into m_specializacia(nazov, popis) values ('psychiatria', null);
 insert into m_specializacia(nazov, popis) values ('pracovnÈ lek·rstvo', null);
 insert into m_specializacia(nazov, popis) values ('pediatria', null);
-insert into m_specializacia(nazov, popis) values ('vöeobecn· starostlivosù o deti a dorast', null);
+insert into m_specializacia(nazov, popis) values ('vöeobecn· starostlivos? o deti a dorast', null);
 insert into m_specializacia(nazov, popis) values ('gynekolÛgia a pÙrodnÌctvo', null);
 insert into m_specializacia(nazov, popis) values ('chirurgia', null);
 insert into m_specializacia(nazov, popis) values ('ortopÈdia', null);
@@ -429,60 +484,136 @@ insert into m_specializacia(nazov, popis) values ('ötudijn˝ odbor detskÈ lek·rst
 
 
 -----------------------------------------------------m_krvna_skupina-------------------------------------------------------------------
-insert into m_krvna_skupina values('9707256124', new m_krv('AB', 'rh+'), 1);
+create or replace procedure gen_krvne_skupiny(pocet integer)
+ as
+ type t_krvna_skupina is varray(8) of varchar(3);
+ krvna_skupina t_krvna_skupina := t_krvna_skupina('AB+', 'AB-', 'B+', 'B-', 'A+', 'A-', '0+', '0-');
+ type t_rha is varray(2) of varchar(3);
+ rha t_rha := t_rha ('rh+', 'rh-');
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_krvna_skupina (rod_cislo, auto) values (''' 
+      || get_gen_value('rod_cislo', 'm_osoba') 
+      ||  ''',new m_krv('''   
+      || to_char(krvna_skupina(trunc(dbms_random.value(1, 8), 0))) || ''',''' 
+      || to_char(rha(trunc(dbms_random.value(1, 2), 0))) || '''' 
+      || '))'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
+ end;
+/
+
+execute gen_krvne_skupiny(10000);
+
 
 -----------------------------------------------------m_vlastnosti-------------------------------------------------------------------
-insert into m_vlastnosti_hraca(rod_cislo, auto) values('9707256124', new m_vlastnosti(75.8, 183));
+
+create or replace procedure gen_vlastnosti(pocet integer)
+ as 
+ hmotnost float;
+ vyska float;
+ prikaz varchar2(10000);
+ id_hrac m_hrac.id%type;
+ begin
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select trunc(dbms_random.value(50, 100),3) into hmotnost from dual;
+    select trunc(dbms_random.value(150, 200),3) into vyska from dual;
+    select 'insert into m_vlastnosti_hraca (rod_cislo, auto) values (' 
+       || '''' || (select trim(get_gen_value('rod_cislo', 'm_osoba')) from dual)
+       || ''', new m_vlastnosti(' 
+       || hmotnost || ', '  || vyska 
+       || '))'
+      into prikaz from dual;
+   --dbms_output.put_line(prikaz);
+   execute immediate prikaz;
+   end loop;
+ end;
+/
+
+execute gen_vlastnosti(10000);
 
 -----------------------------------------------------m_doktor-------------------------------------------------------------
-insert into m_doktor values ('9704082355','A64932040','Lucia','Astaloöov·');
-insert into m_doktor values ('9704082366','A37481001','Emil','AugustÌn');
-insert into m_doktor values ('9704082377','A78485049','Michal','AugustÌn');
-insert into m_doktor values ('9704082388','A57758009','Pavol','Babinec');
-insert into m_doktor values ('9704082399','A35887023','Eva','Babiöov·');
-insert into m_doktor values ('9704082410','A70620247','Pavol','Babjak');
-insert into m_doktor values ('9704082421','A84940020','Peter','Babjak');
-insert into m_doktor values ('9704082432','A41128154','Eva','BaËinsk·');
-insert into m_doktor values ('9704082443','A52758001','Jana','BaËinsk·');
-insert into m_doktor values ('9704082454','B59063016','Karin','BadÌkov·');
-insert into m_doktor values ('9704082465','B91009016','ätefan','BaÔura');
-insert into m_doktor values ('9704082476','A90906020','ätefan','Bajcar');
-insert into m_doktor values ('9704082487','A18487801','Viera','Bal·ûov·');
-insert into m_doktor values ('9704082498','A45400801','Zuzana','Bal·ûov·');
-insert into m_doktor values ('9704082509','A96312801','Ivana','Balh·rkov·');
-insert into m_doktor values ('9704082520','B78798016','Miroslav','Ballay');
-insert into m_doktor values ('9704082531','A35092001','Peter','Ballay');
+insert into m_doktor values ('9704082355','Lucia','Astaloöov·', null,'A64932040');
+insert into m_doktor values ('9704082366','Emil','AugustÌn', null,'A37481001');
+insert into m_doktor values ('9704082377','Michal','AugustÌn', null,'A78485049');
+insert into m_doktor values ('9704082388','Pavol','Babinec', null,'A57758009');
+insert into m_doktor values ('9704082399','Eva','Babiöov·', null,'A35887023');
+insert into m_doktor values ('9704082410','Pavol','Babjak', null,'A70620247');
+insert into m_doktor values ('9704082421','Peter','Babjak', null,'A84940020');
+insert into m_doktor values ('9704082432','Eva','Ba?insk·', null,'A41128154');
+insert into m_doktor values ('9704082443','Jana','Ba?insk·', null,'A52758001');
+insert into m_doktor values ('9704082454','Karin','BadÌkov·', null,'B59063016');
+insert into m_doktor values ('9704082465','ätefan','Ba?ura', null,'B91009016');
+insert into m_doktor values ('9704082476','ätefan','Bajcar', null,'A90906020');
+insert into m_doktor values ('9704082487','Viera','Bal·ûov·', null,'A18487801');
+insert into m_doktor values ('9704082498','Zuzana','Bal·ûov·', null,'A45400801');
+insert into m_doktor values ('9704082509','Ivana','Balh·rkov·', null,'A96312801');
+insert into m_doktor values ('9704082520','Miroslav','Ballay', null,'B78798016');
+insert into m_doktor values ('9704082531','Peter','Ballay', null,'A35092001');
 
 
 -----------------------------------------------------m_specializacia_lekara-------------------------------------------------------------
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A64932040',1);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A37481001',2);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A78485049',3);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A57758009',4);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A35887023',5);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A70620247',6);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A84940020',7);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A41128154',8);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A52758001',9);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('B59063016',10);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('B91009016',11);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A90906020',12);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A18487801',13);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A45400801',14);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A96312801',15);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('B78798016',16);
-insert into m_specializacia_lekara(id_doktor, id_specializacia) values ('A35092001',17);
+
+create or replace procedure gen_data_specializacia(pocet integer)
+ as
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_specializacia_lekara (id_doktor, id_specializacia) values (' 
+      || '''' ||  get_gen_value('id', 'm_doktor') || ''', ' 
+      || get_gen_value('id', 'm_specializacia')
+      || ')'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
+ end;
+/
+
+execute gen_data_specializacia(10000);
+
 
 
 
 -----------------------------------------------------m_zdravotny_zaznam-------------------------------------------------------------
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A37481001','9704082553',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A78485049','9704082564',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A57758009','9704082575',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null);
-insert into m_zdravotny_zaznam(id_doktor, rod_cislo, id_institut, datum_prehliadky,stav) values ('A64932040','9704082542',1,CURRENT_TIMESTAMP,null);
+create or replace procedure gen_zdravotny_zaznam(pocet integer)
+ as
+ type t_stavy is varray(4) of varchar(20);
+ stavy t_stavy := t_stavy('zapisany', 'diagnostikovany', 'vylieceny', 'nevylieceny');
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_zdravotny_zaznam (id_doktor, rod_cislo, id_institut, datum_prehliadky, stav) values (''' 
+      || get_gen_value('id', 'm_doktor') ||  ''','''
+      || get_gen_value('rod_cislo', 'm_osoba') || ''', '
+      || get_gen_value('id', 'm_institut') ||  ', ' 
+      || 'null' || ','''
+      || to_char(stavy(trunc(dbms_random.value(1, 4), 0))) || '''' 
+      || ')'
+      into prikaz from dual;
+    execute immediate prikaz;
+   end loop;
+  for i in 1 .. pocet
+   loop
+    update m_zdravotny_zaznam  
+     set DATUM_PREHLIADKY = CURRENT_TIMESTAMP
+      where id = i;
+  end loop;
+ end;
+/
+
+execute gen_zdravotny_zaznam(10000);
 
 -----------------------------------------------------m_zdravotna_karta-------------------------------------------------------------
 insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_zaznam, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Zhubn˝ n·dor bliûöie neurËenej sliznice ˙st.Zhubn˝ n·dor vn˙tornÈho lÌca','Zhubn˝ n·dor sliznice lÌca','C06.0')),1,null,CURRENT_TIMESTAMP);
@@ -493,59 +624,92 @@ insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_za
 insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_zaznam, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('InfekËn· enetritÌda zaprÌËinen· salmonelou.','Salmonelov· enteritÌda','A02.0')),6,null,CURRENT_TIMESTAMP);
 insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_zaznam, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Klasick· potravinov· otrava zaprÌËinen· Clostridium botulinum.','Botulizmus','A05.1')),7,null,CURRENT_TIMESTAMP);
 
-
 -----------------------------------------------------m_adresa_hraca--------------------------------------------------------------------------------------------------------
-insert into m_adresa_hraca(PSC, rod_cislo) values ('529311','9704082542');
-insert into m_adresa_hraca(PSC, rod_cislo) values ('529320','9704082553');
-insert into m_adresa_hraca(PSC, rod_cislo) values ('529338','9704082564');
-insert into m_adresa_hraca(PSC, rod_cislo) values ('529346','9704082564');
-insert into m_adresa_hraca(PSC, rod_cislo) values ('529354','9704082564');
+create or replace procedure gen_adresy_hracov(pocet integer)
+ as
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_adresa_hraca (PSC, rod_cislo) values (''' 
+      || get_gen_value('PSC', 'm_adresa') ||  ''','''
+      || get_gen_value('rod_cislo', 'm_osoba') || ''''
+      || ')'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
+ end;
+/
 
+execute gen_adresy_hracov(10000);
 
 
 -----------------------------------------------------m_osetrujuci_doktor--------------------------------------------------------------------------------------------------------
-/*set SERVEROUTPUT ON;
-create or replace procedure generuj_data_m_od
+
+create or replace procedure gen_osetrujucich_doktorov(pocet integer)
  as
-  type t_record is record 
-  (
-   id_institut          int,
-   id_doktor            char(11),
-   id_osetrujuci_doktor int
-  );
-  m_od t_record;
-  m_velkost_institut integer;
-  m_velkost_doktor integer;
-  m_velkost integer;
- begin
-  m_velkost_institut := -1;
-  m_velkost_doktor := -1;
-  select count(*) into m_velkost_institut from m_institut;
-  select count(*) into m_velkost_doktor from m_doktor;
-  m_velkost := min(m_velkost_institut, m_velkost_doktor);
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_osetrujuci_doktor (id_institut, id_doktor) values ('
+      || get_gen_value('id', 'm_institut') ||  ','''
+      || get_gen_value('id', 'm_doktor') || ''''
+      || ')'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
  end;
 /
-*/
 
-insert into m_osetrujuci_doktor(id_institut, id_doktor) values (1,'A64932040');
-insert into m_osetrujuci_doktor(id_institut, id_doktor) values (1,'A37481001');
-insert into m_osetrujuci_doktor(id_institut, id_doktor) values (1,'A78485049');
-insert into m_osetrujuci_doktor(id_institut, id_doktor) values (1,'A57758009');
-insert into m_osetrujuci_doktor(id_institut, id_doktor) values (1,'A35887023');
+execute gen_osetrujucich_doktorov(1000);
 
 
 -----------------------------------------------------m_operacie_pacienta--------------------------------------------------------------------------------------------------------
 
-insert into m_operacie_pacienta(rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('9704082542',1,1,null);
-insert into m_operacie_pacienta(rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('9704082553',1,2,null);
-insert into m_operacie_pacienta(rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('9704082564',1,1,null);
-insert into m_operacie_pacienta(rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('9704082564',1,1,null);
-insert into m_operacie_pacienta(rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('9704082564',1,2,null);
+create or replace procedure gen_operacie_pacienta(pocet integer)
+ as
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_operacie_pacienta (rod_cislo, id_operacia, id_osetrujuci_doktor, popis) values ('''
+      || get_gen_value('rod_cislo', 'm_osoba') ||  ''','
+      || get_gen_value('id', 'm_operacia') || ','
+      || get_gen_value('id', 'm_osetrujuci_doktor') || ', null'
+      || ')'
+      into prikaz from dual;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
+   end loop;
+ end;
+/
 
+execute gen_operacie_pacienta(10000);
 
 -----------------------------------------------------m_predpisana_liecba--------------------------------------------------------------------------------------------------------
 
-insert into m_predpisana_liecba(id_zdravotna_kara, id_liecba) values (2,1);
-insert into m_predpisana_liecba(id_zdravotna_kara, id_liecba) values (3,1);
+create or replace procedure gen_predpisana_liecba(pocet integer)
+ as
+ prikaz varchar2(10000);
+ begin  
+  for i in 1 .. pocet
+   loop
+    prikaz := '';
+    select 'insert into m_predpisana_liecba (id_zdravotna_kara, id_liecba) values ('
+      || get_gen_value('id', 'm_zdravotna_karta') ||  ','
+      || get_gen_value('id', 'm_liecba')
+      || ')'
+      into prikaz from dual;
+   --dbms_output.put_line(prikaz);
+   execute immediate prikaz;
+   end loop;
+ end;
+/
 
-
+execute gen_predpisana_liecba(10000);
