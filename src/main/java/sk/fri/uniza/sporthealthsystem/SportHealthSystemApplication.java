@@ -23,7 +23,6 @@ import sk.fri.uniza.sporthealthsystem.module.location.m_okres.mapper.DistrictCon
 import sk.fri.uniza.sporthealthsystem.module.operations.m_liecba.mapper.TreatmentConverter;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_operacia.mapper.SurgeryConverter;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_operacie_pacienta.mapper.PacientOperationConverter;
-import sk.fri.uniza.sporthealthsystem.module.operations.m_predpisana_liecba.mapper.CareConverter;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_doktor.mapper.DoctorConverter;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.mapper.PlayerConverter;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_osetrujuci_doktor.mapper.DoctorCareConverter;
