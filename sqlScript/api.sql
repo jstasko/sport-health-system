@@ -3,7 +3,8 @@
 grant execute on utl_http to stasko_PDBS;
 grant execute on utl_smtp to stasko_PDBS;
 grant execute on  utl_tcp to stasko_PDBS;
-MUST RUN IN PLSQL
+
+grant execute on DBMS_NETWORK_ACL_ADMIN to stasko_PDBS;
 */
 SELECT * FROM DBA_ROLE_PRIVS WHERE GRANTEE = 'STASKO_PDBS';
 SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'STASKO_PDBS';
@@ -13,7 +14,7 @@ BEGIN
  DBMS_NETWORK_ACL_ADMIN.CREATE_ACL (
   acl => '/sys/acls/sysdba-ch-permissions.xml',
   description => 'Permissions for network',
-  principal => 'stasko_PDBS',
+  principal => 'STASKO_PDBS',
   is_grant => TRUE,
   privilege => 'connect');
 END;
@@ -29,17 +30,10 @@ DBMS_NETWORK_ACL_ADMIN.ASSIGN_ACL (
 );
 END;
 /
-commit;
 
-BEGIN
-DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
-    acl => '/sys/acls/sysdba-ch-permissions.xml',
-    principal => 'stasko_PDBS',
-    is_grant => TRUE,
-    privilege => 'connect'
-);
-end;
-/
+select * from dba_network_acls;
+
+commit;
 
 select * from dba_network_acls;
 
@@ -79,10 +73,9 @@ END show_html_from_url;
 
 
 SELECT * FROM dba_network_acls;
-SELECT * FROM dba_network_acl_privileges where principal='MKASUBA';
-set SERVEROUTPUT ON;
-execute UTL_HTTP.set_wallet('file:c:\Images\myWallet\', 'ZrodeniZpopola1');
-execute show_html_from_url('https://countriesnow.space/api/v0.1/countries/iso');
+SELECT * FROM dba_network_acl_privileges where principal='STASKO_PDBS';
+
+execute show_html_from_url('https://api.sportnet.online/v1/ppo/futbalsfz.sk/users');
 execute show_html_from_url('http://country.io/continent.json');
 
 select utl_http.get_detailed_sqlerrm from dual;

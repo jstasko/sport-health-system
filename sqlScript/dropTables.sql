@@ -25,7 +25,7 @@ drop table m_osoba;
 drop table m_pouzivatel;
 drop table m_specializacia;
 drop table m_hrac;
-
+drop table m_image;
 
 
 -----------------
