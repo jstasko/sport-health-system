@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sickness {
-    protected String kod;
-    protected String popis;
-    protected String nazov;
+@Data
+public class UpdateHealthCard {
+    private String rodCislo;
+    private int zdravotnyZaznam;
+    private String kontraindikacie;
 }

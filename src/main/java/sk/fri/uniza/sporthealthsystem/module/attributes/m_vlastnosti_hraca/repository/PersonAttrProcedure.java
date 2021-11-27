@@ -7,12 +7,14 @@ import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotSaveException;
 import sk.fri.uniza.sporthealthsystem.module.attributes.m_vlastnosti_hraca.entity.Attributes;
 import sk.fri.uniza.sporthealthsystem.module.attributes.m_vlastnosti_hraca.entity.PersonAttrType;
+import sk.fri.uniza.sporthealthsystem.module.attributes.m_vlastnosti_hraca.mapper.PersonMapper;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_osoba.entity.Person;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 @Component
-public class PersonAttrProcedure<T> extends AbstractProcedureHandler<T> {
+public class PersonAttrProcedure<T> extends AbstractProcedureHandler<T, Person, PersonMapper> {
 
     public PersonAttrType getOne(T id) throws NotFoundException {
         Map<String, Object> result = this.callById(id, "get_vlastnosti_hraca")

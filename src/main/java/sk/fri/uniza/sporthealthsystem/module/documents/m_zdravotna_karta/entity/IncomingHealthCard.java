@@ -11,9 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class IncomingHealthCard {
-    private String rodCcislo;
-    private List<Sickness> choroba;
+    private String rodCislo;
+    private List<Sickness> sicknesses;
     private int zdravotnyZaznam;
     private String kontraindikacie;
-    private Instant datum_zalozenia;
 }

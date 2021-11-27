@@ -46,8 +46,6 @@ public class StatisticsServiceImpl implements StatisticsService {
             query = query.replace(":" + values.getKey(), String.format("'%s'", values.getValue()));
         }
 
-        MapSqlParameterSource msp = new MapSqlParameterSource();
-
         return this.jdbcTemplate.queryForList(query);
     }
 }

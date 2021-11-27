@@ -6,6 +6,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotSaveException;
 import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotna_karta.entity.HealthCard;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotna_karta.entity.Sickness;
+
+import java.time.Instant;
+import java.util.List;
 
 @Component
 public class HealthCardDaoImpl implements HealthCardDao {
@@ -19,20 +23,44 @@ public class HealthCardDaoImpl implements HealthCardDao {
         this.healthCardProcedure = healthCardProcedure;
     }
 
+    @Override
+    public List<HealthCard> findAll() {
+        return this.healthCardProcedure.findAll();
+    }
+
     public HealthCard findOne(Long id) {
-        return healthCardProcedure.getOne(id);
+        HealthCard healthCard =  this.healthCardProcedure.getOne(id);
+        List<Sickness> sicknesses = this.healthCardProcedure.getSicknessesById(healthCard.getId());
+        healthCard.setSicknesses(sicknesses);
+        return healthCard;
     }
 
     @Override
     public HealthCard save(HealthCard doc) throws NotSaveException {
-//        SqlParameterSource in = new MapSqlParameterSource()
-//                .addValue("in_rod_cislo", doc.getRodCislo())
-//                .addValue("in_typ_skupiny", doc.getBlood().getTypSkupiny())
-//                .addValue("in_rh_faktor", doc.getBlood().getRhFaktor());
+        Instant nowTime = Instant.now();
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("in_rod_cislo", doc.getRodCislo())
+                .addValue("in_zdravotny_zaznam", doc.getZdravotnyZaznam())
+                .addValue("in_kontraindikacie", doc.getKontraindikacie())
+                .addValue("in_datum_zalozenia", nowTime);
 
-//        HealthCard type = this.healthCardProcedure.store(in);
-//        doc.setId(type.getId());
+        HealthCard type = this.healthCardProcedure.store(in);
+        doc.setId(type.getId());
+        doc.setDatum_zalozenia(nowTime);
         return doc;
+    }
+
+    @Override
+    public List<Sickness> saveSickness(List<Sickness> sicknesses, Long idHealthCard) {
+        sicknesses.forEach(i -> {
+            SqlParameterSource in = new MapSqlParameterSource()
+                    .addValue("in_popis", i.getPopis())
+                    .addValue("in_nazov", i.getNazov())
+                    .addValue("in_kod", i.getKod())
+                    .addValue("in_id", idHealthCard);
+            this.healthCardProcedure.storeSickness(in);
+        });
+        return sicknesses;
     }
 
     @Override
@@ -41,14 +69,35 @@ public class HealthCardDaoImpl implements HealthCardDao {
     }
 
     @Override
+    public void deleteSicknessById(Long id, String sicknessId) {
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("in_id", id)
+                .addValue("in_kod", sicknessId);
+        this.healthCardProcedure.deleteSicknessById(in);
+    }
+
+    @Override
     public HealthCard update(Long id, HealthCard doc) {
-//        SqlParameterSource in = new MapSqlParameterSource()
-//                .addValue("in_id", id)
-//                .addValue("in_rod_cislo", doc.getRodCislo())
-//                .addValue("in_typ_skupiny", doc.getBlood().getTypSkupiny())
-//                .addValue("in_rh_faktor", doc.getBlood().getRhFaktor());
-//
-//        this.healthCardProcedure.update(in);
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("in_id", id)
+                .addValue("in_rod_cislo", doc.getRodCislo())
+                .addValue("in_zdravotny_zaznam", doc.getZdravotnyZaznam())
+                .addValue("in_kontraindikacie", doc.getKontraindikacie());
+
+        this.healthCardProcedure.update(in);
         return doc;
+    }
+
+    // TODO vytiahnut k vsetky sickness a healthcard
+    @Override
+    public HealthCard updateSickness(Long id, Sickness sickness) {
+        SqlParameterSource in = new MapSqlParameterSource()
+                .addValue("in_id", id)
+                .addValue("in_kod", sickness.getKod())
+                .addValue("in_popis", sickness.getPopis())
+                .addValue("in_nazov", sickness.getNazov());
+
+        this.healthCardProcedure.updateSickness(in);
+        return null;
     }
 }

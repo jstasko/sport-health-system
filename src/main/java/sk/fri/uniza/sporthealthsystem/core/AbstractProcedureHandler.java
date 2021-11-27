@@ -4,18 +4,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotSaveException;
+import sk.fri.uniza.sporthealthsystem.core.mapper.CoreMapper;
 import sk.fri.uniza.sporthealthsystem.module.attributes.m_krvna_skupina.entity.BloodType;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotna_karta.entity.HealthCard;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotna_karta.mapper.HealthCardsMapper;
 
 import javax.annotation.PostConstruct;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractProcedureHandler<T> {
+public abstract class AbstractProcedureHandler<T, S, U extends CoreMapper<List<S>>> {
     @Autowired
     protected JdbcTemplate jdbcTemplate;
 
@@ -23,7 +31,7 @@ public abstract class AbstractProcedureHandler<T> {
 
     // init SimpleJdbcCall
     @PostConstruct
-    void init() {
+    void init() throws SQLException {
         // o_name and O_NAME, same
         this.jdbcTemplate.setResultsMapCaseInsensitive(true);
     }
@@ -55,5 +63,13 @@ public abstract class AbstractProcedureHandler<T> {
             System.err.println(e.getMessage());
             throw e;
         }
+    }
+
+    public Optional<List<S>> callAnyMany(U mapper, String name) {
+        simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withProcedureName(name)
+                .returningResultSet("in_out_cursor", mapper);
+        simpleJdbcCall.execute();
+        return Optional.of(mapper.getList());
     }
 }

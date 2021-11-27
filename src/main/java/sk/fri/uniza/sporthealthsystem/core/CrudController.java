@@ -1,5 +1,7 @@
 package sk.fri.uniza.sporthealthsystem.core;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +19,12 @@ public abstract class CrudController<T, U, S extends CrudService<T, U>> {
     }
 
     @GetMapping()
-    List<T> findAll() {
-        return service.findAll();
+    ListingResponse<T> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable paging = PageRequest.of(page, size);
+        return service.findAll(paging);
     }
 
     @PostMapping()

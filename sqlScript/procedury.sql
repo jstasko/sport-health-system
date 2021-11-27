@@ -76,7 +76,7 @@ create or replace procedure insert_vlastnosti_hraca(
     end;
 /
 
---test 
+--test
 --declare
 --    out_id number(38,0);
 --begin
@@ -96,9 +96,9 @@ create or replace procedure get_vlastnosti_hraca(
         into out_rod_cislo, out_hmotnost, out_vyska
         from M_VLASTNOSTI_HRACA va
         where va.ID = in_id;
---        dbms_output.put_line('Rodne cislo: ' || out_rod_cislo); 
---        dbms_output.put_line('hmotnost: ' || out_hmotnost); 
---        dbms_output.put_line('vyska: ' || out_vyska); 
+--        dbms_output.put_line('Rodne cislo: ' || out_rod_cislo);
+--        dbms_output.put_line('hmotnost: ' || out_hmotnost);
+--        dbms_output.put_line('vyska: ' || out_vyska);
     end;
 /
 
@@ -124,29 +124,87 @@ create or replace procedure update_vlastnosti_hraca(
 
         commit ;
     end;
-/ 
+/
+-----------------------------------------------------m_zdravotna_karta---------------------------------------------------
+create or replace procedure insert_predpisana_liecba(
+    in_liecba in number,
+    in_zdravotna_karta in number,
+    out_id out number
+) as
+
+    newId number;
+begin
+    SELECT m_predpisana_liecba_seq.nextval
+    INTO newId
+    FROM dual;
+
+    out_id:= newId;
+
+    insert into M_PREDPISANA_LIECBA(ID,ID_ZDRAVOTNA_KARA, ID_LIECBA)
+    values (newId, in_zdravotna_karta, in_liecba);
+    commit;
+
+end;
+/
+
+create or replace procedure get_predpisana_liecba(
+    in_id in number,
+    out_id out varchar2,
+    out_zdravotna_karta out float,
+    out_liecba out float
+) as
+begin
+    select ma.ID, ma.ID_ZDRAVOTNA_KARA, ma.ID_LIECBA
+    into out_id, out_zdravotna_karta, out_liecba
+    from M_PREDPISANA_LIECBA ma
+    where ma.ID = in_id;
+end;
+/
+
+
+
+create or replace procedure delete_predpisana_liecba(in_id in number) as
+begin
+    delete from M_ZDRAVOTNA_KARTA where ID = in_id;
+    commit;
+end;
+/
+
+create or replace procedure update_predpisana_liecba(
+    in_liecba in number,
+    in_zdravotna_karta in number,
+    in_id in  number
+) as
+begin
+    update M_PREDPISANA_LIECBA
+    set  ID_LIECBA = in_liecba, ID_ZDRAVOTNA_KARA = in_zdravotna_karta
+    where ID = in_id;
+    commit ;
+end;
+/
 
 
 -----------------------------------------------------m_zdravotna_karta---------------------------------------------------
 ----------------------INSERT-------------------------------
-create or replace procedure insert_zdravotna_karta (    
-    in_rod_cislo in varchar,                      
-    in_popis in varchar2,     
-    in_nazov in varchar2,     
-    in_kod in varchar,     
-    in_id_zdravotny_zaznam in varchar,
-    in_kontraindikacie in varchar,           
+create or replace procedure insert_zdravotna_karta (
+    in_rod_cislo in varchar,
+    in_zdravotny_zaznam in varchar,
+    in_kontraindikacie in varchar,
     in_datum_zalozenia in timestamp,
     out_id out number
  )
- as 
- begin   
-  insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_zaznam, kontraindikacie, datum_zalozenia) 
-   values (in_rod_cislo, m_t_choroba(new m_rec_choroba(in_popis, in_nazov, in_kod)),in_id_zdravotny_zaznam,in_kontraindikacie,in_datum_zalozenia);
+ as
+    newId number;
+ begin
+     SELECT m_zdravotna_karta_seq.nextval
+     INTO newId
+     FROM dual;
+
+     out_id:= newId;
+
+     insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, id_zdravotny_zaznam, kontraindikacie, datum_zalozenia)
+   values (in_rod_cislo, m_t_choroba(),in_zdravotny_zaznam,in_kontraindikacie,in_datum_zalozenia);
    commit;
-   SELECT max(id)
-        INTO out_id
-        FROM m_zdravotna_karta;  
  end;
 /
 
@@ -159,9 +217,9 @@ create or replace procedure insert_zdravotna_karta_choroba (
  )
  as
    prikaz varchar2(10000);
- begin 
-  select  'insert into table (select m_t_choroby_informacie from M_ZDRAVOTNA_KARTA where id = ' || in_id  || ') 
-  values ( new m_rec_choroba(''' || in_popis || ''',''' || in_nazov ||''',''' || in_kod || '''))' 
+ begin
+  select  'insert into table (select m_t_choroby_informacie from M_ZDRAVOTNA_KARTA where id = ' || in_id  || ')
+  values ( new m_rec_choroba(''' || in_popis || ''',''' || in_nazov ||''',''' || in_kod || '''))'
    into prikaz from dual;
    execute immediate prikaz;
    commit;
@@ -170,47 +228,35 @@ create or replace procedure insert_zdravotna_karta_choroba (
 --------------------UPDATE---------------------------------
 
 create or replace procedure update_zdravotna_karta (
-    in_nova_hodnota varchar,
-    in_nazov_stlpca varchar,
-    in_id varchar
+    in_rod_cislo varchar2,
+    in_zdravotny_zaznam number,
+    in_kontraindikacie varchar2,
+    in_id number
  )
  as
-  prikaz varchar2(10000);
- begin 
-  select 'update m_zdravotna_karta set ' || in_nazov_stlpca || ' = '|| in_nova_hodnota 
-   || ' where id = ' || in_id into prikaz from dual;
-   execute immediate prikaz;
+ begin
+     update M_ZDRAVOTNA_KARTA
+     set  ROD_CISLO = in_rod_cislo, ID_ZDRAVOTNY_ZAZNAM = in_zdravotny_zaznam, KONTRAINDIKACIE = in_kontraindikacie
+     where ID = in_id;
+     commit ;
  end;
 /
 
-
-create or replace procedure update_zdravotna_karta_timestamp (
-    in_nova_hodnota timestamp,
-    in_nazov_stlpca varchar,
-    in_id varchar
- )
- as
- begin 
-  update m_zdravotna_karta set datum_zalozenia = in_nova_hodnota 
-   where id = in_id;
-  commit;
- end;
-/
+drop procedure update_zdravotna_karta_timestamp;
 
 create or replace procedure update_zdravotna_karta_choroba(
-    in_nova_hodnota varchar2,
-    in_nazov_stlpca varchar2,
+    in_popis varchar2,
+    in_nazov varchar2,
     in_kod varchar2,
     in_id varchar2
  )
- as 
+ as
  prikaz varchar2(1000);
  begin
   select 'update table(select karta.m_t_choroby_informacie
  from M_ZDRAVOTNA_KARTA karta
   WHERE karta.id = ' || in_id || ' ) choroby
-  set choroby.' || in_nazov_stlpca || ' = ''' ||in_nova_hodnota ||
-  ''' WHERE choroby.kod = ''' ||  in_kod || ''''  into prikaz from dual; 
+  set choroby.nazov  = ' || in_nazov || ' , choroby.popis = ' || in_popis || ' WHERE choroby.kod = ' ||  in_kod  into prikaz from dual;
   --dbms_output.put_line(prikaz);
   execute immediate prikaz;
  end;
@@ -221,34 +267,54 @@ create or replace procedure delete_zdravotna_karta(
     in_id integer
  )
  as
- begin 
+ begin
   delete from M_ZDRAVOTNA_KARTA where ID = in_id;
- end; 
-/ 
+ end;
+/
 
 create or replace procedure delete_zdravotna_karta_choroba(
     in_id integer,
     in_kod varchar2
  )
  as
- begin 
-   delete table(select m_t_choroby_informacie from M_ZDRAVOTNA_KARTA where ID = in_id) choroby
-   WHERE choroby.kod = in_kod; 
- end; 
-/ 
-
-----------------------GET_ALL-------------------------------
-
-create or replace procedure  get_choroby(
-    in_out_cursor IN OUT SYS_REFCURSOR,
-    int_id in integer
-    )
- as
  begin
-     open in_out_cursor for
-      select choroby.NAZOV, choroby.popis, choroby.kod
-        from "M_ZDRAVOTNA_KARTA" karta, table(karta."M_T_CHOROBY_INFORMACIE") choroby
-        WHERE karta."ID" = int_id;
+   delete table(select m_t_choroby_informacie from M_ZDRAVOTNA_KARTA where ID = in_id) choroby
+   WHERE choroby.kod = in_kod;
  end;
 /
+
+----------------------GET_ALL-------------------------------
+create or replace procedure  get_all_zdravotna_karta(
+    in_out_cursor OUT SYS_REFCURSOR
+)
+as
+begin
+    open in_out_cursor for
+        select karta.id, karta.ROD_CISLO, karta.KONTRAINDIKACIE, karta.ID_ZDRAVOTNY_ZAZNAM, karta.DATUM_ZALOZENIA
+        from M_ZDRAVOTNA_KARTA karta;
+end;
+
+create or replace procedure get_zdravotna_karta(
+    in_id IN number,
+    out_rod_cislo OUT varchar2,
+    out_kontraindikacia OUT varchar2,
+    out_zdravotny_zaznam OUT number,
+    out_datum_zalozenia OUT timestamp
+) as
+begin
+    select karta.ROD_CISLO, karta.KONTRAINDIKACIE, karta.ID_ZDRAVOTNY_ZAZNAM, karta.DATUM_ZALOZENIA
+    into out_rod_cislo, out_kontraindikacia, out_zdravotny_zaznam, out_datum_zalozenia
+    from M_ZDRAVOTNA_KARTA karta
+    where ID = in_id;
+end;
+
+create or replace procedure get_choroby(
+    in_id IN number,
+    out_cursor IN OUT SYS_REFCURSOR
+) as
+begin
+    open out_cursor for select choroby.NAZOV, choroby.popis, choroby.kod
+                        from "M_ZDRAVOTNA_KARTA" karta, table(karta."M_T_CHOROBY_INFORMACIE") choroby
+                        WHERE karta."ID" = in_id;
+end;
 -----------------------------------------------------help_procedures---------------------------------------------------

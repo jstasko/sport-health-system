@@ -2,8 +2,13 @@ package sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.rep
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.core.CrudDaoImpl;
+import sk.fri.uniza.sporthealthsystem.core.ListingResponse;
+import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_liek.dto.DrugDto;
+import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_liek.entity.Drug;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.dto.DrugMakerDto;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.entity.DrugMaker;
 
@@ -28,11 +33,19 @@ public class DrugMakerDaoImpl extends CrudDaoImpl<DrugMaker, DrugMakerDto, Integ
     }
 
     @Override
-    public List<DrugMaker> findAll() {
-        return this.findAllEntities()
+    public ListingResponse<DrugMaker> findAll(Pageable pageable) {
+        Page<DrugMakerDto> page =  this.findAllEntities(pageable);
+        List<DrugMaker> data = page.getContent()
                 .stream()
                 .map(i -> this.mapper.map(i, DrugMaker.class))
                 .collect(Collectors.toList());
+
+        ListingResponse<DrugMaker> listingResponse = new ListingResponse<>();
+        listingResponse.setData(data);
+        listingResponse.setTotalItems(page.getTotalElements());
+        listingResponse.setTotalPages(page.getTotalPages());
+        listingResponse.setCurrentPage(page.getNumber());
+        return listingResponse;
     }
 
     @Override

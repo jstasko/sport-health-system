@@ -6,12 +6,13 @@ import sk.fri.uniza.sporthealthsystem.core.AbstractProcedureHandler;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotSaveException;
 import sk.fri.uniza.sporthealthsystem.module.operations.m_predpisana_liecba.entity.Care;
+import sk.fri.uniza.sporthealthsystem.module.operations.m_predpisana_liecba.mapper.CareMapper;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 @Component
-public class CareProcedure<T> extends AbstractProcedureHandler<T> {
+public class CareProcedure<T> extends AbstractProcedureHandler<T, Care, CareMapper> {
 
     public Care getOne(T id) throws NotFoundException {
         Map<String, Object> result = this.callById(id, "get_predpisana_liecba")
@@ -19,8 +20,8 @@ public class CareProcedure<T> extends AbstractProcedureHandler<T> {
 
         Care healthCard = new Care();
         healthCard.setId((Long)id);
-        healthCard.setIdCard((Long) result.get("out_id_zdravotna_kara"));
-        healthCard.setIdTreatment((Long) result.get("out_id_liecba"));
+        healthCard.setIdCard((Long) result.get("out_zdravotna_karta"));
+        healthCard.setIdTreatment((Long) result.get("out_liecba"));
         return null;
     }
 
