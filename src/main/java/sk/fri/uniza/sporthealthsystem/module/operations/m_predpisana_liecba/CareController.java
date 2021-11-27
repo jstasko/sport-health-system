@@ -7,7 +7,7 @@ import sk.fri.uniza.sporthealthsystem.module.operations.m_predpisana_liecba.enti
 import sk.fri.uniza.sporthealthsystem.module.operations.m_predpisana_liecba.service.CareService;
 
 @RestController
-@RequestMapping("/api/documents/cards")
+@RequestMapping("/api/operations/care")
 public class CareController {
 
     CareService careService;
