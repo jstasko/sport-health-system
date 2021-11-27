@@ -19,8 +19,8 @@ public class CareProcedure<T> extends AbstractProcedureHandler<T> {
 
         Care healthCard = new Care();
         healthCard.setId((Long)id);
-        healthCard.setIdCard((Long) result.get("out_id_zdravotna_kara"));
-        healthCard.setIdTreatment((Long) result.get("out_id_liecba"));
+        healthCard.setIdCard((Long) result.get("out_zdravotna_karta"));
+        healthCard.setIdTreatment((Long) result.get("out_liecba"));
         return null;
     }
 

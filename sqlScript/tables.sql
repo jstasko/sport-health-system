@@ -1,6 +1,6 @@
 drop table states_json;
-Create table states_json(code char(2), 
-			doc CLOB, 
+Create table states_json(code char(2),
+			doc CLOB,
 			 constraint state_json_cons CHECK (doc is json));
 insert into states_json(code) values('AF');
 insert into states_json(code) values('AX');
@@ -265,7 +265,7 @@ end;
 
 select sys.json_web_service_geo('AD') from dual;
 create table m_krajina as
- select jt.id, jt.n_krajiny 
+ select jt.id, jt.n_krajiny
   from states_json s,
   json_table(s.doc, '$.geonames[0]'
     columns(
@@ -419,7 +419,7 @@ create table m_liecba
  id_lekaren  int NOT NULL ,
  id_institut int NOT NULL ,
  stav        varchar2(45) NOT NULL ,
- cena        float(10) NOT NULL, 
+ cena        float(10) NOT NULL,
  id          int NOT NULL ,
 
 PRIMARY KEY (id),
@@ -445,7 +445,7 @@ create table m_hrac
  meno       varchar2(45) NOT NULL ,
  priezvisko varchar2(45) NOT NULL ,
  id         char(40) NOT NULL ,
- 
+
 PRIMARY KEY (id)
 );
 
@@ -454,7 +454,7 @@ create table m_operacia
  nazov       varchar2(45) NOT NULL ,
  popis       varchar2(200) NOT NULL ,
  id          int NOT NULL ,
- 
+
 PRIMARY KEY (id)
 );
 
@@ -548,7 +548,7 @@ BEGIN
 END;
 /
 
-create or replace type m_krv as object 
+create or replace type m_krv as object
 (
   typ_skupiny      varchar2(3),
   rh_faktor        varchar2(3)
@@ -577,7 +577,7 @@ END;
 /
 
 
-create or replace type m_vlastnosti as object 
+create or replace type m_vlastnosti as object
 (
  hmotnost           float(10),
  vyska              float(10)
@@ -674,7 +674,7 @@ END;
 /
 
 
-create or replace type m_rec_choroba as object 
+create or replace type m_rec_choroba as object
 (
   popis      varchar2(500),
   nazov      varchar2(45),
@@ -790,7 +790,7 @@ create table m_predpisana_liecba
  id_zdravotna_kara    int NOT NULL ,
  id_liecba            int NOT NULL ,
  id                   int NOT NULL ,
- 
+
 PRIMARY KEY (id),
 CONSTRAINT cons_pl_liecba_fk FOREIGN KEY (id_liecba) REFERENCES m_liecba (id),
 CONSTRAINT cons_pl_zk_fk FOREIGN KEY (id_zdravotna_kara) REFERENCES m_zdravotna_karta (id)

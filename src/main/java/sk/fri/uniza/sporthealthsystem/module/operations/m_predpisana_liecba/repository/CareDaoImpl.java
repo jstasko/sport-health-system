@@ -26,8 +26,8 @@ public class CareDaoImpl implements CareDao {
     @Override
     public Care save(Care doc) throws NotSaveException {
         SqlParameterSource in = new MapSqlParameterSource()
-                .addValue("in_id_zdravotna_kara", doc.getIdCard())
-                .addValue("in_id_liecba", doc.getIdTreatment());
+                .addValue("in_zdravotna_kara", doc.getIdCard())
+                .addValue("in_liecba", doc.getIdTreatment());
 
         Care type = this.careProcedure.store(in);
         doc.setId(type.getId());
@@ -43,8 +43,8 @@ public class CareDaoImpl implements CareDao {
     public Care update(Long id, Care doc) {
         SqlParameterSource in = new MapSqlParameterSource()
                 .addValue("in_id", id)
-                .addValue("in_id_zdravotna_kara", doc.getIdCard())
-                .addValue("in_id_liecba", doc.getIdTreatment());
+                .addValue("in_zdravotna_kara", doc.getIdCard())
+                .addValue("in_liecba", doc.getIdTreatment());
 
         this.careProcedure.update(in);
         return doc;
