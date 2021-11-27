@@ -20,16 +20,22 @@ public abstract class CrudController<T, U, S extends CrudService<T, U>> {
 
     @GetMapping()
     ListingResponse<T> findAll(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable paging = PageRequest.of(page, size);
-        return service.findAll(paging);
+            Pageable pageable
+            ) {
+        return service.findAll(pageable);
     }
 
     @PostMapping()
     T save(@RequestBody T t) {
         return service.save(t);
+    }
+
+    @PatchMapping("/{id}")
+    T update(
+            @PathVariable("id") U id,
+            @RequestBody T t
+    ) {
+        return this.service.updateOne(id, t);
     }
 
     @DeleteMapping("/{id}")

@@ -77,4 +77,11 @@ public class FileMediaController{
         this.fileMediaService.deleteById(id);
         return true;
     }
+
+    @GetMapping("/json/generated/{procedureName}")
+    public String getJsonGenerated(
+            @PathVariable String procedureName
+    ) {
+        return this.fileMediaService.getGeneratedJSON(procedureName);
+    }
 }

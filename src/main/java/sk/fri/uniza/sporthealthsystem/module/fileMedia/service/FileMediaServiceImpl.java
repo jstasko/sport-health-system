@@ -1,10 +1,12 @@
 package sk.fri.uniza.sporthealthsystem.module.fileMedia.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.dto.DBFile;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.repository.FileMediaDao;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.entity.UploadFileResponse;
@@ -13,6 +15,7 @@ import sk.fri.uniza.sporthealthsystem.module.fileMedia.exception.MyFileNotFoundE
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class FileMediaServiceImpl implements FileMediaService {
@@ -62,5 +65,11 @@ public class FileMediaServiceImpl implements FileMediaService {
                 .path(file.getId().toString())
                 .toUriString();
         return new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize());
+    }
+
+    @Override
+    public String getGeneratedJSON(String name) {
+        return this.fileMediaDao.getJsonFromClob(name)
+                .orElseThrow(() -> new NotFoundException("JSON doc not found"));
     }
 }

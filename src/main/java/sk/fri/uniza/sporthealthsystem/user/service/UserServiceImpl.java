@@ -69,11 +69,11 @@ public class UserServiceImpl implements UserService {
     public User signUp(User user) {
         if (user.getEmail() == null || user.getHeslo() == null) {
             logger.trace("User was not created .. credentials are missing");
-            return null;
+            throw new NotFoundException("Email or Heslo is missing");
         }
         if (user.getHeslo().isEmpty() || user.getEmail().isEmpty()) {
             logger.trace("User was not created .. credentials were not set");
-            return null;
+            throw new NotFoundException("Email or Heslo is missing");
         }
         User helpUser = userDao.findUserByEmail(user.getEmail());
 
