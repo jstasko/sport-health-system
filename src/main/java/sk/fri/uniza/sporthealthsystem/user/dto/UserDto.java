@@ -4,43 +4,38 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import sk.fri.uniza.sporthealthsystem.core.BaseDocumentDto;
+import sk.fri.uniza.sporthealthsystem.module.fileMedia.dto.DBFile;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_osoba.dto.PersonDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.Instant;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "USERS")
+@Table(name = "m_pouzivatel")
 @Entity
-public class UserDto extends BaseDocumentDto {
+public class UserDto {
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
+    @Id
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "heslo")
+    private String heslo;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "datum_posled_prihlasenia")
+    private Instant datum_posled_prihlasenia;
 
-    @Column(name = "created")
-    @CreatedDate
-    private Date create;
+    @Column(name = "datum_registracie")
+    private Instant datum_registracie;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_image", referencedColumnName = "ID")
+    private DBFile image;
+
+    @OneToOne(mappedBy = "email")
+    private PersonDto person;
 }
 

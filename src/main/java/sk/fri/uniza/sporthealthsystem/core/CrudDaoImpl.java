@@ -1,13 +1,12 @@
 package sk.fri.uniza.sporthealthsystem.core;
 
-import org.dozer.DozerBeanMapper;
 import org.springframework.data.repository.CrudRepository;
-import sk.fri.uniza.sporthealthsystem.module.healthCard.dto.HealthCardDto;
+import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public abstract class CrudDaoImpl<T, U extends BaseDocumentDto, R extends CrudRepository<U, Long>> implements CrudDao<T> {
+public abstract class CrudDaoImpl<T, U, I, R extends CrudRepository<U, I>> implements CrudDao<T, I> {
 
     protected R repository;
 
@@ -17,7 +16,12 @@ public abstract class CrudDaoImpl<T, U extends BaseDocumentDto, R extends CrudRe
     }
 
     @Override
-    public T findOne(Long id) {
+    public void delete(I id) {
+        this.repository.deleteById(id);
+    }
+
+    @Override
+    public T findOne(I id) {
         return null;
     }
 
@@ -29,5 +33,17 @@ public abstract class CrudDaoImpl<T, U extends BaseDocumentDto, R extends CrudRe
     @Override
     public T save(T doc) {
         return null;
+    }
+
+    public U findById(I id) throws NotFoundException {
+        return this.repository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Object not found with id " + id));
+    }
+
+    public List<U> findAllEntities() {
+        List<U> newList = new ArrayList<>();
+        this.repository.findAll()
+                .forEach(newList::add);
+        return newList;
     }
 }

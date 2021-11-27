@@ -22,7 +22,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
             "/swagger-resources/**",
             "/swagger-ui/index.html",
-            "/v2/api-docs",
+            "/swagger-ui.html",
+            "/v3/api-docs/",
             "/webjars/**",
     };
 
@@ -51,7 +52,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) {
-        web.ignoring().antMatchers("/v2/api-docs/**", "/swagger-ui/", "/swagger-ui/**");
+        web.ignoring().antMatchers("/v3/api-docs/**", "/swagger-ui/", "/swagger-ui/**", "/swagger-ui.html");
     }
 
     @Bean
