@@ -2,8 +2,13 @@ package sk.fri.uniza.sporthealthsystem.module.persons.m_osetrujuci_doktor.reposi
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.core.CrudDaoImpl;
+import sk.fri.uniza.sporthealthsystem.core.ListingResponse;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.dto.PlayerDto;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.entity.Player;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_osetrujuci_doktor.dto.DoctorCareDto;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_osetrujuci_doktor.entity.DoctorCare;
 
@@ -28,11 +33,19 @@ public class DoctorCareDaoImpl extends CrudDaoImpl<DoctorCare, DoctorCareDto, Lo
     }
 
     @Override
-    public List<DoctorCare> findAll() {
-        return this.findAllEntities()
+    public ListingResponse<DoctorCare> findAll(Pageable pageable) {
+        Page<DoctorCareDto> page =  this.findAllEntities(pageable);
+        List<DoctorCare> data = page.getContent()
                 .stream()
                 .map(i -> this.mapper.map(i, DoctorCare.class))
                 .collect(Collectors.toList());
+
+        ListingResponse<DoctorCare> listingResponse = new ListingResponse<>();
+        listingResponse.setData(data);
+        listingResponse.setTotalItems(page.getTotalElements());
+        listingResponse.setTotalPages(page.getTotalPages());
+        listingResponse.setCurrentPage(page.getNumber());
+        return listingResponse;
     }
 
     @Override

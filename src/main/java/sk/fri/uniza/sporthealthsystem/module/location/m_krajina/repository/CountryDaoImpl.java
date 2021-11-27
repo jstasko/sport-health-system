@@ -2,8 +2,13 @@ package sk.fri.uniza.sporthealthsystem.module.location.m_krajina.repository;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.core.CrudDaoImpl;
+import sk.fri.uniza.sporthealthsystem.core.ListingResponse;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotny_zaznam.dto.HealthRecordDto;
+import sk.fri.uniza.sporthealthsystem.module.documents.m_zdravotny_zaznam.entity.HealthRecord;
 import sk.fri.uniza.sporthealthsystem.module.location.m_krajina.dto.CountryDto;
 import sk.fri.uniza.sporthealthsystem.module.location.m_krajina.entity.Country;
 
@@ -28,11 +33,19 @@ public class CountryDaoImpl extends CrudDaoImpl<Country, CountryDto, String, Cou
     }
 
     @Override
-    public List<Country> findAll() {
-        return this.findAllEntities()
+    public ListingResponse<Country> findAll(Pageable pageable) {
+        Page<CountryDto> page =  this.findAllEntities(pageable);
+        List<Country> data = page.getContent()
                 .stream()
                 .map(i -> this.mapper.map(i, Country.class))
                 .collect(Collectors.toList());
+
+        ListingResponse<Country> listingResponse = new ListingResponse<>();
+        listingResponse.setData(data);
+        listingResponse.setTotalItems(page.getTotalElements());
+        listingResponse.setTotalPages(page.getTotalPages());
+        listingResponse.setCurrentPage(page.getNumber());
+        return listingResponse;
     }
 
     @Override

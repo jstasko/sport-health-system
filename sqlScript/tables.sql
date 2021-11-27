@@ -703,16 +703,6 @@ nested table m_t_choroby_informacie store as informacie_nest_tab;
 
 CREATE SEQUENCE m_zdravotna_karta_seq;
 
-CREATE OR REPLACE TRIGGER m_zdravotna_karta_on_insert
-  BEFORE INSERT ON m_zdravotna_karta
-  FOR EACH ROW
-BEGIN
-  SELECT m_zdravotna_karta_seq.nextval
-  INTO :new.id
-  FROM dual;
-END;
-/
-
 create table m_adresa_hraca
 (
  PSC             char(10) NOT NULL ,

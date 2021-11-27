@@ -7,12 +7,13 @@ import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotSaveException;
 import sk.fri.uniza.sporthealthsystem.module.attributes.m_krvna_skupina.entity.Blood;
 import sk.fri.uniza.sporthealthsystem.module.attributes.m_krvna_skupina.entity.BloodType;
+import sk.fri.uniza.sporthealthsystem.module.attributes.m_krvna_skupina.mapper.BloodTypeMapper;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 @Component
-public class BloodTypeProcedure<T> extends AbstractProcedureHandler<T> {
+public class BloodTypeProcedure<T> extends AbstractProcedureHandler<T, BloodType, BloodTypeMapper> {
 
     public BloodType getOne(T id) throws NotFoundException {
         Map<String, Object> result = this.callById(id, "get_krvna_skupina")

@@ -1,12 +1,15 @@
 package sk.fri.uniza.sporthealthsystem.core;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CrudDaoImpl<T, U, I, R extends CrudRepository<U, I>> implements CrudDao<T, I> {
+public abstract class CrudDaoImpl<T, U, I, R extends AbstractRepository<U, I>> implements CrudDao<T, I> {
 
     protected R repository;
 
@@ -26,7 +29,7 @@ public abstract class CrudDaoImpl<T, U, I, R extends CrudRepository<U, I>> imple
     }
 
     @Override
-    public List<T> findAll() {
+    public ListingResponse<T> findAll(Pageable pageable) {
         return null;
     }
 
@@ -40,10 +43,7 @@ public abstract class CrudDaoImpl<T, U, I, R extends CrudRepository<U, I>> imple
                 .orElseThrow(() -> new NotFoundException("Object not found with id " + id));
     }
 
-    public List<U> findAllEntities() {
-        List<U> newList = new ArrayList<>();
-        this.repository.findAll()
-                .forEach(newList::add);
-        return newList;
+    public Page<U> findAllEntities(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 }

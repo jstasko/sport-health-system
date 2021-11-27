@@ -2,8 +2,9 @@ package sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.rep
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import sk.fri.uniza.sporthealthsystem.core.AbstractRepository;
 import sk.fri.uniza.sporthealthsystem.module.pharmaceutics.m_vyrobca_liekov.dto.DrugMakerDto;
 
 @Repository
-public interface DrugMakerRepository extends CrudRepository<DrugMakerDto, Integer> {
+public interface DrugMakerRepository extends AbstractRepository<DrugMakerDto, Integer> {
 }

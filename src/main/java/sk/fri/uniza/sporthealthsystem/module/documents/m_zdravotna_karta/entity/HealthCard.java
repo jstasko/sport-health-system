@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,15 +15,19 @@ import java.util.List;
 @Setter
 public class HealthCard {
     private Long id;
-    private List<Sickness> choroba;
+    private List<Sickness> sicknesses;
+    private String rodCislo;
     private int zdravotnyZaznam;
     private String kontraindikacie;
     private Instant datum_zalozenia;
 
-    public HealthCard(List<Sickness> choroba, int zdravotnyZaznam, String kontraindikacie, Instant datum_zalozenia) {
-        this.choroba = choroba;
+    public HealthCard(String rodCislo ,int zdravotnyZaznam, String kontraindikacie) {
+        this.rodCislo = rodCislo;
         this.zdravotnyZaznam = zdravotnyZaznam;
         this.kontraindikacie = kontraindikacie;
-        this.datum_zalozenia = datum_zalozenia;
+
+        this.id = null;
+        this.datum_zalozenia = null;
+        this.sicknesses = new ArrayList<>();
     }
 }

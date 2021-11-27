@@ -1,6 +1,7 @@
 package sk.fri.uniza.sporthealthsystem.core;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public abstract class CrudServiceImpl<T, U, D extends CrudDao<T, U>> implements CrudService<T, U> {
 
@@ -21,8 +22,8 @@ public abstract class CrudServiceImpl<T, U, D extends CrudDao<T, U>> implements 
     }
 
     @Override
-    public List<T> findAll() {
-        return dao.findAll();
+    public ListingResponse<T> findAll(Pageable pageable) {
+        return dao.findAll(pageable);
     }
 
     @Override
