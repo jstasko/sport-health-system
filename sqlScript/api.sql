@@ -71,11 +71,14 @@ EXCEPTION
 END show_html_from_url;
 /
 
-
+ select wrl_parameter from V$ENCRYPTION_WALLET;
+ 
 SELECT * FROM dba_network_acls;
 SELECT * FROM dba_network_acl_privileges where principal='STASKO_PDBS';
 
+
 execute show_html_from_url('https://api.sportnet.online/v1/ppo/futbalsfz.sk/users');
-execute show_html_from_url('http://country.io/continent.json');
+--EXEC UTL_HTTP.set_wallet('file:/C:\APP\ORACLE\ADMIN\ORCL\WALLET', 'mojeHeslo');
 
 select utl_http.get_detailed_sqlerrm from dual;
+
