@@ -713,7 +713,7 @@ create table m_zdravotny_zaznam
 (
  id_doktor           char(11) NOT NULL ,
  rod_cislo           char(11) NOT NULL ,
- id_zdravotny_karta int not NULL ,
+ id_zdravotny_karta  int not NULL ,
  id_institut         int NOT NULL ,
  datum_prehliadky    timestamp NULL , --TODO BECAUSE OF GENERATED INSERT
  stav                varchar2(100) NULL ,

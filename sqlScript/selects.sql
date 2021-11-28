@@ -1,4 +1,4 @@
-select * from m_krajina;
+/*select * from m_krajina;
 select * from m_kraj;
 select * from m_okres;
 select * from m_adresa;
@@ -23,14 +23,13 @@ select * from m_adresa_hraca;
 select * from m_osetrujuci_doktor; 
 select * from m_operacie_pacienta;
 select * from m_predpisana_liecba;
-select * from m_image;
+select * from m_image;*/
 
 
 select count(*) from (select * from m_krajina);
 select count(*) from (select * from m_kraj);
 select count(*) from (select * from m_okres);
 select count(*) from (select * from m_adresa);
-
 select count(*) from (select * from m_vyrobca_liekov);
 select count(*) from (select * from m_liek);
 select count(*) from (select * from m_lekaren);
@@ -54,3 +53,7 @@ select count(*) from (select * from m_operacie_pacienta);
 select count(*) from (select * from m_predpisana_liecba);
 select count(*) from (select * from m_image);
 
+
+select * from m_osoba;
+select * from m_zdravotna_karta;
+select * from m_zdravotny_zaznam;

@@ -24,7 +24,7 @@ create or replace procedure gen_krvne_skupiny(pocet integer)
  end;
 /
 
-execute gen_krvne_skupiny(1000);
+execute gen_krvne_skupiny(100);
 
 
 -----------------------------------------------------m_vlastnosti-------------------------------------------------------------------
@@ -53,7 +53,7 @@ create or replace procedure gen_vlastnosti(pocet integer)
  end;
 /
 
-execute gen_vlastnosti(1000);
+execute gen_vlastnosti(100);
 
 -----------------------------------------------------m_doktor-------------------------------------------------------------
 
@@ -98,16 +98,16 @@ create or replace procedure gen_data_specializacia(pocet integer)
  end;
 /
 
-execute gen_data_specializacia(1000);
+execute gen_data_specializacia(100);
 
 -----------------------------------------------------m_zdravotna_karta-------------------------------------------------------------
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Zhubný nádor bližšie neurèenej sliznice úst.Zhubný nádor vnútorného líca','Zhubný nádor sliznice líca','C06.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082553', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082564', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou. ','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082575', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou.','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9704082542', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum.','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256121', m_t_choroba(new m_rec_choroba('Zhubný nádor bližšie neurèenej sliznice úst.Zhubný nádor vnútorného líca','Zhubný nádor sliznice líca','C06.0')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256122', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256123', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou. ','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256124', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256125', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256121', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou.','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
+insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256122', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum.','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
 
 
 
@@ -142,7 +142,7 @@ create or replace procedure gen_zdravotny_zaznam(pocet integer)
  end;
 /
 
-execute gen_zdravotny_zaznam(1000);
+execute gen_zdravotny_zaznam(100);
 
 
 -----------------------------------------------------m_adresa_hraca--------------------------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ create or replace procedure gen_adresy_hracov(pocet integer)
  end;
 /
 
-execute gen_adresy_hracov(1000);
+execute gen_adresy_hracov(100);
 
 
 -----------------------------------------------------m_osetrujuci_doktor--------------------------------------------------------------------------------------------------------
@@ -187,6 +187,6 @@ create or replace procedure gen_osetrujucich_doktorov(pocet integer)
  end;
 /
 
-execute gen_osetrujucich_doktorov(1000);
+execute gen_osetrujucich_doktorov(100);
 
 

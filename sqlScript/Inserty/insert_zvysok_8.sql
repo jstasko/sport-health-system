@@ -13,13 +13,13 @@ create or replace procedure gen_operacie_pacienta(pocet integer)
       || get_gen_value('id', 'm_osetrujuci_doktor') || ', null'
       || ')'
       into prikaz from dual;
-    dbms_output.put_line(prikaz);
-    --execute immediate prikaz;
+    --dbms_output.put_line(prikaz);
+    execute immediate prikaz;
    end loop;
  end;
 /
 
-execute gen_operacie_pacienta(100000);
+execute gen_operacie_pacienta(100);
 
 -----------------------------------------------------m_predpisana_liecba--------------------------------------------------------------------------------------------------------
 
@@ -41,4 +41,4 @@ create or replace procedure gen_predpisana_liecba(pocet integer)
  end;
 /
 
-execute gen_predpisana_liecba(100000);
+execute gen_predpisana_liecba(100);

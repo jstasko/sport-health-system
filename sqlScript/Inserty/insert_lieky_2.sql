@@ -2835,7 +2835,7 @@ insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '31561900', 'OPTIRA
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '45266328', 'Optivate 1 000 IU prášok a rozpúšadlo na injekènı roztok', null);
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '34142941', 'Optivate 250 IU prášok a rozpúšadlo na injekènı roztok', null);
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '31560784', 'Optivate 500 IU prášok a rozpúšadlo na injekènı roztok', null);
-insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '45687463', 'Oralair 100 IR & 300 IR', null);
+insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '45687463', 'Oralair 100 IR && 300 IR', null);
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '31652859', 'Oralair 300 IR', null);
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '45266328', 'Oralair 300 IR', null);
 insert into m_liek(id_vyrobca_liekov, nazov, popis) values ( '36049506', 'Oramellox 15 mg', null);

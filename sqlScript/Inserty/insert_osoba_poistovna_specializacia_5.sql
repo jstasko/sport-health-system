@@ -24,7 +24,7 @@ create or replace procedure add_data_osoby
  end;
 /
 
-execute add_data_osoby;
+--execute add_data_osoby;
 
 insert into m_osoba values (null, null, '9754082355', null, null);
 insert into m_osoba values (null, null, '9704082366', null, null);
@@ -45,8 +45,12 @@ insert into m_osoba values (null, null, '9704082520', null, null);
 insert into m_osoba values (null, null, '9704082531', null, null);
 
 
-insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256124', null, null);
-insert into m_osoba values ('aaaa825986dc8b723831d448', null, '9707256125', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d441', null, '9707256124', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d442', null, '9707256125', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d443', null, '9707256121', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d444', null, '9707256122', null, null);
+insert into m_osoba values ('aaaa825986dc8b723831d445', null, '9707256123', null, null);
+
 
 --------------------------------------------------Poistovna---------------------------------------------------------------------
 insert into m_poistovna values (null, 'ALLIANZ - Slovensk· poisùovÚa a. s.',50274235);

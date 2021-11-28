@@ -139,7 +139,11 @@ create or replace procedure gen_data_liecba(pocet integer)
  end;
 /
 
-execute gen_data_liecba(10000);
+execute gen_data_liecba(100);
 
 --------------------------------------------------HRAC---------------------------------------------------------------------
-insert into m_hrac values ('Denis', 'ADAM', 'aaaa825986dc8b723831d448');
+insert into m_hrac values ('Denis', 'ADAM', 'aaaa825986dc8b723831d441');
+insert into m_hrac values ('Marian', 'Kasuba', 'aaaa825986dc8b723831d442');
+insert into m_hrac values ('David ', 'Sutora', 'aaaa825986dc8b723831d443');
+insert into m_hrac values ('Jozef ', 'Stasko', 'aaaa825986dc8b723831d444');
+insert into m_hrac values ('Matej ', 'Kristofik', 'aaaa825986dc8b723831d445');
