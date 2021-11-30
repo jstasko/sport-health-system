@@ -37,7 +37,7 @@ select count(*) from (select * from m_institut);
 select count(*) from (select * from m_liecba);
 select count(*) from (select * from m_hrac);
 select count(*) from (select * from m_operacia);
-select count(*) from (select * from m_pouzivatel);
+--select count(*) from (select * from m_pouzivatel);
 select count(*) from (select * from m_osoba);
 select count(*) from (select * from m_poistovna);
 select count(*) from (select * from m_specializacia);
@@ -51,9 +51,10 @@ select count(*) from (select * from m_adresa_hraca);
 select count(*) from (select * from m_osetrujuci_doktor); 
 select count(*) from (select * from m_operacie_pacienta);
 select count(*) from (select * from m_predpisana_liecba);
-select count(*) from (select * from m_image);
+--select count(*) from (select * from m_image);
 
-
+/*
 select * from m_osoba;
 select * from m_zdravotna_karta;
 select * from m_zdravotny_zaznam;
+*/

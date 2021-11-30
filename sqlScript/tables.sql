@@ -286,19 +286,7 @@ create table m_kraj
 PRIMARY KEY (id),
 CONSTRAINT cons_kraj_krajina_fk  FOREIGN KEY (id_krajiny) REFERENCES m_krajina (id)
 );
-/*
-CREATE SEQUENCE m_kraj_seq;
 
-CREATE OR REPLACE TRIGGER m_kraj_on_insert
-  BEFORE INSERT ON m_kraj
-  FOR EACH ROW
-BEGIN
-  SELECT m_kraj_seq.nextval
-  INTO :new.id
-  FROM dual;
-END;
-/
-*/
 create table m_okres
 (
  n_okresu  varchar2(45) NOT NULL ,
@@ -308,26 +296,11 @@ create table m_okres
 PRIMARY KEY (id),
 CONSTRAINT cons_okres_kraj_fk FOREIGN KEY (id_kraja) REFERENCES m_kraj (id)
 );
-/*
-CREATE SEQUENCE m_okres_seq;
-
-CREATE OR REPLACE TRIGGER m_okres_on_insert
-  BEFORE INSERT ON m_okres
-  FOR EACH ROW
-BEGIN
-  SELECT m_okres_seq.nextval
-  INTO :new.id
-  FROM dual;
-END;
-/
-*/
 
 create table m_adresa
 (
  n_mesta       varchar2(45) NOT NULL ,
- --ulica         varchar(45) NOT NULL , TODO DAL SOM PREC
  cislo_domu    varchar2(45) NULL ,
- --popisne_cislo varchar(45) NULL , TODO ROVNAKE AKO cislo_domu
  id_okresu     int NOT NULL ,
  PSC           char(10) NOT NULL ,
  id            integer not null,
@@ -515,6 +488,7 @@ create table m_pouzivatel
  heslo                    varchar2(450) NOT NULL ,
  datum_posled_prihlasenia timestamp NOT NULL ,
  datum_registracie        timestamp NOT NULL ,
+ rola                     varchar2(10) NOT NULL,  
  id_image                 integer NULL,
  PRIMARY KEY (email),
  CONSTRAINT cons_m_pouzivatel_fk FOREIGN KEY (id_image) REFERENCES m_image (id)

@@ -1,5 +1,5 @@
 set define off; 
-
+commit;
 --------------------------------------------------Institut-------------------------------------------------------------------
 insert into m_institut(id_adresa, nazov, popis)  values (79,'ADOS  Budovate¾ská  Vranov nad Top¾ou   ADOS AC s.r.o. ','agentúra domácej ošetrovate¾skej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (522,'Ambulancia klinickej psychológie  Prešov  Ambulancia klinickej psychológie  psychoterapie a dopravnej psychológie  s.r.o. ','ambulancia klinickej psychológie' );
@@ -157,7 +157,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (1865,'Oftalmologická am
 insert into m_institut(id_adresa, nazov, popis)  values (2009,'Oftalmologická ambulancia 2 - glaukómová  Prešov  Fakultná nemocnica s poliklinikou J.A. Reimana Prešov ','oftalmologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (1587,'Oftalmologická ambulancia  Prešov  Fakultná nemocnica s poliklinikou J.A. Reimana Prešov ','oftalmologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (3333,'Ambulancia zubného lekárstva  Prešov  FirDENT s.r.o.  ','ambulancia zubného lekárstva' );
-insert into m_institut(id_adresa, nazov, popis)  values (3474,'Ambulancia zubného lekárstva  Snina  FK && FK dent  s.r.o. ','ambulancia zubného lekárstva' );
+insert into m_institut(id_adresa, nazov, popis)  values (3474,'Ambulancia zubného lekárstva  Snina  FK  FK dent  s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (2041,'Nefrologická ambulancia  Humenné  FMC - dialyzaèné sluby  s. r. o. ','nefrologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (6,'Nefrologická ambulancia  Poprad  FMC - dialyzaèné sluby  s. r. o. ','nefrologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (3599,'Nefrologická ambulancia  Svidník  FMC - dialyzaèné sluby  s. r. o. ','nefrologická ambulancia' );
@@ -1545,7 +1545,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (975,'Ortopedická ambula
 insert into m_institut(id_adresa, nazov, popis)  values (3220,'Ortopedická ambulancia  Prešov  ORTOPEDIK spol. s r. o. ','ortopedická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2109,'Ortopedická ambulancia  Stará ¼ubovòa  ORTOPÉDIA I. Doktor s.r.o. ','ortopedická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (1970,'Mobilné odberové miesto  Vysoké Tatry  Národnı ústav tuberkulózy  p¾úcnych chorôb a hrudníkovej chirurgie Vyšné Hágy ','mobilné odberové miesto' );
-insert into m_institut(id_adresa, nazov, popis)  values (338,'Ambulancia zubného lekárstva  Prešov  O && K – GRO s.r.o.  ','ambulancia zubného lekárstva' );
+insert into m_institut(id_adresa, nazov, popis)  values (338,'Ambulancia zubného lekárstva  Prešov  O  K – GRO s.r.o.  ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (2330,'Otorinolaryngologická ambulancia  Poprad  O R L  s.r.o. ','otorinolaryngologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2541,'Gastroenterologická ambulancia  Humenné  OCIAN  s.r.o. ','gastroenterologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (3007,'Ambulancia zubného lekárstva  Spišské Bystré  OFTADENT s.r.o. ','ambulancia zubného lekárstva' );
@@ -1919,7 +1919,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (2877,'Mobilné odberové 
 insert into m_institut(id_adresa, nazov, popis)  values (1014,'Mobilné odberové miesto  Stará ¼ubovòa  LUVETO s.r.o. ','mobilné odberové miesto' );
 insert into m_institut(id_adresa, nazov, popis)  values (227,'Všeobecná ambulancia pre deti a dorast  MUDr. Monika Hrivòáková  Bardejov  M - PEDIATRICS  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (3734,'Ambulancia zubného lekárstva  Humenné  M DENTAL s.r.o. ','ambulancia zubného lekárstva' );
-insert into m_institut(id_adresa, nazov, popis)  values (140,'Ambulancia zubného lekárstva  Levoèa  M&&M Smile Dent  s.r.o. ','ambulancia zubného lekárstva' );
+insert into m_institut(id_adresa, nazov, popis)  values (140,'Ambulancia zubného lekárstva  Levoèa  MM Smile Dent  s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (439,'Gynekologická ambulancia  Prešov  M-CENTRUM  s.r.o. ','gynekologicko-pôrodnícka ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2398,'Všeobecná ambulancia pre dospelıch  Poprad  M-Doky  spol. s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (1713,'Všeobecná ambulancia pre dospelıch  Bardejov  MEDIVO ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
@@ -2200,7 +2200,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (3567,'Otorinolaryngolog
 insert into m_institut(id_adresa, nazov, popis)  values (2513,'Gynekologická ambulancia  Snina  MAGGYN  s.r.o. ','gynekologicko-pôrodnícka ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (3717,'Stacionár  nefrológia  Vranov nad Top¾ou  FÉNIX  spol. s r.o. Vranov n/Top¾ou ','stacionár' );
 insert into m_institut(id_adresa, nazov, popis)  values (3127,'Ambulancia zubného lekárstva  Prešov  G - DENTAL  s.r.o.  ','ambulancia zubného lekárstva' );
-insert into m_institut(id_adresa, nazov, popis)  values (2512,'Všeobecná ambulancia pre dospelıch  Poprad  G&&T s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
+insert into m_institut(id_adresa, nazov, popis)  values (2512,'Všeobecná ambulancia pre dospelıch  Poprad  GT s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (469,'Gynekologická ambulancia  Stropkov  G-O-MMM  s.r.o. ','gynekologicko-pôrodnícka ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (4138,'Gynekologická ambulancia  Stropkov  G-O-MMM  s.r.o. ','gynekologicko-pôrodnícka ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2810,'Všeobecná ambulancia pre dospelıch  Humenné  GAB MED  s. r. o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
@@ -2225,8 +2225,8 @@ insert into m_institut(id_adresa, nazov, popis)  values (560,'Ambulancia zubného
 insert into m_institut(id_adresa, nazov, popis)  values (2409,'Ambulancia zubného lekárstva  Prešov  iDental  s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (1670,'Ambulancia zubného lekárstva  Bardejov  IgoDent  s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (1915,'Ambulancia zubného lekárstva  Bardejov  IgoDent  s.r.o. ','ambulancia zubného lekárstva' );
-insert into m_institut(id_adresa, nazov, popis)  values (2112,'Ambulancia klinickej psychológie  Prešov  IH && psychology s. r. o.  ','ambulancia klinickej psychológie' );
-insert into m_institut(id_adresa, nazov, popis)  values (3091,'Ambulancia klinickej psychológie  Prešov  IH && psychology s. r. o.  ','ambulancia klinickej psychológie' );
+insert into m_institut(id_adresa, nazov, popis)  values (2112,'Ambulancia klinickej psychológie  Prešov  IH  psychology s. r. o.  ','ambulancia klinickej psychológie' );
+insert into m_institut(id_adresa, nazov, popis)  values (3091,'Ambulancia klinickej psychológie  Prešov  IH  psychology s. r. o.  ','ambulancia klinickej psychológie' );
 insert into m_institut(id_adresa, nazov, popis)  values (3285,'Ambulancia fyziatrie  balneológie a lieèebnej rehabilitácie  Svidník  IHMED.SK spol. s.r.o. ','ambulancia fyziatrie, balneológie a lieèebnej rehabilitácie' );
 insert into m_institut(id_adresa, nazov, popis)  values (3148,'Gastroenterologická ambulancia  Svidník  IHMED.SK spol. s.r.o. ','gastroenterologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (411,'SVaLZ  fyziatria  balneológia a lieèebná rehabilitácia  Svidník  IHMED.SK spol. s.r.o. ','zariadenie spoloènıch vyšetrovacích a lieèebnıch zloiek' );
@@ -2862,8 +2862,8 @@ insert into m_institut(id_adresa, nazov, popis)  values (2573,'Psychiatrická amb
 insert into m_institut(id_adresa, nazov, popis)  values (57,'Pneumologicko-ftizeologická ambulancia  Stropkov  JODAV s.r.o. ','pneumologicko-ftizeologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2097,'Mobilné odberové miesto  Sabinov  JODAV s.r.o. ','mobilné odberové miesto' );
 insert into m_institut(id_adresa, nazov, popis)  values (3897,'Všeobecná ambulancia pre dospelıch  Vranov nad Top¾ou  Jolana Zeherová ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
-insert into m_institut(id_adresa, nazov, popis)  values (4031,'Všeobecná ambulancia pre deti a dorast  Dagmar STRUÒÁKOVÁ   Humenné  B&&D MED s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
-insert into m_institut(id_adresa, nazov, popis)  values (4126,'Všeobecná ambulancia pre dospelıch  Humenné  B&&D MED s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
+insert into m_institut(id_adresa, nazov, popis)  values (4031,'Všeobecná ambulancia pre deti a dorast  Dagmar STRUÒÁKOVÁ   Humenné  BD MED s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
+insert into m_institut(id_adresa, nazov, popis)  values (4126,'Všeobecná ambulancia pre dospelıch  Humenné  BD MED s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (2645,'Všeobecná ambulancia pre deti a dorast  Levoèa  B-HEALTH s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (1083,'B. Braun Avitum s.r.o.  Kemarok  B. Braun Avitum  s.r.o. ','nefrologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2929,'B. Braun Avitum s.r.o.  Spišská Stará Ves  B. Braun Avitum  s.r.o. ','nefrologická ambulancia' );
@@ -2928,7 +2928,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (1273,'Psychiatrická amb
 insert into m_institut(id_adresa, nazov, popis)  values (3612,'AG MOM Vranov Èemerné Krèma 5 EUR  Vranov nad Top¾ou  DZS - M.K.TRANS  s.r.o. ','mobilné odberové miesto' );
 insert into m_institut(id_adresa, nazov, popis)  values (2735,'Pneumologicko-ftizeologická ambulancia  Prešov  E B  s.r.o.  ','pneumologicko-ftizeologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2420,'Stacionár  pneumológia a ftizeológia  Prešov  E B  s.r.o.  ','stacionár' );
-insert into m_institut(id_adresa, nazov, popis)  values (2533,'Všeobecná ambulancia pre deti a dorast  Humenné  E&&J Pediatria  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
+insert into m_institut(id_adresa, nazov, popis)  values (2533,'Všeobecná ambulancia pre deti a dorast  Humenné  EJ Pediatria  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (3838,'Všeobecná ambulancia pre dospelıch  Peèovská Nová Ves  ECCE MEDICA  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (4090,'Ambulancia zubného lekárstva  Humenné  EeveDent s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (2874,'Ambulancia zubného lekárstva  Humenné  EeveDent s.r.o. ','ambulancia zubného lekárstva' );
@@ -3093,7 +3093,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (3385,'Všeobecná ambulan
 insert into m_institut(id_adresa, nazov, popis)  values (3267,'Všeobecná ambulancia pre dospelıch  So¾  Hassan Ali Olfati Bandabdi ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (395,'Urologická ambulancia  Prešov  HAXTUN  s.r.o.  ','urologická ambulancia' );
 insert into m_institut(id_adresa, nazov, popis)  values (2892,'Ambulancia zubného lekárstva  Prešov  3Bdent  s.r.o. ','ambulancia zubného lekárstva' );
-insert into m_institut(id_adresa, nazov, popis)  values (1116,'Ambulancia zubného lekárstva  Seèovská Polianka  A&&Tdent s.r.o. ','ambulancia zubného lekárstva' );
+insert into m_institut(id_adresa, nazov, popis)  values (1116,'Ambulancia zubného lekárstva  Seèovská Polianka  ATdent s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (583,'Všeobecná ambulancia pre deti a dorast  Snina  A.M. MEDICALIS  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (1556,'Ambulancia zubného lekárstva  Prešov  AB - STOM  s.r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (2329,'Ambulancia zubného lekárstva  Prešov  AB – DENTES  s.r.o. ','ambulancia zubného lekárstva' );
@@ -3126,7 +3126,7 @@ insert into m_institut(id_adresa, nazov, popis)  values (3411,'Jednodòová zdravo
 insert into m_institut(id_adresa, nazov, popis)  values (1924,'Jednodòová zdravotná starostlivos  úrazová chirurgia  Bardejov  ALIAN  s.r.o. ','zariadenie na poskytovanie jednodòovej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (1766,'SVaLZ  funkèná diagnostika  Bardejov  ALIAN  s.r.o. ','zariadenie spoloènıch vyšetrovacích a lieèebnıch zloiek' );
 insert into m_institut(id_adresa, nazov, popis)  values (923,'Všeobecná ambulancia pre deti a dorast  Šarišské Micha¾any  ALIMED  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
-insert into m_institut(id_adresa, nazov, popis)  values (3306,'Dentálne centrum Fenicus  Vranov nad Top¾ou  Ally&&Partner  spol. s r.o. ','ambulancia zubného lekárstva' );
+insert into m_institut(id_adresa, nazov, popis)  values (3306,'Dentálne centrum Fenicus  Vranov nad Top¾ou  AllyPartner  spol. s r.o. ','ambulancia zubného lekárstva' );
 insert into m_institut(id_adresa, nazov, popis)  values (365,'Všeobecná ambulancia pre deti a dorast  Raslavice  ALPED  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (3791,'Ambulancia klinickej imunológie a alergológie  Stará ¼ubovòa  AMASS s.r.o. ','ambulancia klinickej imunológie a alergológie' );
 insert into m_institut(id_adresa, nazov, popis)  values (3453,'Všeobecná ambulancia pre dospelıch  Poprad  AMB-AŠ  s.r.o. ','ambulancia všeobecnej ambulantnej zdravotnej starostlivosti' );
