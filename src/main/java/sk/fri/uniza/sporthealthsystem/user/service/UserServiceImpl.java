@@ -122,7 +122,8 @@ public class UserServiceImpl implements UserService {
                 user.getEmail(),
                 user.getDatum_posled_prihlasenia(),
                 user.getDatum_registracie(),
-                this.fileMediaServiceImpl.buildUploadFile(user.getImage())
+                this.fileMediaServiceImpl.buildUploadFile(user.getImage(), false),
+                ""
         );
     }
 }

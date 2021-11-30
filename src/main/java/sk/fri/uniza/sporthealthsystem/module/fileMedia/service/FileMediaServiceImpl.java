@@ -15,6 +15,7 @@ import sk.fri.uniza.sporthealthsystem.module.fileMedia.exception.MyFileNotFoundE
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -55,16 +56,18 @@ public class FileMediaServiceImpl implements FileMediaService {
         return this.fileMediaDao.findById(fileId);
     }
 
-    public UploadFileResponse buildUploadFile(DBFile file) {
+    public UploadFileResponse buildUploadFile(DBFile file, boolean bytes) {
         if (file == null) {
             return null;
         }
+
+        byte[] outgoing = bytes ? file.getData() : new byte[]{};
 
         String downloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/files/download/")
                 .path(file.getId().toString())
                 .toUriString();
-        return new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize());
+        return new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize(), outgoing);
     }
 
     @Override
