@@ -1,6 +1,7 @@
 package sk.fri.uniza.sporthealthsystem.module.statistics.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -27,7 +28,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<Map<String, Object>> getResults(String fileName, Map<String, String> params) {
+    public List<Map<String, Object>> getResults(String fileName, Map<String, String> params, Pageable pageable) {
         String query = "";
         try {
             query = fileHandler.readTextFile(fileName);
@@ -36,15 +37,18 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
 
 
-        return this.executeQuery(query, params);
+        return this.executeQuery(query, params, pageable);
     }
 
-    private List<Map<String, Object>> executeQuery(String query, Map<String, String> params) {
+    private List<Map<String, Object>> executeQuery(String query, Map<String, String> params, Pageable pageable) {
         this.simpleJdbcCall = new SimpleJdbcCall(this.jdbcTemplate);
 
         for (Map.Entry<String, String> values : params.entrySet()) {
             query = query.replace(":" + values.getKey(), String.format("'%s'", values.getValue()));
         }
+
+        this.jdbcTemplate.setFetchSize(pageable.getPageSize() * pageable.getPageNumber());
+        this.jdbcTemplate.setMaxRows(pageable.getPageSize());
 
         return this.jdbcTemplate.queryForList(query);
     }

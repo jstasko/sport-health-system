@@ -1,6 +1,8 @@
 package sk.fri.uniza.sporthealthsystem.module.statistics;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import sk.fri.uniza.sporthealthsystem.module.location.m_krajina.entity.Country;
 import sk.fri.uniza.sporthealthsystem.module.statistics.service.StatisticsService;
@@ -24,8 +26,9 @@ public class StatisticsController {
     @GetMapping("/{nameOfStatistic}")
     public List<Map<String, Object>> getAllCountries(
             @PathVariable String nameOfStatistic,
+            Pageable pageable,
             @RequestBody Map<String, String> params
     ) {
-        return this.statisticsService.getResults(nameOfStatistic, params);
+        return this.statisticsService.getResults(nameOfStatistic, params, pageable);
     }
 }

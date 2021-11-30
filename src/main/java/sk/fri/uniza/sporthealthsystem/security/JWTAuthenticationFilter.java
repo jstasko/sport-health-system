@@ -2,14 +2,17 @@ package sk.fri.uniza.sporthealthsystem.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import sk.fri.uniza.sporthealthsystem.user.entity.ResponseUser;
 import sk.fri.uniza.sporthealthsystem.user.entity.User;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -54,9 +57,20 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        String body = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername() + " " + token;
 
-        res.getWriter().write(body);
+        ResponseUser responseUser = new ResponseUser();
+        responseUser.setEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+        responseUser.setAccessToken(token);
+        String body = responseUser.getJson();
+        res.setContentType("application/json");
+        res.getWriter().write(new Gson().toJson(responseUser));
         res.getWriter().flush();
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(403);
+        response.getWriter().write(failed.getMessage());
+        response.getWriter().flush();
     }
 }

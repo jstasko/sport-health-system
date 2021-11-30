@@ -53,13 +53,11 @@ public class HealthCardServiceImpl implements HealthCardService {
         this.healthCardDao.deleteSicknessById(id, sicknessId);
     }
 
-    // TODO vytiahnut vsetky sickness
     @Override
     public HealthCard update(Long id, HealthCard doc) {
         return this.healthCardDao.update(id, doc);
     }
 
-    // TODO vytiahnut card
     @Override
     public HealthCard updateSickness(Long id, Sickness sickness) {
         return this.healthCardDao.updateSickness(id, sickness);

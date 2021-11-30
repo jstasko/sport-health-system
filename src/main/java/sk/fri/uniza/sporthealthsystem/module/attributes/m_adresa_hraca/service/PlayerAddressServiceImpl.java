@@ -11,4 +11,12 @@ public class PlayerAddressServiceImpl extends CrudServiceImpl<PlayerAddress, Lon
     public PlayerAddressServiceImpl(PlayerAddressDao dao) {
         super(dao);
     }
+
+    @Override
+    public PlayerAddress updateOne(Long id, PlayerAddress body) {
+        PlayerAddress playerAddress = this.findOne(id);
+        playerAddress.setAddress(body.getAddress());
+        playerAddress.setPerson(body.getPerson());
+        return this.dao.save(playerAddress);
+    }
 }

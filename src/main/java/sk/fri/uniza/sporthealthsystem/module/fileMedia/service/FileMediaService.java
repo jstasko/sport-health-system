@@ -6,9 +6,12 @@ import sk.fri.uniza.sporthealthsystem.module.fileMedia.entity.UploadFileResponse
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.exception.FileStorageException;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.exception.MyFileNotFoundException;
 
+import java.util.List;
+
 public interface FileMediaService {
     DBFile uploadFile(MultipartFile file) throws FileStorageException;
     void deleteById(Long id);
     DBFile getFileById(Long fileId) throws MyFileNotFoundException;
-    UploadFileResponse buildUploadFile(DBFile file);
+    UploadFileResponse buildUploadFile(DBFile file, boolean bytes);
+    String getGeneratedJSON(String name);
 }

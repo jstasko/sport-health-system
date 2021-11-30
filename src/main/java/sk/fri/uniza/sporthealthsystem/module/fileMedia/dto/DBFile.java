@@ -34,7 +34,7 @@ public class DBFile {
     @Column(name = "CREATED")
     private Instant created;
 
-    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "image")
     private UserDto user;
 
     @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
