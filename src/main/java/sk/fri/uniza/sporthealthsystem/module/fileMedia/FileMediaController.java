@@ -18,6 +18,7 @@ import sk.fri.uniza.sporthealthsystem.module.fileMedia.service.FileMediaService;
 import sk.fri.uniza.sporthealthsystem.module.fileMedia.service.FileMediaServiceImpl;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class FileMediaController{
     ) throws FileStorageException {
         DBFile newFile = this.fileMediaService.uploadFile(file);
 
-        return this.fileMediaService.buildUploadFile(newFile);
+        return this.fileMediaService.buildUploadFile(newFile, false);
     }
 
     @PostMapping("/multipleUpload")
@@ -59,15 +60,15 @@ public class FileMediaController{
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<Resource> download(
+    public ResponseEntity<byte[]> download(
             @PathVariable Long id
     ) throws MyFileNotFoundException {
         DBFile dbFile = this.fileMediaService.getFileById(id);
-
+        byte[] base64encodedData = Base64.getEncoder().encode(dbFile.getData());
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(dbFile.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
-                .body(new ByteArrayResource(dbFile.getData()));
+                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + dbFile.getFileName() + "\"")
+                .body(base64encodedData);
     }
 
     @DeleteMapping("/{id}")
@@ -76,5 +77,12 @@ public class FileMediaController{
     ) {
         this.fileMediaService.deleteById(id);
         return true;
+    }
+
+    @GetMapping("/json/generated/{procedureName}")
+    public String getJsonGenerated(
+            @PathVariable String procedureName
+    ) {
+        return this.fileMediaService.getGeneratedJSON(procedureName);
     }
 }

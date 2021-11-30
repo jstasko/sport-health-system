@@ -9,4 +9,5 @@ public interface CrudService<T, U> {
     ListingResponse<T> findAll(Pageable pageable);
     T save(T t);
     void deleteById(U id);
+    T updateOne(U id, T body);
 }

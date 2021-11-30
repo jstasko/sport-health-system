@@ -17,4 +17,9 @@ public class ResponseUser {
     private Instant datum_posled_prihlasenia;
     private Instant datum_registracie;
     private UploadFileResponse avatar;
+    private String accessToken;
+
+    public String getJson() {
+        return String.format("{accessToken:%s,email:%s}", accessToken, email);
+    }
 }

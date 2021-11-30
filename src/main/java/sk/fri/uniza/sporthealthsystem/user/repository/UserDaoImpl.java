@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sk.fri.uniza.sporthealthsystem.user.entity.ERole;
 import sk.fri.uniza.sporthealthsystem.user.entity.User;
 import sk.fri.uniza.sporthealthsystem.user.dto.UserDto;
 
@@ -37,6 +38,11 @@ public class UserDaoImpl implements UserDao {
         if (userDto.getDatum_posled_prihlasenia() == null) {
             userDto.setDatum_posled_prihlasenia(Instant.now());
         }
+
+//        if (userDto.getRole() == null) {
+//            userDto.setRole(ERole.ROLE_ADMIN);
+//        }
+
         UserDto newUserDto = this.userRepository.save(userDto);
         return this.mapper.map(newUserDto, User.class);
     }

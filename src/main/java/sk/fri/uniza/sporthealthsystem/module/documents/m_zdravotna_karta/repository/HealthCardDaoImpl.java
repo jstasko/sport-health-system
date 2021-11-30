@@ -85,10 +85,11 @@ public class HealthCardDaoImpl implements HealthCardDao {
                 .addValue("in_kontraindikacie", doc.getKontraindikacie());
 
         this.healthCardProcedure.update(in);
+        List<Sickness> list = this.healthCardProcedure.getSicknessesById(id);
+        doc.setSicknesses(list);
         return doc;
     }
 
-    // TODO vytiahnut k vsetky sickness a healthcard
     @Override
     public HealthCard updateSickness(Long id, Sickness sickness) {
         SqlParameterSource in = new MapSqlParameterSource()
@@ -98,6 +99,7 @@ public class HealthCardDaoImpl implements HealthCardDao {
                 .addValue("in_nazov", sickness.getNazov());
 
         this.healthCardProcedure.updateSickness(in);
-        return null;
+
+        return this.findOne(id);
     }
 }
