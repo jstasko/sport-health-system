@@ -640,7 +640,7 @@ create or replace type m_rec_choroba as object
 (
   popis      varchar2(500),
   nazov      varchar2(45),
-  kod        varchar2(6)
+  kod        varchar2(6)  
 )
 /
 

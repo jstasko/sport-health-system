@@ -1,30 +1,32 @@
 --------------------------------------------------Osoba---------------------------------------------------------------------
+set serveroutput  on;
 create or replace procedure add_data_osoby
  as
  type t_riadok is record (
-    rod_cislo KVET3.P_OSOBA_X.ROD_CISLO%type,
-    meno KVET3.P_OSOBA_X.MENO%type,
-    PRIEZVISKO KVET3.P_OSOBA_X.PRIEZVISKO%TYPE
+    externe_id m_hrac.id%type
  );
+ rod_cislo integer;
+ 
  prikaz varchar2(1000);
  type t_pole is table of t_riadok;
  pole t_pole;
  begin
-   select rod_cislo, meno, PRIEZVISKO bulk collect into pole FROM KVET3.P_OSOBA_X;
+   rod_cislo  := 900101004;
+   select id bulk collect into pole FROM m_hrac;
    for i in 1 .. pole.last 
-    loop 
-      select 'insert into m_osoba values (null, null, ''' 
-      || pole(i).rod_cislo || ''', ''' 
-      || pole(i).meno || ''','''
-      || pole(i).PRIEZVISKO 
-      || ''')' into prikaz from dual;
+    loop   
+      select 'insert into m_osoba values (''' 
+      || pole(i).externe_id || ''', null, ''' 
+      || rod_cislo || ''', null, null)'  into prikaz from dual;
+      rod_cislo := rod_cislo + 11;
     --dbms_output.put_line(prikaz);
     execute immediate prikaz;
     end loop;   
  end;
 /
-
---execute add_data_osoby;
+--delete  from m_osoba;
+--select * from m_osoba;
+execute add_data_osoby;
 
 insert into m_osoba values (null, null, '9754082355', null, null);
 insert into m_osoba values (null, null, '9704082366', null, null);
@@ -44,12 +46,6 @@ insert into m_osoba values (null, null, '9754082509', null, null);
 insert into m_osoba values (null, null, '9704082520', null, null);
 insert into m_osoba values (null, null, '9704082531', null, null);
 
-
-insert into m_osoba values ('aaaa825986dc8b723831d441', null, '9707256124', null, null);
-insert into m_osoba values ('aaaa825986dc8b723831d442', null, '9707256125', null, null);
-insert into m_osoba values ('aaaa825986dc8b723831d443', null, '9707256121', null, null);
-insert into m_osoba values ('aaaa825986dc8b723831d444', null, '9707256122', null, null);
-insert into m_osoba values ('aaaa825986dc8b723831d445', null, '9707256123', null, null);
 
 
 --------------------------------------------------Poistovna---------------------------------------------------------------------

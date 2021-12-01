@@ -114,15 +114,93 @@ create or replace procedure gen_data_specializacia(pocet integer)
 execute gen_data_specializacia(100);
 
 -----------------------------------------------------m_zdravotna_karta-------------------------------------------------------------
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256121', m_t_choroba(new m_rec_choroba('Zhubný nádor bližšie neurèenej sliznice úst.Zhubný nádor vnútorného líca','Zhubný nádor sliznice líca','C06.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256122', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256123', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou. ','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256124', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256125', m_t_choroba(new m_rec_choroba('Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka','Brušný týfus','A01.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256121', m_t_choroba(new m_rec_choroba('Infekèná enetritída zapríèinená salmonelou.','Salmonelová enteritída','A02.0')),null,CURRENT_TIMESTAMP);
-insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values ('9707256122', m_t_choroba(new m_rec_choroba('Klasická potravinová otrava zapríèinená Clostridium botulinum.','Botulizmus','A05.1')),null,CURRENT_TIMESTAMP);
+set serveroutput  on;
 
+create or replace procedure add_karty
+ as
+ velkost integer;
+ type t_choroba_popis is varray(3) of varchar(200);
+ choroba_popis t_choroba_popis := t_choroba_popis(
+    'Infekcia zapríèinená Salmonella typhi. Tyfoidná horúèka',
+    'Infekèná enetritída zapríèinená salmonelou. ',
+    'Klasická potravinová otrava zapríèinená Clostridium botulinum'
+ );
+ type t_choroba_nazov is varray(3) of varchar(200);
+ choroba_nazov t_choroba_nazov := t_choroba_nazov(
+    'Brušný týfus',
+    'Salmonelová enteritída',
+    'Botulizmus'
+ );
+ type t_choroba_kod is varray(3) of varchar(6);
+ choroba_kod t_choroba_kod := t_choroba_kod(
+    'A01.0',
+    'A02.0',
+    'A05.1'
+ );
+ type t_riadok is record (
+    rod_cislo m_osoba.rod_cislo%type
+ );
+ prikaz varchar2(1000);
+ prikaz_choroba varchar2(1000);
+ type t_pole is table of t_riadok;
+ pole t_pole;
+ pocet_chorob integer; 
+ pom_id integer;
+ begin 
+  velkost := 3;
+   select rod_cislo bulk collect into pole FROM m_osoba;
+   for i in 1 .. pole.last
+    loop   
+        prikaz := '';
+        pocet_chorob := trunc(dbms_random.value(0, velkost), 0);
+        --dbms_output.put_line(pocet_chorob);
+        if pocet_chorob = 0 then
+          select 'insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values (''' 
+          || pole(i).rod_cislo || ''', null, null, null)'  into prikaz from dual;
+         -- dbms_output.put_line(prikaz);
+          execute immediate prikaz;
+        end if;
+        if pocet_chorob = 1 then
+          select 'insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values (''' 
+              || pole(i).rod_cislo || ''', m_t_choroba(new m_rec_choroba( ''' 
+              || to_char(choroba_popis(trunc(dbms_random.value(1, velkost), 0))) || ''', '''
+              || to_char(choroba_nazov(trunc(dbms_random.value(1, velkost), 0))) || ''', '''
+              || to_char(choroba_kod(trunc(dbms_random.value(1, velkost), 0))) || '''
+          )), null, null)'  into prikaz from dual;
+          --dbms_output.put_line(prikaz);
+          execute immediate prikaz;
+        end if;
+        if pocet_chorob > 1 then 
+            select 'insert into m_zdravotna_karta(rod_cislo, m_t_choroby_informacie, kontraindikacie, datum_zalozenia) values (''' 
+              || pole(i).rod_cislo || ''', m_t_choroba(new m_rec_choroba( ''' 
+              || to_char(choroba_popis(trunc(dbms_random.value(1, velkost), 0))) || ''', '''
+              || to_char(choroba_nazov(trunc(dbms_random.value(1, velkost), 0))) || ''', '''
+              || to_char(choroba_kod(trunc(dbms_random.value(1, velkost), 0))) || '''
+          )), null, null)'  into prikaz from dual;
+          --dbms_output.put_line(prikaz);
+          execute immediate prikaz;
+          for j in 1 .. pocet_chorob
+          loop
+            prikaz_choroba := '';
+            select max(id) into pom_id from m_zdravotna_karta;
+            select  'insert into table (select m_t_choroby_informacie from M_ZDRAVOTNA_KARTA where id = ' || pom_id  || ')
+              values ( new m_rec_choroba(''' 
+                  ||  to_char(choroba_popis(trunc(dbms_random.value(1, velkost), 0))) || ''',''' 
+                  ||  to_char(choroba_nazov(trunc(dbms_random.value(1, velkost), 0))) || ''',''' 
+                  || to_char(choroba_kod(trunc(dbms_random.value(1, velkost), 0))) 
+                  || '''))'
+               into prikaz_choroba from dual;
+               --dbms_output.put_line(prikaz_choroba);
+               execute immediate prikaz_choroba;
+          end loop;
+        end if;
+    end loop;   
+ end;
+/
 
+--TODO VYKONAT PRE DATUM TIMESTAMP
+delete from m_zdravotna_karta;
+execute add_karty;
 
 -----------------------------------------------------m_zdravotny_zaznam-------------------------------------------------------------
 create or replace procedure gen_zdravotny_zaznam(pocet integer)
