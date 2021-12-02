@@ -318,3 +318,90 @@ begin
                         WHERE karta."ID" = in_id;
 end;
 -----------------------------------------------------help_procedures---------------------------------------------------
+---------------------------------------------------pagination_procedures---------------------------------------------
+create or replace procedure get_vlastnosti_hraca_pagination(
+   
+    offset_number in number,
+    aktualna_stranka in number,   
+    out_pocet_riadkov out number,
+    out_cursor IN OUT SYS_REFCURSOR
+
+) as
+    begin
+        open out_cursor for select va.ROD_CISLO, va.AUTO.HMOTNOST, va.AUTO.VYSKA
+        from m_vlastnosti_hraca va 
+        offset offset_number*aktualna_stranka ROWS FETCH NEXT offset_number ROWS ONLY;
+        DBMS_SQL.return_result(out_cursor);
+
+        select count(*)  into out_pocet_riadkov
+        from m_vlastnosti_hraca va ;
+    end;
+	
+create or replace procedure get_krvna_skupina_pagination(
+   
+    offset_number in number,
+    aktualna_stranka in number,   
+    out_pocet_riadkov out number,
+    out_cursor IN OUT SYS_REFCURSOR
+
+) as
+    begin
+        open out_cursor for select ma.rod_cislo,ma.AUTO.TYP_SKUPINY, ma.AUTO.RH_FAKTOR
+        from M_KRVNA_SKUPINA ma 
+        offset offset_number*aktualna_stranka ROWS FETCH NEXT offset_number ROWS ONLY;
+        DBMS_SQL.return_result(out_cursor);
+
+        select count(*)  into out_pocet_riadkov
+        from M_KRVNA_SKUPINA ma ;
+    end;
+	
+	
+	create or replace procedure get_zdravotna_karta_pagination(
+   
+    offset_number in number,
+    aktualna_stranka in number,   
+    out_pocet_riadkov out number,
+    out_cursor IN OUT SYS_REFCURSOR
+
+) as
+    begin
+        open out_cursor for select karta.ROD_CISLO, karta.KONTRAINDIKACIE, karta.ID, karta.DATUM_ZALOZENIA,choroby.popis,choroby.nazov,choroby.kod
+        from M_ZDRAVOTNA_KARTA karta ,table(karta."M_T_CHOROBY_INFORMACIE") choroby 
+        offset offset_number*aktualna_stranka ROWS FETCH NEXT offset_number ROWS ONLY;
+        DBMS_SQL.return_result(out_cursor);
+
+
+
+        select count(*)  into out_pocet_riadkov
+        from m_vlastnosti_hraca va ;
+    end;
+
+---------------------------------------------------json_procedure---------------------------------------------
+
+	create or replace procedure get_js_json(idOfPlayer IN varchar,  out_json OUT CLOB) as
+    begin
+        select json_object( 'Hrac_' || hrac.meno || '_' || hrac.priezvisko value json_object
+(
+    'rodcislo' value osoba.rod_cislo,
+   'vyska' value vlastnosti_hraca.auto.vyska,
+   'hmotnost' value vlastnosti_hraca.auto.hmotnost,
+   'krvna_skupina' value krvna_skupina.auto.typ_skupiny,
+    'rh_faktor' value krvna_skupina.auto.rh_faktor,
+    'pocet_operacii' value count(operacie_pacient.rod_cislo),
+     'Operacie' value Json_arrayagg(json_object ('nazov' value operacie.nazov
+                                                     )   
+)
+)
+)
+from m_hrac hrac 
+into out_json
+join m_osoba osoba ON(osoba.externeid = hrac.id)
+join m_vlastnosti_hraca vlastnosti_hraca on (vlastnosti_hraca.rod_cislo = osoba.rod_cislo)
+join m_krvna_skupina krvna_skupina on(krvna_skupina.rod_cislo = osoba.rod_cislo)
+left join m_operacie_pacienta operacie_pacient on(osoba.rod_cislo = operacie_pacient.rod_cislo)
+left join m_operacia operacie on(operacie.id = operacie_pacient.id_operacia)
+where hrac.ID = idOfPlayer
+group by hrac.meno,hrac.priezvisko,osoba.rod_cislo,vlastnosti_hraca.auto.vyska,
+vlastnosti_hraca.auto.hmotnost,krvna_skupina.auto.typ_skupiny,krvna_skupina.auto.rh_faktor;
+end;
+
