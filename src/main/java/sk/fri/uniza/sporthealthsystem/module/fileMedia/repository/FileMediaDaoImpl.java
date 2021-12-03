@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import sk.fri.uniza.sporthealthsystem.core.exception.NotFoundException;
@@ -14,10 +15,7 @@ import sk.fri.uniza.sporthealthsystem.module.fileMedia.mapper.ClobToStringConver
 
 import java.sql.SQLType;
 import java.sql.Types;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -49,14 +47,16 @@ public class FileMediaDaoImpl implements FileMediaDao {
     }
 
     @Override
-    public Optional<String> getJsonFromClob(String nameOfProcedure) {
-        ClobToStringConverter clobConverter = new ClobToStringConverter();
+    public Optional<String> getJsonFromClob(String nameOfProcedure, String idOfPlayer) {
+        Map<String, Object> parameters = new HashMap<String, Object>(1);
+        parameters.put("idOfPlayer", idOfPlayer);
         this.simpleJdbcCall  = new SimpleJdbcCall(jdbcTemplate)
                 .withProcedureName("get_js_json")
-                .declareParameters(new SqlOutParameter("out_json", Types.CLOB,
-                        null, new ClobToStringConverter()));
+                .declareParameters(
+                        new SqlOutParameter("out_json", Types.CLOB, null, new ClobToStringConverter())
+                        );
 
-        Map<String, Object> returnMap =this.simpleJdbcCall.execute();
+        Map<String, Object> returnMap =this.simpleJdbcCall.execute(parameters);
 
         return Optional.of(String.valueOf(returnMap.get("out_json")));
     }

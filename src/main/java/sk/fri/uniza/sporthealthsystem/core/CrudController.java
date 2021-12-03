@@ -30,7 +30,7 @@ public abstract class CrudController<T, U, S extends CrudService<T, U>> {
         return service.save(t);
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     T update(
             @PathVariable("id") U id,
             @RequestBody T t
@@ -38,6 +38,6 @@ public abstract class CrudController<T, U, S extends CrudService<T, U>> {
         return this.service.updateOne(id, t);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     void deleteById(@PathVariable("id") U id) { this.service.deleteById(id); }
 }

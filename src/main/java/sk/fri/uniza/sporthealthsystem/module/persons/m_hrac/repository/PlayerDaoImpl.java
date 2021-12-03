@@ -11,7 +11,9 @@ import sk.fri.uniza.sporthealthsystem.module.operations.m_liecba.dto.TreatmentDt
 import sk.fri.uniza.sporthealthsystem.module.operations.m_liecba.entity.Treatment;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.dto.PlayerDto;
 import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.entity.Player;
+import sk.fri.uniza.sporthealthsystem.module.persons.m_hrac.entity.PlayerPerson;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +35,17 @@ public class PlayerDaoImpl extends CrudDaoImpl<Player, PlayerDto, String, Player
     }
 
     @Override
+    public PlayerPerson findOneWithRodCislo(String id) {
+        PlayerDto playerDto = this.findById(id);
+        PlayerPerson person = new PlayerPerson();
+        person.setId(playerDto.getId());
+        person.setRodCislo(playerDto.getPerson().getRodCislo());
+        person.setMeno(playerDto.getMeno());
+        person.setPriezvisko(playerDto.getPriezvisko());
+        return person;
+    }
+
+    @Override
     public ListingResponse<Player> findAll(Pageable pageable) {
         Page<PlayerDto> page =  this.findAllEntities(pageable);
         List<Player> data = page.getContent()
@@ -42,6 +55,30 @@ public class PlayerDaoImpl extends CrudDaoImpl<Player, PlayerDto, String, Player
 
         ListingResponse<Player> listingResponse = new ListingResponse<>();
         listingResponse.setData(data);
+        listingResponse.setTotalItems(page.getTotalElements());
+        listingResponse.setTotalPages(page.getTotalPages());
+        listingResponse.setCurrentPage(page.getNumber());
+        return listingResponse;
+    }
+
+    @Override
+    public ListingResponse<PlayerPerson> findALlWithRodCislo(Pageable pageable) {
+        Page<PlayerDto> page =  this.findAllEntities(pageable);
+        List<PlayerDto> data = page.getContent();
+
+        List<PlayerPerson> result = new ArrayList<>();
+
+        data.forEach(i -> {
+            PlayerPerson person = new PlayerPerson();
+            person.setId(i.getId());
+            person.setRodCislo(i.getPerson().getRodCislo());
+            person.setMeno(i.getMeno());
+            person.setPriezvisko(i.getPriezvisko());
+            result.add(person);
+        });
+
+        ListingResponse<PlayerPerson> listingResponse = new ListingResponse<>();
+        listingResponse.setData(result);
         listingResponse.setTotalItems(page.getTotalElements());
         listingResponse.setTotalPages(page.getTotalPages());
         listingResponse.setCurrentPage(page.getNumber());

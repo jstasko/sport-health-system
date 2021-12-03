@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sk.fri.uniza.sporthealthsystem.user.entity.Password;
 import sk.fri.uniza.sporthealthsystem.user.entity.ResponseUser;
 import sk.fri.uniza.sporthealthsystem.user.entity.User;
 import sk.fri.uniza.sporthealthsystem.user.service.UserService;
@@ -28,6 +29,18 @@ public class UserController  {
     public ResponseUser getUserByEmail(@PathVariable String email) {
         logger.info("User with email + " + email + " is being searched");
         return this.service.buildResponseUser(this.service.findByEmail(email));
+    }
+
+    @PostMapping("/password/{email}")
+    @Transactional
+    public @ResponseBody
+    ResponseUser signUp(
+            @PathVariable String email,
+            @RequestBody Password password
+    ) {
+        User updatedUser = this.service.updatePassword(email, password.getPassword());
+        logger.trace("user updated with email + " + updatedUser.getEmail());
+        return this.service.buildResponseUser(updatedUser);
     }
 
     @PostMapping("/signUp")

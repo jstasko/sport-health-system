@@ -54,4 +54,10 @@ public class PersonDaoImpl extends CrudDaoImpl<Person, PersonDto, String, Person
         PersonDto newPersonDto = this.repository.save(personDto);
         return this.mapper.map(newPersonDto, Person.class);
     }
+
+    public Person findPersonDtoByExterneId(Person doc) {
+        PersonDto personDto = this.mapper.map(doc, PersonDto.class);
+        PersonDto newPersonDto = this.repository.findPersonDtoByExterneId(personDto);
+        return this.mapper.map(newPersonDto, Person.class);
+    }
 }

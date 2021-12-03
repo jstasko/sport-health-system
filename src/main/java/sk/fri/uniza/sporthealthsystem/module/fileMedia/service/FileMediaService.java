@@ -13,5 +13,5 @@ public interface FileMediaService {
     void deleteById(Long id);
     DBFile getFileById(Long fileId) throws MyFileNotFoundException;
     UploadFileResponse buildUploadFile(DBFile file, boolean bytes);
-    String getGeneratedJSON(String name);
+    String getGeneratedJSON(String name, String id);
 }

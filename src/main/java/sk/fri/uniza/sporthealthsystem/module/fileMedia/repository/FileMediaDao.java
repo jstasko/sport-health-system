@@ -10,6 +10,6 @@ public interface FileMediaDao {
     DBFile findById(Long id) throws MyFileNotFoundException;
     DBFile save(DBFile file);
     void deleteById(Long id);
-    Optional<String> getJsonFromClob(String nameOfProcedure);
+    Optional<String> getJsonFromClob(String nameOfProcedure, String idOfPlayere);
 
 }

@@ -71,6 +71,17 @@ public class FileMediaController{
                 .body(base64encodedData);
     }
 
+    @GetMapping("/download-binary/{id}")
+    public ResponseEntity<Resource> downloadBinary(
+            @PathVariable Long id
+    ) throws MyFileNotFoundException {
+        DBFile dbFile = this.fileMediaService.getFileById(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + dbFile.getFileName() + "\"")
+                .body(new ByteArrayResource(dbFile.getData()));
+    }
+
     @DeleteMapping("/{id}")
     public boolean deleteById(
             @PathVariable Long id
@@ -79,10 +90,11 @@ public class FileMediaController{
         return true;
     }
 
-    @GetMapping("/json/generated/{procedureName}")
+    @GetMapping(value = "/json/generated/{procedureName}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getJsonGenerated(
-            @PathVariable String procedureName
+            @PathVariable String procedureName,
+            @PathVariable String id
     ) {
-        return this.fileMediaService.getGeneratedJSON(procedureName);
+        return this.fileMediaService.getGeneratedJSON(procedureName, id);
     }
 }

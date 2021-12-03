@@ -39,6 +39,10 @@ public class UserDaoImpl implements UserDao {
             userDto.setDatum_posled_prihlasenia(Instant.now());
         }
 
+        if (userDto.getRola() == null) {
+            userDto.setRola("Regular");
+        }
+
 //        if (userDto.getRole() == null) {
 //            userDto.setRole(ERole.ROLE_ADMIN);
 //        }

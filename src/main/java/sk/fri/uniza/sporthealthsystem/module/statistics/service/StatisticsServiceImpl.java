@@ -3,12 +3,12 @@ package sk.fri.uniza.sporthealthsystem.module.statistics.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
+import sk.fri.uniza.sporthealthsystem.core.ListingResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<Map<String, Object>> getResults(String fileName, Map<String, String> params, Pageable pageable) {
+    public ListingResponse<Map<String, Object>> getResults(String fileName, Map<String, String> params, Pageable pageable) {
         String query = "";
         try {
             query = fileHandler.readTextFile(fileName);
@@ -40,7 +40,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         return this.executeQuery(query, params, pageable);
     }
 
-    private List<Map<String, Object>> executeQuery(String query, Map<String, String> params, Pageable pageable) {
+    private ListingResponse<Map<String, Object>> executeQuery(String query, Map<String, String> params, Pageable pageable) {
         this.simpleJdbcCall = new SimpleJdbcCall(this.jdbcTemplate);
 
         for (Map.Entry<String, String> values : params.entrySet()) {
@@ -50,6 +50,18 @@ public class StatisticsServiceImpl implements StatisticsService {
         this.jdbcTemplate.setFetchSize(pageable.getPageSize() * pageable.getPageNumber());
         this.jdbcTemplate.setMaxRows(pageable.getPageSize());
 
-        return this.jdbcTemplate.queryForList(query);
+        String countQuery = String.format("SELECT COUNT(*) as count FROM (%s)", query);
+
+        Map<String, Object> resultCount = this.jdbcTemplate.queryForMap(countQuery);
+
+        List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
+        long total = ((BigDecimal)resultCount.get("COUNT")).longValue();
+        ListingResponse<Map<String, Object>> listingResponse = new ListingResponse<>();
+        listingResponse.setData(result);
+        listingResponse.setTotalItems(total);
+        listingResponse.setTotalPages((int)Math.ceil(total/(double)pageable.getPageSize()));
+        listingResponse.setCurrentPage(pageable.getPageNumber());
+
+        return listingResponse;
     }
 }

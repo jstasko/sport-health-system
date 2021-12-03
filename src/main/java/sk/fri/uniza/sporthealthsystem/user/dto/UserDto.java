@@ -32,6 +32,9 @@ public class UserDto {
     @Column(name = "datum_registracie")
     private Instant datum_registracie;
 
+    @Column(name = "ROLA")
+    private String rola;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_image", referencedColumnName = "ID")
     private DBFile image;
