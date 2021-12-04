@@ -1,3 +1,4 @@
+-----------------------------------------------------M_KRVNA_SKUPINA---------------------------------------------------
 create or replace procedure insert_krvna_skupina(
      in_rod_cislo in varchar2,
      in_typ_skupiny in varchar2,
@@ -53,7 +54,7 @@ create or replace procedure update_krvna_skupina(
         commit ;
     end;
 
---set serveroutput on;
+-----------------------------------------------------M_VLASTNOSTI_HRACA---------------------------------------------------
 create or replace procedure insert_vlastnosti_hraca(
      in_rod_cislo in varchar2,
      in_hmotnost in float,
@@ -76,13 +77,6 @@ create or replace procedure insert_vlastnosti_hraca(
     end;
 /
 
---test
---declare
---    out_id number(38,0);
---begin
---    insert_vlastnosti_hraca('740422/7776', 100.2, 100.3, out_id);
---end;
---/
 
 
 create or replace procedure get_vlastnosti_hraca(
@@ -96,9 +90,6 @@ create or replace procedure get_vlastnosti_hraca(
         into out_rod_cislo, out_hmotnost, out_vyska
         from M_VLASTNOSTI_HRACA va
         where va.ID = in_id;
---        dbms_output.put_line('Rodne cislo: ' || out_rod_cislo);
---        dbms_output.put_line('hmotnost: ' || out_hmotnost);
---        dbms_output.put_line('vyska: ' || out_vyska);
     end;
 /
 
@@ -125,7 +116,7 @@ create or replace procedure update_vlastnosti_hraca(
         commit ;
     end;
 /
------------------------------------------------------m_zdravotna_karta---------------------------------------------------
+-----------------------------------------------------M_PREDPISANA_LIECBA---------------------------------------------------
 create or replace procedure insert_predpisana_liecba(
     in_liecba in number,
     in_zdravotna_karta in number,
@@ -283,7 +274,8 @@ create or replace procedure delete_zdravotna_karta_choroba(
  end;
 /
 
-----------------------GET_ALL-------------------------------
+--------------------------------------------GET_ALL-------------------------------
+----------------------M_ZDRAVOTNA_KARTA
 create or replace procedure  get_all_zdravotna_karta(
     in_out_cursor OUT SYS_REFCURSOR
 )
@@ -317,6 +309,9 @@ begin
                         from "M_ZDRAVOTNA_KARTA" karta, table(karta."M_T_CHOROBY_INFORMACIE") choroby
                         WHERE karta."ID" = in_id;
 end;
+
+
+----------------------m_vlastnosti_hraca
 -----------------------------------------------------help_procedures---------------------------------------------------
 ---------------------------------------------------pagination_procedures---------------------------------------------
 create or replace procedure get_vlastnosti_hraca_pagination(

@@ -16,7 +16,8 @@ begin
 end;
 /
 
-
+select a.ROD_CISLO, a.AUTO.HMOTNOST, a.AUTO.VYSKA
+        from M_VLASTNOSTI_HRACA a;
 select * from m_zdravotna_karta;
 
 declare

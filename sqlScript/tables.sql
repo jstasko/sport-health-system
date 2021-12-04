@@ -287,18 +287,6 @@ PRIMARY KEY (id),
 CONSTRAINT cons_kraj_krajina_fk  FOREIGN KEY (id_krajiny) REFERENCES m_krajina (id)
 );
 
-CREATE SEQUENCE m_kraj_seq;
-
-CREATE OR REPLACE TRIGGER m_kraj_on_insert
-  BEFORE INSERT ON m_kraj
-  FOR EACH ROW
-BEGIN
-  SELECT m_kraj_seq.nextval
-  INTO :new.id
-  FROM dual;
-END;
-/
-
 create table m_okres
 (
  n_okresu  varchar2(45) NOT NULL ,
@@ -309,46 +297,45 @@ PRIMARY KEY (id),
 CONSTRAINT cons_okres_kraj_fk FOREIGN KEY (id_kraja) REFERENCES m_kraj (id)
 );
 
-CREATE SEQUENCE m_okres_seq;
+create table m_adresa
+(
+ n_mesta       varchar2(45) NOT NULL ,
+ cislo_domu    varchar2(45) NULL ,
+ id_okresu     int NOT NULL ,
+ PSC           char(10) NOT NULL ,
+ id            integer not null,
 
-CREATE OR REPLACE TRIGGER m_okres_on_insert
-  BEFORE INSERT ON m_okres
+PRIMARY KEY (id),
+CONSTRAINT cons_adresa_okres_fk FOREIGN KEY (id_okresu) REFERENCES m_okres (id)
+);
+
+CREATE SEQUENCE m_adresa_seq;
+
+CREATE OR REPLACE TRIGGER m_adresa_on_insert
+  BEFORE INSERT ON m_adresa
   FOR EACH ROW
 BEGIN
-  SELECT m_okres_seq.nextval
+  SELECT m_adresa_seq.nextval
   INTO :new.id
   FROM dual;
 END;
 /
 
-create table m_adresa
-(
- n_mesta       varchar2(45) NOT NULL ,
- --ulica         varchar(45) NOT NULL , TODO DAL SOM PREC
- cislo_domu    varchar2(45) NULL ,
- --popisne_cislo varchar(45) NULL , TODO ROVNAKE AKO cislo_domu
- id_okresu     int NOT NULL ,
- PSC           char(10) NOT NULL ,
-
-PRIMARY KEY (PSC),
-CONSTRAINT cons_adresa_okres_fk FOREIGN KEY (id_okresu) REFERENCES m_okres (id)
-);
-
 create table m_vyrobca_liekov
 (
- PSC               char(10) NOT NULL ,
+ id_adresa         integer NOT NULL ,
  nazov             varchar2(90) NOT NULL ,
  id                int NOT NULL ,
 
 PRIMARY KEY (id),
-CONSTRAINT cons_vl_adresa_fk FOREIGN KEY (PSC) REFERENCES m_adresa (PSC)
+CONSTRAINT cons_vl_adresa_fk FOREIGN KEY (id_adresa) REFERENCES m_adresa (id)
 );
 
 create table m_liek
 (
  id_vyrobca_liekov int NOT NULL ,
- nazov             varchar2(45) NOT NULL ,
- popis             varchar2(200) NOT NULL ,
+ nazov             varchar2(500) NOT NULL ,
+ popis             varchar2(200) NULL ,
  id                int NOT NULL ,
 
 PRIMARY KEY (id),
@@ -369,12 +356,12 @@ END;
 
 create table m_lekaren
 (
- PSC        char(10) NOT NULL ,
- nazov      varchar2(45) NOT NULL ,
+ id_adresa  integer NOT NULL ,
+ nazov      varchar2(200) NOT NULL ,
  id         int NOT NULL ,
 
 PRIMARY KEY (id),
-CONSTRAINT cons_lekaren_mesto_fk FOREIGN KEY (PSC) REFERENCES m_adresa (PSC)
+CONSTRAINT cons_lekaren_mesto_fk FOREIGN KEY (id_adresa) REFERENCES m_adresa (id)
 );
 
 CREATE SEQUENCE m_lekaren_seq;
@@ -391,13 +378,13 @@ END;
 
 create table m_institut
 (
- PSC         char(10) NOT NULL ,
- nazov       varchar2(45) NOT NULL ,
+ id_adresa   integer NOT NULL ,
+ nazov       varchar2(500) NOT NULL ,
  popis       varchar2(200) NULL ,
  id          int NOT NULL ,
 
 PRIMARY KEY (id),
-CONSTRAINT cons_institut_mesto_fk FOREIGN KEY (PSC) REFERENCES m_adresa (PSC)
+CONSTRAINT cons_institut_mesto_fk FOREIGN KEY (id_adresa) REFERENCES m_adresa (id)
 );
 /
 
@@ -451,8 +438,8 @@ PRIMARY KEY (id)
 
 create table m_operacia
 (
- nazov       varchar2(45) NOT NULL ,
- popis       varchar2(200) NOT NULL ,
+ nazov       varchar2(500) NOT NULL ,
+ popis       varchar2(200)  NULL ,
  id          int NOT NULL ,
 
 PRIMARY KEY (id)
@@ -501,6 +488,7 @@ create table m_pouzivatel
  heslo                    varchar2(450) NOT NULL ,
  datum_posled_prihlasenia timestamp NOT NULL ,
  datum_registracie        timestamp NOT NULL ,
+ rola                     varchar2(10) NOT NULL,  
  id_image                 integer NULL,
  PRIMARY KEY (email),
  CONSTRAINT cons_m_pouzivatel_fk FOREIGN KEY (id_image) REFERENCES m_image (id)
@@ -646,10 +634,60 @@ BEGIN
 END;
 /
 
+
+
+create or replace type m_rec_choroba as object
+(
+  popis      varchar2(500),
+  nazov      varchar2(45),
+  kod        varchar2(6)  
+)
+/
+
+create or replace type m_t_choroba is table of m_rec_choroba;
+/
+
+create table m_zdravotna_karta
+(
+ rod_cislo                  char(11) not NULL ,
+ m_t_choroby_informacie     m_t_choroba,
+ kontraindikacie            varchar2(200) NULL ,
+ datum_zalozenia            timestamp NULL ,  --TODO BECAUSE OF GENERATED INSERT
+ id                         int not NULL ,
+
+PRIMARY KEY (id),
+CONSTRAINT cons_zk_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
+)
+nested table m_t_choroby_informacie store as informacie_nest_tab;
+/
+
+CREATE SEQUENCE m_zdravotna_karta_seq;
+
+CREATE OR REPLACE TRIGGER m_zdravotna_karta_on_insert
+  BEFORE INSERT ON m_zdravotna_karta
+  FOR EACH ROW
+BEGIN
+  SELECT m_zdravotna_karta_seq.nextval
+  INTO :new.id
+  FROM dual;
+END;
+/
+
+create table m_adresa_hraca
+(
+ id_adresa       integer NOT NULL ,
+ rod_cislo       char(11) NOT NULL ,
+ id              int NOT NULL ,
+
+PRIMARY KEY (id),
+CONSTRAINT cons_ah_adresa_fk  FOREIGN KEY (id_adresa) REFERENCES m_adresa (id),
+CONSTRAINT cons_ah_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
+);
 create table m_zdravotny_zaznam
 (
  id_doktor           char(11) NOT NULL ,
  rod_cislo           char(11) NOT NULL ,
+ id_zdravotny_karta  int not NULL ,
  id_institut         int NOT NULL ,
  datum_prehliadky    timestamp NULL , --TODO BECAUSE OF GENERATED INSERT
  stav                varchar2(100) NULL ,
@@ -658,7 +696,8 @@ create table m_zdravotny_zaznam
 PRIMARY KEY (id),
 CONSTRAINT cons_zz_doktor_fk FOREIGN KEY (id_doktor) REFERENCES m_doktor (id),
 CONSTRAINT cons_zz_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo),
-CONSTRAINT cons_zz_institut_fk FOREIGN KEY (id_institut) REFERENCES m_institut (id)
+CONSTRAINT cons_zz_institut_fk FOREIGN KEY (id_institut) REFERENCES m_institut (id),
+CONSTRAINT cons_zz_id_zdravotny_zaznam_fk FOREIGN KEY (id_zdravotny_karta) REFERENCES m_zdravotna_karta (id)
 );
 
 CREATE SEQUENCE m_zdravotny_zaznam_seq;
@@ -672,47 +711,6 @@ BEGIN
   FROM dual;
 END;
 /
-
-
-create or replace type m_rec_choroba as object
-(
-  popis      varchar2(500),
-  nazov      varchar2(45),
-  kod        varchar2(6)
-)
-/
-
-create or replace type m_t_choroba is table of m_rec_choroba;
-/
-
-create table m_zdravotna_karta
-(
- rod_cislo                  char(11) not NULL ,
- m_t_choroby_informacie     m_t_choroba,
- id_zdravotny_zaznam        int not NULL ,
- kontraindikacie            varchar2(200) NULL ,
- datum_zalozenia            timestamp NULL ,  --TODO BECAUSE OF GENERATED INSERT
- id                         int not NULL ,
-
-PRIMARY KEY (id),
-CONSTRAINT cons_zk_zz_fk FOREIGN KEY (id_zdravotny_zaznam) REFERENCES m_zdravotny_zaznam (id),
-CONSTRAINT cons_zk_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
-)
-nested table m_t_choroby_informacie store as informacie_nest_tab;
-/
-
-CREATE SEQUENCE m_zdravotna_karta_seq;
-
-create table m_adresa_hraca
-(
- PSC             char(10) NOT NULL ,
- rod_cislo       char(11) NOT NULL ,
- id              int NOT NULL ,
-
-PRIMARY KEY (id),
-CONSTRAINT cons_ah_adresa_fk  FOREIGN KEY (PSC) REFERENCES m_adresa (PSC),
-CONSTRAINT cons_ah_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
-);
 
 CREATE SEQUENCE m_adresa_hraca_seq;
 

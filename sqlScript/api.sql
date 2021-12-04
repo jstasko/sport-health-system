@@ -24,9 +24,9 @@ commit;
 BEGIN
 DBMS_NETWORK_ACL_ADMIN.ASSIGN_ACL (
     acl => '/sys/acls/sysdba-ch-permissions.xml',
-    host => '*',
-    lower_port => null,
-    upper_port => null
+    host => 'api.sportnet.online',
+    lower_port => 80,
+    upper_port => 443
 );
 END;
 /
@@ -39,7 +39,20 @@ select * from dba_network_acls;
 
 DESC dba_network_acls;
 desc dba_network_acl_privileges;
+set SERVEROUTPUT ON;
+CREATE OR REPLACE DIRECTORY wallet_directory AS 'C:\wallet_cert';
+ DECLARE
+ f UTL_FILE.FILE_TYPE;
+ s VARCHAR2(2000);
+BEGIN
+ f := UTL_FILE.FOPEN('WALLET_DIRECTORY','ewallet.p12','R');
+ UTL_FILE.GET_LINE(f,s);
+ UTL_FILE.FCLOSE(f);
+ dbms_output.put_line(s);
+END;
+/
 
+drop directory wallet_directory;
 
 CREATE OR REPLACE PROCEDURE show_html_from_url (
   p_url  IN  VARCHAR2,
@@ -71,11 +84,27 @@ EXCEPTION
 END show_html_from_url;
 /
 
-
+ select wrl_parameter from V$ENCRYPTION_WALLET;
+ 
 SELECT * FROM dba_network_acls;
 SELECT * FROM dba_network_acl_privileges where principal='STASKO_PDBS';
 
-execute show_html_from_url('https://api.sportnet.online/v1/ppo/futbalsfz.sk/users');
-execute show_html_from_url('http://country.io/continent.json');
+EXEC UTL_HTTP.set_wallet('file:C:\Bloby_student\stasko_PDBS\wallet_cert', 'mWaAjj13');
+EXEC UTL_HTTP.set_wallet('file:C:/Bloby_student/stasko_PDBS/wallet_cert', 'mWaAjj13');
+EXEC UTL_HTTP.set_wallet('file:c:/wallet_cert', 'WalletPasswd123');
+EXEC UTL_HTTP.set_wallet('file:c:/wallet_cert', NULL);
 
+
+EXEC show_html_from_url('https://gb.redhat.com/');
+execute show_html_from_url('https://api.sportnet.online/v1/ppo/futbalsfz.sk/users');
+EXEC show_html_from_url('https://gb.redhat.com/', 'username', 'password');
+
+EXEC show_html_from_url('https://gb.redhat.com/', 'C:\Bloby_student\stasko_PDBS\wallet_cert', 'mWaAjj13');
+EXEC show_html_from_url('https://gb.redhat.com/', 'C:/Bloby_student/stasko_PDBS/wallet_cert', 'mWaAjj13');
+execute show_html_from_url('https://api.sportnet.online/v1/ppo/futbalsfz.sk/users', 'C:\Bloby_student\stasko_PDBS\wallet_cert', 'mWaAjj13');
 select utl_http.get_detailed_sqlerrm from dual;
+
+select a.lower_port,a.host, a.upper_port from dba_network_acls a --where a.host like '%https://api.sportnet.online%';
+;
+select name,value from v$parameter where name like '%dump_dest%';
+select * from V$WALLET;
