@@ -24,11 +24,11 @@ public class PlayerAddressDto {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "PSC", referencedColumnName = "PSC")
+    @JoinColumn(name = "ID_ADRESA", referencedColumnName = "PSC")
     @ManyToOne(fetch = FetchType.LAZY)
     private AddressDto address;
 
     @JoinColumn(name = "ROD_CISLO", referencedColumnName = "ROD_CISLO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private PersonDto person;
 }

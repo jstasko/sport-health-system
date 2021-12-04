@@ -16,6 +16,7 @@ import java.time.Instant;
 public class User extends AuthenticationUser {
     private Instant datum_posled_prihlasenia;
     private Instant datum_registracie;
+    private String rola;
     private DBFile image;
 }
 

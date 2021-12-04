@@ -11,5 +11,6 @@ public interface UserService extends UserDetailsService {
     User signUp(User user);
     User saveAvatarToUser(String email, MultipartFile file, boolean replace);
     ResponseUser buildResponseUser(User user);
+    User updatePassword(String updateUser, String user);
 }
 

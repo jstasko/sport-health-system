@@ -71,8 +71,8 @@ public class FileMediaServiceImpl implements FileMediaService {
     }
 
     @Override
-    public String getGeneratedJSON(String name) {
-        return this.fileMediaDao.getJsonFromClob(name)
+    public String getGeneratedJSON(String name, String id) {
+        return this.fileMediaDao.getJsonFromClob(name, id)
                 .orElseThrow(() -> new NotFoundException("JSON doc not found"));
     }
 }

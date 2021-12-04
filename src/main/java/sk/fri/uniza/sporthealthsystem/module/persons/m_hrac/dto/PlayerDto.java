@@ -28,6 +28,6 @@ public class PlayerDto {
     @Column(name = "priezvisko")
     private String priezvisko;
 
-    @OneToMany(mappedBy = "externeId")
-    private Set<PersonDto> person;
+    @OneToOne(mappedBy = "externeId")
+    private PersonDto person;
 }

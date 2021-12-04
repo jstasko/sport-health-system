@@ -29,7 +29,7 @@ public class PersonDto {
     @Column(name = "rod_cislo")
     private String rodCislo;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "EXTERNEID", referencedColumnName = "ID")
     private PlayerDto externeId;
 
@@ -43,8 +43,8 @@ public class PersonDto {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<HealthRecordDto> healthRecords;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
-    private Set<PlayerAddressDto> playerAddresses;
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    private PlayerAddressDto playerAddresses;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private Set<PacientOperationDto> pacientOperations;

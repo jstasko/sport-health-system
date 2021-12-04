@@ -123,8 +123,17 @@ public class UserServiceImpl implements UserService {
                 user.getDatum_posled_prihlasenia(),
                 user.getDatum_registracie(),
                 this.fileMediaServiceImpl.buildUploadFile(user.getImage(), false),
+                user.getRola(),
                 ""
         );
+    }
+
+    @Override
+    public User updatePassword(String updateUser, String newPassword) {
+        User oldUser = this.userDao.findUserByEmail(updateUser);
+        oldUser.setHeslo(this.bCryptPasswordEncoder.encode(newPassword));
+        this.userDao.save(oldUser);
+        return oldUser;
     }
 }
 

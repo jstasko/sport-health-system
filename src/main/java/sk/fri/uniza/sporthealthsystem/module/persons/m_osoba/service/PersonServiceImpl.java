@@ -20,4 +20,8 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, String, PersonDao
         foundOne.setExterneId(body.getExterneId());
         return this.dao.save(foundOne);
     }
+
+    public Person getPersonByExteranalId(Person person) {
+        return this.dao.findPersonDtoByExterneId(person);
+    }
 }
