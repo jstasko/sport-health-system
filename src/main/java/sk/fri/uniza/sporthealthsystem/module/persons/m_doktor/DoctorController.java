@@ -20,12 +20,10 @@ import java.util.List;
 @RequestMapping("/api/persons/doctors")
 public class DoctorController extends CrudController<Doctor, String, DoctorService> {
 
-    private final FileMediaService fileMediaService;
 
     @Autowired
     public DoctorController(DoctorService doctorService, FileMediaService fileMediaService) {
         super(doctorService);
-        this.fileMediaService = fileMediaService;
     }
 
 
@@ -37,27 +35,17 @@ public class DoctorController extends CrudController<Doctor, String, DoctorServi
         return service.findAll(pageable);
     }
 
-    @GetMapping()
-    ListingResponse<ResponseDoctor> findAll(
+    @GetMapping("/images/all")
+    ListingResponse<ResponseDoctor> findAllDoctorsWithImage(
             Pageable pageable
     ) {
-        ListingResponse<Doctor> response =  service.findAll(pageable);
-        List<ResponseDoctor> newResponse = new ArrayList<>();
-        response.getData().forEach(i -> {
-            ResponseDoctor responseDoctor = new ResponseDoctor();
-            responseDoctor.setDownload(this.fileMediaService.buildUploadFile(i.getImage(), false).getFileDownloadUri());
-            responseDoctor.setMeno(i.getMeno());
-            responseDoctor.setPriezvisko(i.getPriezvisko());
-            responseDoctor.setRodCislo(i.getPerson().getRodCislo());
-            newResponse.add(responseDoctor);
-        });
+        return this.service.findALlWithRodCislo(pageable);
+    }
 
-        ListingResponse<ResponseDoctor> doctors = new ListingResponse<>();
-        doctors.setData(newResponse);
-        doctors.setCurrentPage(response.getCurrentPage());
-        doctors.setTotalPages(response.getTotalPages());
-        doctors.setTotalItems(response.getTotalItems());
-
-        return doctors;
+    @GetMapping("/rodCislo/{id}")
+    ResponseDoctor findAllDoctorsWithImage(
+            @PathVariable("id") String id
+    ) {
+        return this.service.findOneWithRodCislo(id);
     }
 }
