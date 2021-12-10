@@ -1,5 +1,6 @@
 set define off; 
 commit;
+select * from m_institut;
 --------------------------------------------------Institut-------------------------------------------------------------------
 insert into m_institut(id_adresa, nazov, popis)  values (79,'ADOS  Budovate¾ská  Vranov nad Top¾ou   ADOS AC s.r.o. ','agentúra domácej ošetrovate¾skej starostlivosti' );
 insert into m_institut(id_adresa, nazov, popis)  values (522,'Ambulancia klinickej psychológie  Prešov  Ambulancia klinickej psychológie  psychoterapie a dopravnej psychológie  s.r.o. ','ambulancia klinickej psychológie' );

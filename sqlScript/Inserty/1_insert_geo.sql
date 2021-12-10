@@ -15,10 +15,8 @@ create or replace function get_gen_value(p_column char, p_table char)
 
 
 
-
 ----------------------------------------------KRAJINA------------------------------------------
 --KRAJINA SA INSERTUJE PRI TABLES.SQL
-
 ----------------------------------------------Kraj----------------------------------------------
 insert into m_kraj(n_kraja, id_krajiny, id) values ('Banskobystrický','SK',600);
 insert into m_kraj(n_kraja, id_krajiny, id) values ('Trnavský','SK',200);

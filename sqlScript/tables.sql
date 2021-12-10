@@ -302,7 +302,7 @@ create table m_adresa
  n_mesta       varchar2(45) NOT NULL ,
  cislo_domu    varchar2(45) NULL ,
  id_okresu     int NOT NULL ,
- PSC           char(10) NOT NULL ,
+ PSC           varchar2(10) NOT NULL ,
  id            integer not null,
 
 PRIMARY KEY (id),
@@ -406,7 +406,7 @@ create table m_liecba
  id_lekaren  int NOT NULL ,
  id_institut int NOT NULL ,
  stav        varchar2(45) NOT NULL ,
- cena        float(10) NOT NULL,
+ cena        float(9) NOT NULL,
  id          int NOT NULL ,
 
 PRIMARY KEY (id),
@@ -431,7 +431,7 @@ create table m_hrac
 (
  meno       varchar2(45) NOT NULL ,
  priezvisko varchar2(45) NOT NULL ,
- id         char(40) NOT NULL ,
+ id         varchar2(40) NOT NULL ,
 
 PRIMARY KEY (id)
 );
@@ -496,11 +496,10 @@ create table m_pouzivatel
 
 create table m_osoba
 (
- ExterneID      char(40) NULL ,
+ ExterneID      varchar2(40) NULL ,
  email          varchar2(45) NULL ,
- rod_cislo      char(11) NOT NULL ,
- meno           varchar2(70) null,
- priezvisko     varchar2(70) null,
+ rod_cislo      char(10) NOT NULL ,
+
 PRIMARY KEY (rod_cislo),
 CONSTRAINT cons_osoba_hrac_fk FOREIGN KEY (ExterneID) REFERENCES m_hrac (id),
 CONSTRAINT cons_osoba_pouzivatel_fk FOREIGN KEY (email) REFERENCES m_pouzivatel (email)
@@ -508,7 +507,7 @@ CONSTRAINT cons_osoba_pouzivatel_fk FOREIGN KEY (email) REFERENCES m_pouzivatel 
 
 create table m_poistovna
 (
- rod_cislo       char(11) NULL , --TODO podla mna moze byt null
+ rod_cislo       char(10) NULL , --TODO podla mna moze byt null
  nazov_poistovne varchar2(100) NOT NULL ,
  id              int NOT NULL ,
 
@@ -544,7 +543,7 @@ create or replace type m_krv as object
 /
 
 create table m_krvna_skupina(
-  rod_cislo        char(11) NOT NULL ,
+  rod_cislo        char(10) NOT NULL ,
   auto             m_krv,
   id               int NOT NULL ,
   PRIMARY KEY (id),
@@ -574,7 +573,7 @@ create or replace type m_vlastnosti as object
 
 create table m_vlastnosti_hraca
 (
- rod_cislo          char(11) NOT NULL ,
+ rod_cislo          char(10) NOT NULL ,
  auto               m_vlastnosti,
  id                 int NOT NULL ,
 
@@ -599,11 +598,11 @@ END;
 
 create table m_doktor
 (
- rod_cislo  char(11) NOT NULL ,
+ rod_cislo  char(10) NOT NULL ,
  meno       varchar2(45),
  priezvisko varchar2(45),
  id_image   integer NULL,
- id         char(11) NOT NULL ,
+ id         char(10) NOT NULL ,
 PRIMARY KEY (id),
 CONSTRAINT cons_doktor_iamge_fk FOREIGN KEY (id_image) REFERENCES m_image (id),
 CONSTRAINT cons_doktor_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cislo)
@@ -613,7 +612,7 @@ CONSTRAINT cons_doktor_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_
 
 create table m_specializacia_lekara
 (
- id_doktor               char(11) NOT NULL ,
+ id_doktor               char(10) NOT NULL ,
  id_specializacia        int NOT NULL ,
  id                      int NOT NULL ,
 
@@ -649,7 +648,7 @@ create or replace type m_t_choroba is table of m_rec_choroba;
 
 create table m_zdravotna_karta
 (
- rod_cislo                  char(11) not NULL ,
+ rod_cislo                  char(10) not NULL ,
  m_t_choroby_informacie     m_t_choroba,
  kontraindikacie            varchar2(200) NULL ,
  datum_zalozenia            timestamp NULL ,  --TODO BECAUSE OF GENERATED INSERT
@@ -676,7 +675,7 @@ END;
 create table m_adresa_hraca
 (
  id_adresa       integer NOT NULL ,
- rod_cislo       char(11) NOT NULL ,
+ rod_cislo       char(10) NOT NULL ,
  id              int NOT NULL ,
 
 PRIMARY KEY (id),
@@ -685,8 +684,8 @@ CONSTRAINT cons_ah_osoba_fk FOREIGN KEY (rod_cislo) REFERENCES m_osoba (rod_cisl
 );
 create table m_zdravotny_zaznam
 (
- id_doktor           char(11) NOT NULL ,
- rod_cislo           char(11) NOT NULL ,
+ id_doktor           char(10) NOT NULL ,
+ rod_cislo           char(10) NOT NULL ,
  id_zdravotny_karta  int not NULL ,
  id_institut         int NOT NULL ,
  datum_prehliadky    timestamp NULL , --TODO BECAUSE OF GENERATED INSERT
@@ -727,7 +726,7 @@ END;
 create table m_osetrujuci_doktor
 (
  id_institut          int NOT NULL ,
- id_doktor            char(11) NOT NULL ,
+ id_doktor            char(10) NOT NULL ,
  id                   int NOT NULL ,
 
 PRIMARY KEY (id),
@@ -749,7 +748,7 @@ END;
 
 create table m_operacie_pacienta
 (
- rod_cislo            char(11) NOT NULL ,
+ rod_cislo            char(10) NOT NULL ,
  id_operacia          int NOT NULL ,
  id_osetrujuci_doktor int NOT NULL ,
  popis                varchar2(200) NULL ,
