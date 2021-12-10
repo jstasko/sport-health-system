@@ -11,42 +11,32 @@ create or replace procedure add_data_osoby
  type t_pole is table of t_riadok;
  pole t_pole;
  begin
-   rod_cislo  := 900101004;
+   rod_cislo  := 9001010000;
    select id bulk collect into pole FROM m_hrac;
    for i in 1 .. pole.last 
     loop   
+       if substr(4, 2, to_char(rod_cislo)) > 27 then 
+             rod_cislo :=  rod_cislo + 1000000;
+             rod_cislo := to_number(concat(substr(rod_cislo, 1, 4), '010000'));
+       end if;
+       WHILE mod(rod_cislo, 11) <> 0
+       loop
+        rod_cislo := +1;
+       end loop;
       select 'insert into m_osoba values (''' 
       || pole(i).externe_id || ''', null, ''' 
-      || rod_cislo || ''', null, null)'  into prikaz from dual;
-      rod_cislo := rod_cislo + 11;
+      || rod_cislo || ''')'  into prikaz from dual;
     --dbms_output.put_line(prikaz);
     execute immediate prikaz;
     end loop;   
  end;
 /
+--TODO PRERIESIT RODNE CISLA A ICH DNI
 --delete  from m_osoba;
---select * from m_osoba;
-execute add_data_osoby;
+--delete from m_osoba;
 
-insert into m_osoba values (null, null, '9754082355', null, null);
-insert into m_osoba values (null, null, '9704082366', null, null);
-insert into m_osoba values (null, null, '9704082377', null, null);
-insert into m_osoba values (null, null, '9754082388', null, null);
-insert into m_osoba values (null, null, '9704082399', null, null);
-insert into m_osoba values (null, null, '9704082410', null, null);
-insert into m_osoba values (null, null, '9704082421', null, null);
-insert into m_osoba values (null, null, '9754082432', null, null);
-insert into m_osoba values (null, null, '9704082443', null, null);
-insert into m_osoba values (null, null, '9754082454', null, null);
-insert into m_osoba values (null, null, '9704082465', null, null);
-insert into m_osoba values (null, null, '9704082476', null, null);
-insert into m_osoba values (null, null, '9754082487', null, null);
-insert into m_osoba values (null, null, '9754082498', null, null);
-insert into m_osoba values (null, null, '9754082509', null, null);
-insert into m_osoba values (null, null, '9704082520', null, null);
-insert into m_osoba values (null, null, '9704082531', null, null);
-
-
+--select to_number(concat(substr('9001281234', 1, 4), '010000')) from dual;
+--execute add_data_osoby;
 
 --------------------------------------------------Poistovna---------------------------------------------------------------------
 insert into m_poistovna values (null, 'ALLIANZ - Slovensk· poisùovÚa a. s.',50274235);

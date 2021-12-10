@@ -1,3 +1,4 @@
+select * from m_doktor;
 --------------------------------------------------Operacia---------------------------------------------------------------------
 insert into m_operacia(nazov, popis) values ('Diagnostické zdravotné výkony',null);
 insert into m_operacia(nazov, popis) values ('Diagnostické biopsie bez incízie',null);

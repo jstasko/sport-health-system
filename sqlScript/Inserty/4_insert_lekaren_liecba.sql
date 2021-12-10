@@ -1,4 +1,5 @@
 set SERVEROUTPUT ON;
+select * from m_lekaren;
 ---------------------------------------------------Lekaren-------------------------------------------------------------------
 insert into m_lekaren(id_adresa, nazov)  values (2122,'Lekáreò Dr.Max');
 insert into m_lekaren(id_adresa, nazov)  values (635,'Lekáreò Medical Park');
@@ -139,4 +140,10 @@ create or replace procedure gen_data_liecba(pocet integer)
  end;
 /
 
-execute gen_data_liecba(100);
+
+execute gen_data_liecba(1000);
+execute gen_data_liecba(2000);
+execute gen_data_liecba(2000);
+execute gen_data_liecba(2000);
+execute gen_data_liecba(2000);
+
