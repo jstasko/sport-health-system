@@ -11,4 +11,6 @@ FROM
     JOIN m_osetrujuci_doktor osetrujuci_doktor ON ( osetrujuci_doktor.id = operacie_pacienta.id )
     JOIN m_doktor            doktor ON ( doktor.id = osetrujuci_doktor.id_doktor )
 WHERE
-    osoba.rod_cislo LIKE '9001019929';
+    osoba.rod_cislo LIKE '9001024923';
+    
+    
