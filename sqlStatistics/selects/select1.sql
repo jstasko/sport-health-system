@@ -19,8 +19,9 @@ FROM
     JOIN m_operacie_pacienta operacie_pacienta ON ( operacie_pacienta.rod_cislo = osoba.rod_cislo )
     JOIN m_operacia          operacia ON ( operacia.id = operacie_pacienta.id_operacia )
 WHERE
-    osoba.rod_cislo = '9001019929'
+    osoba.rod_cislo = '9001024923'
 GROUP BY
     hrac.meno,
     hrac.priezvisko,
     osoba.rod_cislo;
+    
